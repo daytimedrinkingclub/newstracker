@@ -8,11 +8,10 @@ def sign_up(email: str, password: str) -> Dict[str, Any]:
             "email": email,
             "password": password,
         })
-        print(f"Sign up response: {response}")  # Add this line for debugging
         return response.dict()
     except Exception as e:
         print(f"Sign up error: {str(e)}")
-        return {"error": {"message": str(e)}}
+        return None
 
 def sign_in(email: str, password: str) -> Dict[str, Any]:
     supabase = get_supabase_client()
