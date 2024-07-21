@@ -54,9 +54,23 @@ class ToolsHandler:
             DataService.save_message(chat_id, "user", content=result, tool_use_id=tool_use_id, tool_result=result)
             return result
         elif tool_name == "update_news_summary":
-            user_message = f"Current summary: {tool_input['current_summary']}\nNew information: {tool_input['new_information']}"
-            result = AnthropicService.call_anthropic(tool_name, user_message)
-            DataService.save_message(chat_id, "user", content=result, tool_use_id=tool_use_id, tool_result=result)
-            return result
+            keyword_id = tool_input.get('keyword_id')
+            news_summary = tool_input.get('news_summary')
+            positive_summary = tool_input.get('positive_summary')
+            negative_summary = tool_input.get('negative_summary')
+            positive_sources_links = tool_input.get('positive_sources_links', [])
+            negative_sources_links = tool_input.get('negative_sources_links', [])
+            
+            DataService.update_keyword_summary(
+                keyword_id,
+                news_summary,
+                positive_summary,
+                negative_summary,
+                positive_sources_links,
+                negative_sources_links
+            )
+            
+            DataService.save_message(chat_id, "system", content="Keyword summary updated", tool_use_id=tool_use_id)
+            return None
         else:
             return "Error: Invalid tool name"

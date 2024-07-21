@@ -15,7 +15,6 @@ class Config(object):
     PAYPAL_CLIENT_ID = os.getenv('PAYPAL_CLIENT_ID')
     PAYPAL_CLIENT_SECRET = os.getenv('PAYPAL_CLIENT_SECRET')
     FLASK_ENV = os.getenv('FLASK_ENV')
-    DEBUG = os.getenv('FLASK_ENV') == 'development'
 
 # Use a single Config class
 config = Config()

@@ -1,8 +1,12 @@
 # app/services/data_service.py
+from datetime import datetime
+from supabase import Client
 from ..supabase_config import get_supabase_client
 from postgrest.exceptions import APIError
 import json
 from uuid import uuid4
+
+supabase: Client = get_supabase_client()
 
 class DataService:
     @staticmethod
@@ -12,17 +16,50 @@ class DataService:
         return response.data[0] if response.data else None
 
     @staticmethod
-    def create_keyword_analysis(user_id, keyword_summary_id):
-        supabase = get_supabase_client()
-        new_keyword_analysis_id = str(uuid4())
-        new_keyword_analysis = {
-            'id': new_keyword_analysis_id,
-            'user_id': user_id,
-            'keyword_summary_id': keyword_summary_id
-        }
-        response = supabase.table('keyword_analyses').insert(new_keyword_analysis).execute()
-        print(f"New Keyword Analysis created with ID: {new_keyword_analysis_id}")
-        return new_keyword_analysis_id
+    def create_keyword_analysis(user_id, keyword_id):
+        try:
+            # First, get the keyword details
+            keyword = supabase.table('user_keyword').select('*').eq('id', keyword_id).single().execute()
+            print(f"Keyword details: {keyword.data}")
+
+            # Create a new keyword_summary
+            new_summary = {
+                'user_id': user_id,
+                'keyword': keyword.data['keyword'],
+                'news_summary': '',  # These will be filled later
+                'postive_summary': '',
+                'postive_sources_links': '',
+                'negative_summary': '',
+                'negative_sources_links': '',
+                'created_at': datetime.utcnow().isoformat(),
+                'updated_at': datetime.utcnow().isoformat()
+            }
+            summary_response = supabase.table('keyword_summary').insert(new_summary).execute()
+            print(f"Summary insert response: {summary_response}")
+            summary_id = summary_response.data[0]['id']
+
+            # Now create the keyword_analysis
+            new_analysis = {
+                'user_id': user_id,
+                'keyword_summary_id': summary_id,
+                'created_at': datetime.utcnow().isoformat()
+            }
+            print(f"Attempting to insert analysis: {new_analysis}")
+            analysis_response = supabase.table('keyword_analysis').insert(new_analysis).execute()
+            print(f"Analysis insert response: {analysis_response}")
+            
+            return analysis_response.data[0]['id']
+        except Exception as e:
+            print(f"Error in create_keyword_analysis: {str(e)}")
+            print(f"Error type: {type(e)}")
+            print(f"Error args: {e.args}")
+            
+            if isinstance(e, APIError):
+                print(f"API Error details: {e.details}")
+                print(f"API Error message: {e.message}")
+                print(f"API Error code: {e.code}")
+            
+            raise
 
     @staticmethod
     def save_message(keyword_analysis_id, role, content, tool_use_id=None, tool_use_input=None, tool_name=None, tool_result=None):
@@ -36,13 +73,13 @@ class DataService:
             'tool_input': tool_use_input,
             'tool_result': tool_result
         }
-        response = supabase.table('messages').insert(message).execute()
+        response = supabase.table('analysis_messages').insert(message).execute()
         return response.data[0]
     
     @staticmethod
     def load_conversation(keyword_analysis_id):
         supabase = get_supabase_client()
-        response = supabase.table('messages').select('*').eq('keyword_analysis_id', keyword_analysis_id).order('created_at').execute()
+        response = supabase.table('analysis_messages').select('*').eq('keyword_analysis_id', keyword_analysis_id).order('created_at').execute()
         messages = response.data
         conversation = []
         for message in messages:
@@ -121,6 +158,7 @@ class DataService:
         except APIError as e:
             print(f"Error fetching user keywords: {str(e)}")
             return []
+        
     @staticmethod
     def add_user_plan(user_id, plan):
         supabase = get_supabase_client()
@@ -206,8 +244,12 @@ class DataService:
     @staticmethod
     def delete_user_keyword(keyword_id):
         supabase = get_supabase_client()
-        response = supabase.table('user_keyword').delete().eq('id', keyword_id).execute()
-        return response.data[0] if response.data else None
+        try:
+            response = supabase.table('user_keyword').delete().eq('id', keyword_id).execute()
+            return len(response.data) > 0
+        except Exception as e:
+            print(f"Error deleting keyword: {str(e)}")
+            return False
     
     @staticmethod
     def update_user_keyword(keyword_id, new_keyword):
@@ -247,3 +289,37 @@ class DataService:
                 'updated_at': summary['updated_at']
             }
         return None
+    
+    @staticmethod
+    def update_keyword_summary(keyword_id, news_summary, positive_summary, negative_summary, positive_sources_links, negative_sources_links):
+        try:
+            update_data = {
+                'news_summary': news_summary,
+                'postive_summary': positive_summary,
+                'negative_summary': negative_summary,
+                'postive_sources_links': positive_sources_links,
+                'negative_sources_links': negative_sources_links,
+                'updated_at': datetime.utcnow().isoformat()
+            }
+            response = supabase.table('keyword_summary').update(update_data).eq('id', keyword_id).execute()
+            return bool(response.data)
+        except Exception as e:
+            print(f"Error in update_keyword_summary: {str(e)}")
+            return False
+    
+    @staticmethod
+    def update_keyword_summary(analysis_id):
+        try:
+            # Get the analysis details
+            analysis = supabase.table('keyword_analysis').select('*').eq('id', analysis_id).single().execute()
+            summary_id = analysis.data['keyword_summary_id']
+
+            # Update the summary (you might want to add more fields here)
+            update_data = {
+                'last_analyzed_at': datetime.utcnow().isoformat()
+            }
+            response = supabase.table('keyword_summary').update(update_data).eq('id', summary_id).execute()
+            return bool(response.data)
+        except Exception as e:
+            print(f"Error in update_keyword_summary: {str(e)}")
+            return False

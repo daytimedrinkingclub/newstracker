@@ -53,15 +53,12 @@ def login():
 
 @bp.route('/logout')
 def logout():
-    jwt = session.get('jwt')
-    if jwt:
-        try:
-            sign_out(jwt)
-        except Exception as e:
-            print(f"Error during sign out: {str(e)}")
-        finally:
-            session.pop('jwt', None)
-    return redirect(url_for('auth.login'))
+    try:
+        session.clear()
+        return redirect(url_for('auth.login'))
+    except Exception as e:
+        print(f"Error during sign out: {str(e)}")
+        return redirect(url_for('auth.login'))
 
 @bp.before_request
 def load_user():

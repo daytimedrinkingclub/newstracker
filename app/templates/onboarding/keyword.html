@@ -1,42 +1,40 @@
 {% extends "base.html" %}
 
-{% block title %}Keyword Plans{% endblock %}
+{% block title %}Manage Keywords{% endblock %}
 
 {% block content %}
-<div class="px-4 sm:px-6 lg:px-8">
-    <div class="sm:flex sm:items-center">
-        <div class="sm:flex-auto">
-            <h1 class="text-base font-semibold leading-6 text-gray-900">Your Keyword Plans</h1>
-            <p class="mt-2 text-sm text-gray-700">Manage your keywords for AI analysis.</p>
+<div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <div class="sm:flex sm:items-center sm:justify-between">
+        <div>
+            <h1 class="text-3xl font-bold leading-tight text-gray-900">Keywords / Phrases of interest</h1>
         </div>
     </div>
-    <div class="mt-8 flow-root">
-        <div class="bg-white shadow sm:rounded-lg">
-            <div class="px-4 py-5 sm:p-6">
-                <h3 class="text-lg font-medium leading-6 text-gray-900">Add or Edit Keywords</h3>
-                <div class="mt-2 max-w-xl text-sm text-gray-500">
-                    <p>Enter keywords below. Click 'Add' or press Enter to add a new keyword.</p>
+    <div class="mt-8">
+        <div class="bg-white shadow-lg rounded-lg overflow-hidden">
+            <div class="px-6 py-8">
+                <h3 class="text-xl font-semibold text-gray-900 mb-4">Add New Keyword</h3>
+                <div class="flex rounded-md shadow-sm">
+                    <input type="text" id="newKeyword" class="flex-1 rounded-l-md border-gray-300 focus:border-black focus:ring-black text-lg py-3 px-4" placeholder="Enter keyword">
+                    <button type="button" onclick="addKeyword()" class="inline-flex items-center rounded-r-md border border-l-0 border-gray-300 bg-black px-6 text-lg font-medium text-white hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-black focus:ring-offset-2">Add</button>
                 </div>
-                <div class="mt-5">
-                    <div class="flex rounded-md shadow-sm">
-                        <input type="text" id="newKeyword" class="flex-1 rounded-none rounded-l-md border-gray-300 focus:border-black focus:ring-black sm:text-sm" placeholder="Enter keyword">
-                        <button type="button" onclick="addKeyword()" class="inline-flex items-center rounded-r-md border border-l-0 border-gray-300 bg-black px-3 text-sm font-medium text-white hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-black focus:ring-offset-2">Add</button>
+                <div id="keywordMessage" class="mt-2 text-sm"></div>
+            </div>
+        </div>
+        <div class="mt-8 bg-white shadow-lg rounded-lg overflow-hidden">
+            <div class="px-6 py-8">
+                <h3 class="text-xl font-semibold text-gray-900 mb-4">Your Keywords</h3>
+                <div id="keywordPills" class="flex flex-wrap gap-3">
+                    {% for keyword in keywords %}
+                    <div class="inline-flex items-center px-4 py-2 rounded-full text-lg font-medium bg-gray-100 text-gray-800">
+                        {{ keyword.keyword }}
+                        <button onclick="showEditKeywordModal('{{ keyword.id }}', '{{ keyword.keyword }}')" class="ml-2 text-gray-400 hover:text-gray-600">
+                            <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"></path></svg>
+                        </button>
+                        <button onclick="deleteKeyword('{{ keyword.id }}')" class="ml-2 text-gray-400 hover:text-gray-600">
+                            <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                        </button>
                     </div>
-                </div>
-                <div class="mt-5">
-                    <div id="keywordPills" class="flex flex-wrap gap-2">
-                        {% for keyword in keywords %}
-                        <div class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-800">
-                            {{ keyword.keyword }}
-                            <button onclick="showEditKeywordModal('{{ keyword.id }}', '{{ keyword.keyword }}')" class="ml-1 text-gray-400 hover:text-gray-600">
-                                <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"></path></svg>
-                            </button>
-                            <button onclick="deleteKeyword('{{ keyword.id }}')" class="ml-1 text-gray-400 hover:text-gray-600">
-                                <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
-                            </button>
-                        </div>
-                        {% endfor %}
-                    </div>
+                    {% endfor %}
                 </div>
             </div>
         </div>
@@ -65,9 +63,22 @@
 </div>
 
 <script>
+    function showMessage(message, isError = false) {
+        const messageElement = document.getElementById('keywordMessage');
+        messageElement.textContent = message;
+        messageElement.className = `mt-2 text-sm ${isError ? 'text-red-600' : 'text-green-600'}`;
+        setTimeout(() => {
+            messageElement.textContent = '';
+            messageElement.className = 'mt-2 text-sm';
+        }, 3000);
+    }
+
     function addKeyword() {
         const keyword = document.getElementById('newKeyword').value;
-        if (!keyword) return;
+        if (!keyword) {
+            showMessage('Please enter a keyword', true);
+            return;
+        }
 
         fetch('/keyword', {
             method: 'POST',
@@ -79,50 +90,16 @@
         .then(response => response.json())
         .then(data => {
             if (data.success) {
+                showMessage('Keyword added successfully');
                 location.reload();
             } else {
-                alert('Failed to add keyword: ' + data.error);
+                showMessage('Failed to add keyword: ' + data.error, true);
             }
         })
         .catch(error => {
             console.error('Error:', error);
-            alert('An error occurred while adding the keyword');
+            showMessage('An error occurred while adding the keyword', true);
         });
-    }
-
-    function showEditKeywordModal(id, keyword) {
-        document.getElementById('editKeywordId').value = id;
-        document.getElementById('editKeyword').value = keyword;
-        document.getElementById('editKeywordModal').classList.remove('hidden');
-    }
-
-    function hideEditKeywordModal() {
-        document.getElementById('editKeywordModal').classList.add('hidden');
-    }
-
-    function updateKeyword() {
-        const id = document.getElementById('editKeywordId').value;
-        const keyword = document.getElementById('editKeyword').value;
-        fetch(`/keyword/${id}`, {
-            method: 'PUT',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ keyword: keyword })
-        })
-        .then(response => response.json())
-        .then(data => {
-            if (data.success) {
-                location.reload();
-            } else {
-                alert('Failed to update keyword');
-            }
-        })
-        .catch(error => {
-            console.error('Error:', error);
-            alert('An error occurred while updating the keyword');
-        });
-        hideEditKeywordModal();
     }
 
     function deleteKeyword(id) {
@@ -130,22 +107,27 @@
             fetch(`/keyword/${id}`, {
                 method: 'DELETE'
             })
-            .then(response => response.json())
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
             .then(data => {
                 if (data.success) {
+                    showMessage('Keyword deleted successfully');
                     location.reload();
                 } else {
-                    alert('Failed to delete keyword');
+                    showMessage('Failed to delete keyword: ' + (data.error || 'Unknown error'), true);
                 }
             })
             .catch(error => {
                 console.error('Error:', error);
-                alert('An error occurred while deleting the keyword');
+                showMessage('An error occurred while deleting the keyword', true);
             });
         }
     }
 
-    // Add event listener for Enter key
     document.getElementById('newKeyword').addEventListener('keypress', function(event) {
         if (event.key === 'Enter') {
             event.preventDefault();
