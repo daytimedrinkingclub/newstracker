@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+
+{% block title %}News Analysis for {{ keyword.keyword }}{% endblock %}
+
+{% block content %}
+<div class="px-4 sm:px-6 lg:px-8">
+    <div class="sm:flex sm:items-center">
+        <div class="sm:flex-auto">
+            <h1 class="text-2xl font-semibold leading-6 text-gray-900">News Analysis: {{ keyword.keyword }}</h1>
+            <p class="mt-2 text-sm text-gray-700">Last updated: {{ keyword.updated_at }}</p>
+        </div>
+    </div>
+
+    <div class="mt-8 space-y-8">
+        <!-- Overall News Summary -->
+        <div class="bg-white shadow overflow-hidden sm:rounded-lg">
+            <div class="px-4 py-5 sm:px-6">
+                <h2 class="text-lg leading-6 font-medium text-gray-900">Overall News Summary</h2>
+            </div>
+            <div class="border-t border-gray-200 px-4 py-5 sm:p-6">
+                <p class="text-sm text-gray-700">{{ keyword.news_summary }}</p>
+            </div>
+        </div>
+
+        <!-- Positive Analysis -->
+        <div class="bg-white shadow overflow-hidden sm:rounded-lg">
+            <div class="px-4 py-5 sm:px-6">
+                <h2 class="text-lg leading-6 font-medium text-gray-900">Positive Analysis</h2>
+            </div>
+            <div class="border-t border-gray-200 px-4 py-5 sm:p-6">
+                <p class="text-sm text-gray-700 mb-4">{{ keyword.positive_summary }}</p>
+                <h3 class="text-md font-medium text-gray-900 mb-2">Sources:</h3>
+                <ul class="list-disc pl-5 text-sm text-blue-600">
+                    {% for link in keyword.positive_sources_links %}
+                    <li><a href="{{ link }}" target="_blank" class="hover:underline">{{ link }}</a></li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+
+        <!-- Negative Analysis -->
+        <div class="bg-white shadow overflow-hidden sm:rounded-lg">
+            <div class="px-4 py-5 sm:px-6">
+                <h2 class="text-lg leading-6 font-medium text-gray-900">Negative Analysis</h2>
+            </div>
+            <div class="border-t border-gray-200 px-4 py-5 sm:p-6">
+                <p class="text-sm text-gray-700 mb-4">{{ keyword.negative_summary }}</p>
+                <h3 class="text-md font-medium text-gray-900 mb-2">Sources:</h3>
+                <ul class="list-disc pl-5 text-sm text-blue-600">
+                    {% for link in keyword.negative_sources_links %}
+                    <li><a href="{{ link }}" target="_blank" class="hover:underline">{{ link }}</a></li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div class="mt-8 text-right">
+        <a href="{{ url_for('main.feed') }}" class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-black hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-black">
+            Back to Feed
+        </a>
+    </div>
+</div>
+{% endblock %}

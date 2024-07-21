@@ -1,0 +1,70 @@
+{% extends "base.html" %}
+
+{% block title %}Personal News Feed{% endblock %}
+
+{% block content %}
+<div class="px-4 sm:px-6 lg:px-8">
+    <div class="sm:flex sm:items-center">
+        <div class="sm:flex-auto">
+            <h1 class="text-base font-semibold leading-6 text-gray-900">Personal News Feed</h1>
+            <p class="mt-2 text-sm text-gray-700">Latest news and analysis results for your keywords.</p>
+        </div>
+    </div>
+    <div class="mt-8 flow-root">
+        <div class="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
+            <div class="inline-block min-w-full py-2 align-middle sm:px-6 lg:px-8">
+                <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+                    {% for keyword in feed_data %}
+                    <div class="bg-white shadow overflow-hidden sm:rounded-lg">
+                        <div class="px-4 py-5 sm:px-6 flex justify-between items-center">
+                            <div>
+                                <h3 class="text-lg leading-6 font-medium text-gray-900">{{ keyword.keyword }}</h3>
+                                <p class="mt-1 max-w-2xl text-sm text-gray-500">Created: {{ keyword.created_at }}</p>
+                            </div>
+                            <button onclick="refreshAnalysis('{{ keyword.id }}')" class="text-gray-400 hover:text-gray-500">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+                                </svg>
+                            </button>
+                        </div>
+                        <a href="{{ url_for('main.get_news_summary', keyword_id=keyword.id) }}" class="block">
+                            <div class="border-t border-gray-200 px-4 py-5 sm:p-0">
+                                <div class="px-4 py-5 sm:px-6">
+                                    <p class="text-sm text-gray-700">Analysis pending. Check back later for updates.</p>
+                                </div>
+                                <div class="px-4 py-3 bg-gray-50 text-right sm:px-6">
+                                    <span class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-black hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-black">
+                                        Show Details
+                                    </span>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+function refreshAnalysis(keywordId) {
+    fetch(`/refreshanalysis/${keywordId}`, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+    })
+    .then(response => response.json())
+    .then(data => {
+        console.log('Analysis refreshed:', data);
+        // You can update the UI here if needed
+        alert('Analysis refresh initiated. Please check back later for updates.');
+    })
+    .catch((error) => {
+        console.error('Error:', error);
+        alert('Failed to refresh analysis. Please try again.');
+    });
+}
+</script>
+{% endblock %}

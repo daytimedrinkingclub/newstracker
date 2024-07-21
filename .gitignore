@@ -1,0 +1,14 @@
+myvenv/
+app/.env
+*.env
+
+*.__pycache__
+__pycache__/*
+.vscode
+.idea
+.DS_Store
+.env.local
+.env.example
+.env.development.local
+.env.test.local
+.env.production.local
