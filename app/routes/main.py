@@ -84,21 +84,6 @@ def update_keyword(keyword_id):
     updated_keyword = DataService.update_user_keyword(keyword_id, new_keyword)
     return jsonify(success=bool(updated_keyword), keyword=updated_keyword), 200 if updated_keyword else 404
 
-@bp.route('/keyword/analysis/<uuid:keyword_id>', methods=['POST'])
-@login_required
-def keyword_analysis(keyword_id):
-    user = get_user(session['jwt'])
-    keyword = DataService.get_keyword_analysis_details(str(keyword_id))
-    
-    if not keyword or keyword['user_id'] != user['id']:
-        return redirect(url_for('main.keyword'))
-    
-    # we need to create a new analysis
-    new_keyword_analysis = DataService.create_keyword_analysis(user['id'], keyword['id'])
-    keyword_analysis_id = new_keyword_analysis['id']
-    # Initiate a new analysis
-    response = AnthropicChat.handle_chat(keyword['keyword'], keyword_analysis_id)
-    return jsonify(message="Analysis started", keyword=keyword, response=response), 202
 
 
 @bp.route('/keywordsummary/<uuid:keyword_id>', methods=['GET'])
@@ -137,15 +122,15 @@ def refresh_analysis(keyword_id):
         return jsonify(success=False, error="Keyword not found or you don't have permission to refresh it."), 404
     
     try:
-        new_keyword_analysis = DataService.create_keyword_analysis(user['id'], str(keyword_id))
-        new_keyword_analysis_id = new_keyword_analysis['id']  # Extract the ID from the returned object
+        # Create a new keyword analysis
+        new_keyword_analysis_id = DataService.create_keyword_analysis(user['id'], str(keyword_id))
         
-        # Pass the new_keyword_analysis_id (UUID) instead of the keyword string
+        # Initiate a new analysis
         response = AnthropicChat.handle_chat(keyword['keyword'], new_keyword_analysis_id)
         
         # Process the response and update the keyword summary
         update_success = DataService.update_keyword_summary(
-            new_keyword_analysis['keyword_summary_id'],  # Use the keyword_summary_id
+            new_keyword_analysis_id,
             news_summary=response.get('news_summary', ''),
             positive_summary=response.get('positive_summary', ''),
             negative_summary=response.get('negative_summary', ''),
