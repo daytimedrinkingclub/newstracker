@@ -3,14 +3,14 @@
 {% block title %}Choose Your Plan{% endblock %}
 
 {% block content %}
-<div class="px-4 sm:px-6 lg:px-8">
-    <div class="sm:flex sm:items-center">
-        <div class="sm:flex-auto">
-            <h1 class="text-xl font-semibold leading-6 text-gray-900">Choose your plan, and Nishant you should choose premium</h1>
-        </div>
+<div class="px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
+    <div class="text-center mb-8">
+        <h1 class="text-3xl font-bold text-gray-900 mb-2">Choose your plan</h1>
+        <p class="text-lg text-gray-600">Our free plan offers great value, but our premium plan has its own unique benefits.</p>
     </div>
+    
     {% if current_plan %}
-    <div class="mt-4 bg-blue-100 border-l-4 border-blue-500 text-blue-700 p-4" role="alert">
+    <div class="mb-8 bg-blue-100 border-l-4 border-blue-500 text-blue-700 p-4 rounded-md" role="alert">
         <p class="font-bold">Current Plan: {{ current_plan|capitalize }}</p>
         {% if current_plan == 'free' %}
             <p>Your free plan is active. It will remain active unless your API keys expire or you delete them.</p>
@@ -19,48 +19,64 @@
         {% endif %}
     </div>
     {% endif %}
-    <div class="mt-8 flow-root">
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <!-- Free Plan -->
-            <div class="bg-white shadow-lg rounded-lg overflow-hidden flex flex-col h-full">
-                <div class="px-6 py-8 flex-grow">
-                    <h3 class="text-2xl font-semibold text-gray-900 mb-4">Free</h3>
-                    <p class="text-gray-600 mb-6">Use your own API keys</p>
-                    <div class="mb-4 relative">
-                        <input type="text" id="anthropicApiKey" placeholder="Anthropic API Key" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-black focus:ring-black sm:text-sm p-2 pr-8">
-                        <a href="https://docs.anthropic.com/en/docs/quickstart#prerequisites" target="_blank" class="absolute inset-y-0 right-0 flex items-center pr-3">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-400" viewBox="0 0 20 20" fill="currentColor">
-                                <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd" />
-                            </svg>
-                        </a>
-                    </div>
-                    <div class="mb-4 relative">
-                        <input type="text" id="tavilyApiKey" placeholder="Tavily AI API Key" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-black focus:ring-black sm:text-sm p-2 pr-8">
-                        <a href="https://tavily.com/#api" target="_blank" class="absolute inset-y-0 right-0 flex items-center pr-3">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-400" viewBox="0 0 20 20" fill="currentColor">
-                                <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd" />
-                            </svg>
-                        </a>
-                    </div>
-                </div>
-                <div class="px-6 pb-8">
-                    <button onclick="submitFreemiumPlan()" class="w-full bg-black text-white rounded-md py-3 hover:bg-gray-800 transition duration-300 text-lg">
-                        {% if current_plan == 'free' %}Update Free Plan{% else %}Select Free Plan{% endif %}
-                    </button>
-                </div>
-            </div>
-            
-        <!-- Premium Plan -->
-        <div class="bg-white shadow-lg rounded-lg overflow-hidden flex flex-col h-full">
+
+    <div class="flex flex-col md:flex-row gap-8 items-stretch">
+        <!-- Free Plan -->
+        <div class="bg-white shadow-lg rounded-lg overflow-hidden flex flex-col md:w-1/2 border border-gray-200">
             <div class="px-6 py-8 flex-grow">
-                <h3 class="text-2xl font-semibold text-gray-900 mb-4">Premium</h3>
-                <p class="text-gray-600 mb-6">$12/month - track 10 keywords</p>
+                <h3 class="text-2xl font-semibold text-gray-900 mb-2">Free Plan <span class="text-green-600 text-lg">(Recommended)</span></h3>
+                <p class="text-gray-600 mb-6">Powerful features at no cost</p>
+                <ul class="space-y-2 text-gray-600 mb-6">
+                    <li class="flex items-center"><svg class="w-4 h-4 mr-2 text-green-500" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>Use your own API keys</li>
+                    <li class="flex items-center"><svg class="w-4 h-4 mr-2 text-green-500" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>Track unlimited keywords</li>
+                    <li class="flex items-center"><svg class="w-4 h-4 mr-2 text-green-500" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>Analyse as much as you want</li>
+                    <li class="flex items-center"><svg class="w-4 h-4 mr-2 text-green-500" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>Full access to all features</li>
+                    <li class="flex items-center"><svg class="w-4 h-4 mr-2 text-green-500" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>No support ever</li>
+                    <li class="flex items-center"><svg class="w-4 h-4 mr-2 text-green-500" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>Funded by premium users</li>
+                </ul>
+                <div class="mb-4 relative">
+                    <input type="text" id="anthropicApiKey" placeholder="Anthropic API Key" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500 sm:text-sm p-2 pr-8">
+                    <a href="https://docs.anthropic.com/en/docs/quickstart#prerequisites" target="_blank" class="absolute inset-y-0 right-0 flex items-center pr-3">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-400" viewBox="0 0 20 20" fill="currentColor">
+                            <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd" />
+                        </svg>
+                    </a>
+                </div>
+                <div class="mb-4 relative">
+                    <input type="text" id="tavilyApiKey" placeholder="Tavily AI API Key" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500 sm:text-sm p-2 pr-8">
+                    <a href="https://tavily.com/#api" target="_blank" class="absolute inset-y-0 right-0 flex items-center pr-3">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-400" viewBox="0 0 20 20" fill="currentColor">
+                            <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd" />
+                        </svg>
+                    </a>
+                </div>
             </div>
             <div class="px-6 pb-8">
+                <button onclick="submitFreemiumPlan()" class="w-full bg-green-600 text-white rounded-md py-3 hover:bg-green-700 transition duration-300 text-lg font-semibold">
+                    {% if current_plan == 'free' %}Update Free Plan{% else %}Select Free Plan{% endif %}
+                </button>
+            </div>
+        </div>
+        
+        <!-- Premium Plan -->
+        <div class="bg-white shadow-lg rounded-lg overflow-hidden flex flex-col md:w-1/2 border border-gray-200">
+            <div class="px-6 py-8 flex-grow">
+                <h3 class="text-2xl font-semibold text-gray-900 mb-2">Premium Plan<span class="text-green-600 text-lg">(Recommended by free users)</span></h3>
+                <p class="text-gray-600 mb-6">Less features than free users</p>
+                <ul class="space-y-2 text-gray-600 mb-6">
+                    <li class="flex items-center"><svg class="w-4 h-4 mr-2 text-blue-500" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>$12/month</li>
+                    <li class="flex items-center"><svg class="w-4 h-4 mr-2 text-blue-500" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>Track 10 keywords</li>
+                    <li class="flex items-center"><svg class="w-4 h-4 mr-2 text-blue-500" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>10 analysis per day</li>
+                    <li class="flex items-center"><svg class="w-4 h-4 mr-2 text-blue-500" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>Feel like a king</li>
+                    <li class="flex items-center"><svg class="w-4 h-4 mr-2 text-blue-500" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>Ask for new features</li>
+                    <li class="flex items-center"><svg class="w-4 h-4 mr-2 text-blue-500" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>Fund the freeloaders</li>
+                </ul>
+            </div>
+            <div class="px-6 pb-8 mt-auto">
                 {% if current_plan != 'premium' %}
-                    <div id="paypal-button-container"></div>
+                    <div id="paypal-button-container" class="space-y-2"></div>
                 {% else %}
-                    <button disabled class="w-full bg-gray-300 text-gray-600 rounded-md py-3 cursor-not-allowed text-lg">Current Plan</button>
+                    <button disabled class="w-full bg-gray-300 text-gray-600 rounded-md py-3 cursor-not-allowed text-lg font-semibold">Current Plan</button>
                 {% endif %}
             </div>
         </div>

@@ -321,4 +321,16 @@ class DataService:
         except Exception as e:
             print(f"Error in update_keyword_summary: {str(e)}")
             return False
-    
+
+    @staticmethod
+    def update_analysis_status(analysis_id, status):
+        supabase = get_supabase_client()
+        try:
+            response = supabase.table('keyword_analysis').update({
+                'status': status,
+                'updated_at': datetime.utcnow().isoformat()
+            }).eq('id', analysis_id).execute()
+            return bool(response.data)
+        except Exception as e:
+            print(f"Error updating analysis status: {str(e)}")
+            return False
