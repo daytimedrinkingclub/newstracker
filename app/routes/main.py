@@ -115,7 +115,6 @@ def keyword_feed(keyword_id):
 @bp.route('/refreshanalysis/<uuid:keyword_id>', methods=['GET'])
 @login_required
 def refresh_analysis(keyword_id):
-    
     user = get_user(session['jwt'])
     keyword = DataService.get_keyword_by_id(str(keyword_id))
     
@@ -127,14 +126,14 @@ def refresh_analysis(keyword_id):
         new_keyword_analysis_id = DataService.create_keyword_analysis(user['id'], str(keyword_id))
         
         # Start the analysis in a separate thread
-        thread = Thread(target=analyze_keyword, args=(current_app._get_current_object(), keyword['keyword'], new_keyword_analysis_id))
+        app = current_app._get_current_object()  # Get the actual app object
+        thread = Thread(target=analyze_keyword, args=(app, keyword['keyword'], new_keyword_analysis_id))
         thread.start()
         
         return jsonify(success=True, message="Analysis refresh initiated", keyword=keyword['keyword'], analysis_id=new_keyword_analysis_id), 202
     except Exception as e:
         print(f"Error in refresh_analysis: {str(e)}")
         return jsonify(success=False, error=f"An error occurred: {str(e)}"), 500
-
 
 def analyze_keyword(app, keyword, analysis_id):
     with app.app_context():

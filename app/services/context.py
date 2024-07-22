@@ -4,12 +4,10 @@ from ..supabase_config import get_supabase_client
 class ContextService:
     @staticmethod
     def build_context(chat_id):
-        print(f"Building context for chat ID: {chat_id}")
 
         supabase = get_supabase_client()
         messages = supabase.table('messages').select('*').eq('chat_id', chat_id).order('created_at').execute()
         
-        print(f"Total messages loaded: {len(messages.data)}")
 
         context = []
         for message in messages.data:
@@ -62,8 +60,5 @@ class ContextService:
                             }
                         ]
                     })
-                
-        print(f"Total messages built in context: {len(context)}")
-        print(f"Context------------------------\n\n {context} \n\n------------------------------")
 
         return context

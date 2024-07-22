@@ -7,6 +7,7 @@ from .ai import AnthropicService
 
 # This class is called by the Toolhandler function
 class Tools:
+    # This function loads the tools from the tools folder and returns the tools
     @staticmethod
     def load_tools():
         tools_dir = os.path.join(os.path.dirname(__file__), "tools")
@@ -21,24 +22,6 @@ class Tools:
         print(f"Loaded tools \n\n --------------------{tools} \n\n -----------")
         return tools
     
-    @staticmethod
-    def write_to_file(file_content, file_name):
-        # Ensure the file has a .txt extension
-        if not file_name.endswith('.txt'):
-            file_name += '.txt'
-        
-        # Get the current directory
-        current_dir = os.path.dirname(os.path.abspath(__file__))
-        print(f"Current directory: {current_dir}")
-        # Create the full file path
-        file_path = os.path.join(current_dir, file_name)
-        print(f"File created at path: {file_path}")
-        # Create and write to the text file
-        with open(file_path, "w", encoding="utf-8") as file:
-            file.write(file_content)
-        
-        return f"File '{file_name}' has been created in the current directory and the content has been written successfully."
-
 # This class can be called to process the tool use and call the required tool and return the tool result
 class ToolsHandler:
     @staticmethod

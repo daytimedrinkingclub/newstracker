@@ -17,15 +17,19 @@
         }
     </script>
 </head>
-<body class="h-full text-base">
-    <div class="min-h-full flex flex-col">
-        {% include 'components/header.html' %}
-        <main class="flex-grow">
+<body class="h-full text-base flex flex-col">
+    <div class="flex flex-col h-full">
+        <header class="sticky top-0 z-50">
+            {% include 'components/header.html' %}
+        </header>
+        <main class="flex-grow overflow-y-auto">
             <div class="container mx-auto max-w-7xl py-8 px-4 sm:px-6 lg:px-8">
                 {% block content %}{% endblock %}
             </div>
         </main>
-        {% include 'components/footer.html' %}
+        <footer class="sticky bottom-0 z-50">
+            {% include 'components/footer.html' %}
+        </footer>
     </div>
     <script>
         document.addEventListener('DOMContentLoaded', function() {

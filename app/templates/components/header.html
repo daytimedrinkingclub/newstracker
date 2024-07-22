@@ -1,23 +1,32 @@
 <header class="bg-white shadow">
     <nav class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div class="flex h-20 justify-between items-center">
-            <div class="flex items-center">
-                <a href="{{ url_for('main.feed') }}" class="flex-shrink-0">
-                    <span class="text-xl font-bold text-gray-900">Agents by ShipStation</span>
+            <div class="flex-shrink-0">
+                <a href="{{ url_for('main.feed') }}" class="flex items-center">
+                    <svg class="h-8 w-auto" viewBox="0 0 300 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <text x="0" y="30" font-family="Arial, sans-serif" font-size="24" font-weight="bold" fill="#1a202c">
+                            News Tracker
+                        </text>
+                        <text x="180" y="30" font-family="Arial, sans-serif" font-size="14" fill="#4a5568">
+                            by ShipStation
+                        </text>
+                    </svg>
                 </a>
+            </div>
+            <div class="hidden sm:flex sm:items-center sm:justify-center flex-grow">
                 {% if session.get('jwt') %}
-                <div class="hidden sm:ml-8 sm:flex sm:space-x-8">
-                    <a href="{{ url_for('main.feed') }}" class="{% if request.endpoint == 'main.feed' %}border-b-2 border-black text-gray-900{% else %}border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700{% endif %} inline-flex items-center px-1 pt-1 text-base font-medium">Research Feed</a>
-                    <a href="{{ url_for('main.keyword') }}" class="{% if request.endpoint == 'main.keyword' %}border-b-2 border-black text-gray-900{% else %}border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700{% endif %} inline-flex items-center px-1 pt-1 text-base font-medium">Keywords</a>
-                    <a href="{{ url_for('main.plans') }}" class="{% if request.endpoint == 'main.plans' %}border-b-2 border-black text-gray-900{% else %}border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700{% endif %} inline-flex items-center px-1 pt-1 text-base font-medium">Plans</a>
+                <div class="flex space-x-8">
+                    <a href="{{ url_for('main.feed') }}" class="{% if request.endpoint == 'main.feed' %}border-b-2 border-black text-gray-900{% else %}border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700{% endif %} inline-flex items-center px-1 pt-1 text-base font-medium">Personal Feed</a>
+                    <a href="{{ url_for('main.keyword') }}" class="{% if request.endpoint == 'main.keyword' %}border-b-2 border-black text-gray-900{% else %}border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700{% endif %} inline-flex items-center px-1 pt-1 text-base font-medium">Topics</a>
+                    <a href="{{ url_for('main.plans') }}" class="{% if request.endpoint == 'main.plans' %}border-b-2 border-black text-gray-900{% else %}border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700{% endif %} inline-flex items-center px-1 pt-1 text-base font-medium">Account</a>
                 </div>
                 {% endif %}
             </div>
-            <div class="hidden sm:ml-6 sm:flex sm:items-center">
+            <div class="hidden sm:flex sm:items-center">
                 {% if session.get('jwt') %}
-                    <a href="{{ url_for('auth.logout') }}" class="bg-black text-white px-4 py-2 rounded-md text-sm font-medium hover:bg-gray-800 transition duration-150 ease-in-out">Log out</a>
+                    <a href="{{ url_for('auth.logout') }}" class="bg-black text-white px-6 py-2 rounded-md text-sm font-medium hover:bg-gray-800 transition duration-150 ease-in-out whitespace-nowrap">Log out</a>
                 {% else %}
-                    <a href="{{ url_for('auth.login') }}" class="bg-black text-white px-4 py-2 rounded-md text-sm font-medium hover:bg-gray-800 transition duration-150 ease-in-out">Log in</a>
+                    <a href="{{ url_for('auth.login') }}" class="bg-black text-white px-6 py-2 rounded-md text-sm font-medium hover:bg-gray-800 transition duration-150 ease-in-out whitespace-nowrap">Log in</a>
                 {% endif %}
             </div>
             <!-- Mobile menu button -->
@@ -41,12 +50,12 @@
     <div class="sm:hidden hidden" id="mobile-menu">
         <div class="pt-2 pb-3 space-y-1">
             {% if session.get('jwt') %}
-                <a href="{{ url_for('main.feed') }}" class="{% if request.endpoint == 'main.feed' %}bg-gray-50 text-gray-900{% else %}text-gray-700{% endif %} block px-3 py-2 rounded-md text-base font-medium">Research Feed</a>
-                <a href="{{ url_for('main.keyword') }}" class="{% if request.endpoint == 'main.keyword' %}bg-gray-50 text-gray-900{% else %}text-gray-700{% endif %} block px-3 py-2 rounded-md text-base font-medium">Keywords</a>
-                <a href="{{ url_for('main.plans') }}" class="{% if request.endpoint == 'main.plans' %}bg-gray-50 text-gray-900{% else %}text-gray-700{% endif %} block px-3 py-2 rounded-md text-base font-medium">Plans</a>
-                <a href="{{ url_for('auth.logout') }}" class="block w-full text-left px-3 py-2 rounded-md text-base font-medium bg-black text-white">Log out</a>
+                <a href="{{ url_for('main.feed') }}" class="{% if request.endpoint == 'main.feed' %}bg-gray-50 text-gray-900{% else %}text-gray-700{% endif %} block px-3 py-2 rounded-md text-base font-medium">Personal Feed</a>
+                <a href="{{ url_for('main.keyword') }}" class="{% if request.endpoint == 'main.keyword' %}bg-gray-50 text-gray-900{% else %}text-gray-700{% endif %} block px-3 py-2 rounded-md text-base font-medium">Topics</a>
+                <a href="{{ url_for('main.plans') }}" class="{% if request.endpoint == 'main.plans' %}bg-gray-50 text-gray-900{% else %}text-gray-700{% endif %} block px-3 py-2 rounded-md text-base font-medium">Account</a>
+                <a href="{{ url_for('auth.logout') }}" class="block w-full text-center px-3 py-2 rounded-md text-base font-medium bg-black text-white whitespace-nowrap">Log out</a>
             {% else %}
-                <a href="{{ url_for('auth.login') }}" class="block w-full text-left px-3 py-2 rounded-md text-base font-medium bg-black text-white">Log in</a>
+                <a href="{{ url_for('auth.login') }}" class="block w-full text-center px-3 py-2 rounded-md text-base font-medium bg-black text-white whitespace-nowrap">Log in</a>
             {% endif %}
         </div>
     </div>
