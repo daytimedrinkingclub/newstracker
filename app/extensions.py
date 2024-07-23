@@ -1,5 +1,6 @@
-# app/extensions.py
+# backend/app/extensions.py
 from app.supabase_config import get_supabase_client
+
 
 print("Initializing extensions...")
 

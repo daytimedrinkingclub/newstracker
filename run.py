@@ -1,13 +1,8 @@
-from dotenv import load_dotenv
-import os
-
-# Load environment variables before importing app
-load_dotenv()
-
+# backend/run.py for local development
 from app import create_app
 from app.config import config
 
 app = create_app()
 
 if __name__ == '__main__':
-    app.run(debug=config.DEBUG)
+    app.run(debug=True, use_reloader=True)

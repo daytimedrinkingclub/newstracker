@@ -1,6 +1,8 @@
 import os
 import re
 import json
+from rq import get_current_job
+from ..utils.redis_task_manager import enqueue_task
 from ..models.data_service import DataService
 from .search import SearchService
 from .ai import AnthropicService
@@ -27,15 +29,13 @@ class ToolsHandler:
     @staticmethod
     def process_tool_use(tool_name, tool_input, tool_use_id, chat_id):
         print(f"process_tool_use function called")
+        result = None
+        
         if tool_name == "search_web":
             result = SearchService.search(tool_input["query"])
-            DataService.save_message(chat_id, "user", content=result, tool_use_id=tool_use_id, tool_result=result)
-            return result
         elif tool_name in ["positive_research", "negative_research"]:
             user_message = f"{tool_input['query']}"
             result = AnthropicService.call_anthropic(tool_name, user_message)
-            DataService.save_message(chat_id, "user", content=result, tool_use_id=tool_use_id, tool_result=result)
-            return result
         elif tool_name == "update_news_summary":
             keyword_id = tool_input.get('keyword_id')
             news_summary = tool_input.get('news_summary')
@@ -53,7 +53,15 @@ class ToolsHandler:
                 negative_sources_links
             )
             
-            DataService.save_message(chat_id, "system", content="Keyword summary updated", tool_use_id=tool_use_id)
-            return None
+            result = "Keyword summary updated"
         else:
-            return "Error: Invalid tool name"
+            result = "Error: Invalid tool name"
+        
+        if result:
+            DataService.save_message(chat_id, "user", content=result, tool_use_id=tool_use_id, tool_result=result)
+        
+        # Enqueue the next step of analysis
+        keyword = DataService.get_keyword_by_id(chat_id)['keyword']
+        enqueue_task(recursive_analysis, keyword, chat_id, 1)
+        
+        return result

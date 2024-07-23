@@ -1,7 +1,7 @@
 myvenv/
 app/.env
 *.env
-
+.flaskenv
 *.__pycache__
 __pycache__/*
 .vscode

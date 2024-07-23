@@ -3,15 +3,15 @@
 {% block title %}Personal News Feed{% endblock %}
 
 {% block content %}
-<div class="px-4 sm:px-6 lg:px-8">
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
     
     {% if not feed_data %}
-    <div class="text-center py-10">
+    <div class="bg-white shadow rounded-lg p-6 text-center">
         <svg class="mx-auto h-12 w-12 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
         </svg>
-        <h3 class="mt-2 text-sm font-medium text-gray-900">No topic added</h3>
-        <p class="mt-1 text-sm text-gray-500">Get started by adding a new topics to track.</p>
+        <h3 class="mt-2 text-lg font-medium text-gray-900">No topics added</h3>
+        <p class="mt-1 text-sm text-gray-500">Get started by adding new topics to track.</p>
         <div class="mt-6">
             <a href="{{ url_for('main.keyword') }}" class="inline-flex items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-black hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-black">
                 Add Topic
@@ -21,30 +21,46 @@
     {% else %}
     <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
         {% for keyword in feed_data %}
-        <div class="bg-white shadow-lg rounded-lg overflow-hidden">
-            <div class="px-4 py-5 sm:px-6">
-                <h3 class="text-lg leading-6 font-medium text-gray-900">{{ keyword.keyword }}</h3>
-                <p class="mt-1 max-w-2xl text-sm text-gray-500">Added: {{ keyword.created_at|to_datetime('%B %d, %Y') }}</p>
-            </div>
-            <div class="px-4 py-4 sm:px-6 bg-gray-50">
-                <p class="text-sm text-gray-700">
-                    {% if keyword.last_analysis %}
+        <div class="bg-white shadow rounded-lg overflow-hidden transition-shadow duration-300 hover:shadow-lg">
+            <div class="px-4 py-5 sm:p-6">
+                <h3 class="text-lg font-semibold text-gray-900 mb-1">{{ keyword.keyword }}</h3>
+                <p class="text-sm text-gray-500 mb-4">Added: {{ keyword.created_at|to_datetime('%B %d, %Y') }}</p>
+                <div class="bg-gray-50 rounded p-3 mb-4">
+                    <p class="text-sm text-gray-700">
+                        {% if keyword.last_analysis %}
                         Last analyzed: {{ keyword.last_analysis.strftime('%B %d, %Y at %I:%M %p') }}
-                    {% else %}
+                        {% else %}
                         No analysis yet. Click refresh to get the latest news.
+                        {% endif %}
+                    </p>
+                </div>
+                <div class="mb-4">
+                    {% if keyword.news_summary %}
+                        <p class="text-sm text-gray-700">{{ keyword.news_summary }}</p>
+                    {% else %}
+                        <p class="text-sm text-gray-500 italic">No summary available yet.</p>
                     {% endif %}
-                </p>
-            </div>
-            <div class="px-4 py-4 sm:px-6 flex justify-between items-center">
-                <button onclick="refreshAnalysis('{{ keyword.id }}')" class="refresh-button inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-white bg-black hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-black" data-keyword-id="{{ keyword.id }}">
-                    Refresh Now
-                    <svg xmlns="http://www.w3.org/2000/svg" class="ml-2 h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
-                    </svg>
-                </button>
-                <a href="{{ url_for('main.get_news_summary', keyword_id=keyword.id) }}" class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-black bg-white hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-black">
-                    View Details
-                </a>
+                </div>
+                <div class="flex justify-between items-center">
+                    {% if keyword.keyword_analysis and keyword.keyword_analysis.status != 'completed' %}
+                        <button class="refresh-button inline-flex items-center px-3 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-gray-400 cursor-not-allowed opacity-50" disabled>
+                            <svg xmlns="http://www.w3.org/2000/svg" class="mr-2 h-4 w-4 animate-spin" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+                            </svg>
+                            <span class="status-text">Analyzing...</span>
+                        </button>
+                    {% else %}
+                        <button onclick="refreshAnalysis('{{ keyword.id }}')" class="refresh-button inline-flex items-center px-3 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-black hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-black transition-colors duration-200" data-keyword-id="{{ keyword.id }}">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="mr-2 h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+                            </svg>
+                            <span class="status-text">Refresh</span>
+                        </button>
+                    {% endif %}
+                    <a href="{{ url_for('main.get_news_summary', keyword_id=keyword.id) }}" class="inline-flex items-center px-3 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-black transition-colors duration-200">
+                        View Details
+                    </a>
+                </div>
             </div>
         </div>
         {% endfor %}
@@ -55,7 +71,10 @@
 <script>
 function refreshAnalysis(keywordId) {
     const button = document.querySelector(`.refresh-button[data-keyword-id="${keywordId}"]`);
+    const statusText = button.querySelector('.status-text');
     button.disabled = true;
+    button.classList.add('opacity-50', 'cursor-not-allowed');
+    statusText.textContent = 'Refreshing...';
 
     fetch(`/refreshanalysis/${keywordId}`, {
         method: 'GET',
@@ -65,25 +84,81 @@ function refreshAnalysis(keywordId) {
     })
     .then(response => response.json())
     .then(data => {
-        console.log('Analysis refreshed:', data);
-        showNotification('Analysis refresh initiated. Please check back later for updates.', 'success');
+        console.log('Analysis status:', data);
+        if (data.success) {
+            if (data.status === 'in_progress') {
+                showNotification(data.message, 'info');
+                statusText.textContent = 'In Progress...';
+            } else if (data.status === 'queued') {
+                showNotification(data.message, 'info');
+                statusText.textContent = 'Queued...';
+            } else {
+                showNotification('Analysis refresh initiated. Please check back later for updates.', 'success');
+                statusText.textContent = 'Refreshing...';
+            }
+            if (data.job_id) {
+                pollAnalysisStatus(data.job_id, button, statusText);
+            }
+        } else {
+            throw new Error(data.error || 'Unknown error occurred');
+        }
     })
     .catch((error) => {
         console.error('Error:', error);
-        showNotification('Failed to refresh analysis. Please try again.', 'error');
-    })
-    .finally(() => {
+        showNotification(error.message || 'Failed to refresh analysis. Please try again.', 'error');
         button.disabled = false;
+        button.classList.remove('opacity-50', 'cursor-not-allowed');
+        statusText.textContent = 'Refresh';
     });
+}
+
+function pollAnalysisStatus(jobId, button, statusText) {
+    if (!jobId) {
+        console.error('Job ID is undefined');
+        showNotification('An error occurred while tracking the analysis status.', 'error');
+        button.disabled = false;
+        button.classList.remove('opacity-50', 'cursor-not-allowed');
+        statusText.textContent = 'Refresh';
+        return;
+    }
+
+    fetch(`/task_status/${jobId}`)
+        .then(response => response.json())
+        .then(data => {
+            if (data.status === 'finished') {
+                button.disabled = false;
+                button.classList.remove('opacity-50', 'cursor-not-allowed');
+                statusText.textContent = 'Completed';
+                showNotification('Analysis completed successfully.', 'success');
+            } else if (data.status === 'failed') {
+                button.disabled = false;
+                button.classList.remove('opacity-50', 'cursor-not-allowed');
+                statusText.textContent = 'Failed';
+                showNotification('Analysis failed. Please try again.', 'error');
+            } else {
+                statusText.textContent = data.status === 'queued' ? 'Queued...' : 'Analyzing...';
+                setTimeout(() => pollAnalysisStatus(jobId, button, statusText), 10000);
+            }
+        })
+        .catch(error => {
+            console.error('Error polling status:', error);
+            showNotification('An error occurred while checking the analysis status.', 'error');
+            button.disabled = false;
+            button.classList.remove('opacity-50', 'cursor-not-allowed');
+            statusText.textContent = 'Refresh';
+        });
 }
 
 function showNotification(message, type) {
     const notification = document.createElement('div');
     notification.textContent = message;
-    notification.className = `fixed bottom-4 right-4 px-4 py-2 rounded-md text-white ${type === 'success' ? 'bg-green-500' : 'bg-red-500'}`;
+    notification.className = `fixed bottom-4 right-4 px-4 py-2 rounded-md text-white ${type === 'success' ? 'bg-green-500' : 'bg-red-500'} shadow-lg transition-opacity duration-300`;
     document.body.appendChild(notification);
     setTimeout(() => {
-        notification.remove();
+        notification.classList.add('opacity-0');
+        setTimeout(() => {
+            notification.remove();
+        }, 300);
     }, 3000);
 }
 </script>

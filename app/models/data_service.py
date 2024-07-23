@@ -16,7 +16,7 @@ class DataService:
         return response.data[0] if response.data else None
 
     @staticmethod
-    def create_keyword_analysis(user_id, keyword_id):
+    def create_keyword_analysis(user_id, keyword_id, job_id):
         try:
             # First, get the keyword details
             keyword = supabase.table('user_keyword').select('*').eq('id', keyword_id).single().execute()
@@ -25,8 +25,9 @@ class DataService:
             # Create a new keyword_summary
             new_summary = {
                 'user_id': user_id,
+                'keyword_id': keyword_id,  # Add this line
                 'keyword': keyword.data['keyword'],
-                'news_summary': '',  # These will be filled later
+                'news_summary': '',
                 'postive_summary': '',
                 'postive_sources_links': '',
                 'negative_summary': '',
@@ -41,7 +42,9 @@ class DataService:
             # Now create the keyword_analysis
             new_analysis = {
                 'user_id': user_id,
+                'keyword_id': keyword_id,
                 'keyword_summary_id': summary_id,
+                'job_id': job_id,
                 'created_at': datetime.utcnow().isoformat()
             }
             print(f"Attempting to insert analysis: {new_analysis}")
@@ -51,14 +54,6 @@ class DataService:
             return analysis_response.data[0]['id']
         except Exception as e:
             print(f"Error in create_keyword_analysis: {str(e)}")
-            print(f"Error type: {type(e)}")
-            print(f"Error args: {e.args}")
-            
-            if isinstance(e, APIError):
-                print(f"API Error details: {e.details}")
-                print(f"API Error message: {e.message}")
-                print(f"API Error code: {e.code}")
-            
             raise
 
     @staticmethod
@@ -73,8 +68,14 @@ class DataService:
             'tool_input': tool_use_input,
             'tool_result': tool_result
         }
-        response = supabase.table('analysis_messages').insert(message).execute()
-        return response.data[0]
+        print(f"Attempting to save message: {message}")
+        try:
+            response = supabase.table('analysis_messages').insert(message).execute()
+            print(f"Message saved successfully: {response.data[0]}")
+            return response.data[0]
+        except Exception as e:
+            print(f"Error saving message: {str(e)}")
+            return None
     
     @staticmethod
     def load_conversation(keyword_analysis_id):
@@ -148,11 +149,27 @@ class DataService:
     def get_news_feed(user_id):
         supabase = get_supabase_client()
         try:
-            response = supabase.table('user_keyword').select('*').eq('user_id', user_id).execute()
-            user_keywords = response.data
+            # Fetch user keywords
+            keyword_response = supabase.table('user_keyword').select('*').eq('user_id', user_id).execute()
+            user_keywords = keyword_response.data
 
             for keyword in user_keywords:
                 keyword['refresh_button'] = True  # Add a refresh button for each keyword
+
+                # Fetch the latest keyword analysis for the current keyword
+                analysis_response = supabase.table('keyword_analysis').select('status, updated_at').eq('keyword_id', keyword['id']).order('created_at', desc=True).limit(1).execute()
+                if analysis_response.data:
+                    keyword['last_analysis'] = datetime.fromisoformat(analysis_response.data[0]['updated_at'])
+                else:
+                    keyword['last_analysis'] = None
+
+                # Fetch the keyword summary for the current keyword
+                summary_response = supabase.table('keyword_summary').select('news_summary').eq('id', keyword['id']).execute()
+                if summary_response.data:
+                    keyword['news_summary'] = summary_response.data[0]['news_summary']
+                else:
+                    keyword['news_summary'] = None
+
             print(user_keywords)
             return user_keywords
         except APIError as e:
@@ -252,23 +269,26 @@ class DataService:
             return False
     
     @staticmethod
-    def update_user_keyword(keyword_id, new_keyword):
-        supabase = get_supabase_client()
-        response = supabase.table('user_keyword').update({
-            'keyword': new_keyword
-        }).eq('id', keyword_id).execute()
-        
-        if response.data:
-            updated_keyword = response.data[0]
-            # Create a new analysis for the updated keyword
-            analysis_id = DataService.create_keyword_analysis(updated_keyword['user_id'], updated_keyword['id'])
-            
-            # Run the agent's handle_chat method
-            from ..services.agent import AnthropicChat
-            AnthropicChat.handle_chat(analysis_id, new_keyword)
-            
-            return updated_keyword
-        return None
+    def update_keyword_summary(analysis_id, news_summary, positive_summary, negative_summary, positive_sources_links, negative_sources_links):
+        try:
+            # Get the analysis details
+            analysis = supabase.table('keyword_analysis').select('*').eq('id', analysis_id).single().execute()
+            summary_id = analysis.data['keyword_summary_id']
+            keyword_id = analysis.data['keyword_id']
+
+            update_data = {
+                'news_summary': news_summary,
+                'postive_summary': positive_summary,
+                'negative_summary': negative_summary,
+                'postive_sources_links': positive_sources_links,
+                'negative_sources_links': negative_sources_links,
+                'updated_at': datetime.utcnow().isoformat()
+            }
+            response = supabase.table('keyword_summary').update(update_data).eq('id', summary_id).eq('keyword_id', keyword_id).execute()
+            return bool(response.data)
+        except Exception as e:
+            print(f"Error in update_keyword_summary: {str(e)}")
+            return False
     
     @staticmethod
     def get_news_details(user_id, keyword_id):
@@ -282,27 +302,30 @@ class DataService:
         response = supabase.table('user_keyword').select('*').eq('id', keyword_id).execute()
         return response.data[0] if response.data else None
     
-
     @staticmethod
     def get_keyword_analysis_details(keyword_id):
         supabase = get_supabase_client()
-        response = supabase.table('keyword_summary').select('*').eq('id', keyword_id).execute()
+        response = supabase.table('keyword_summary').select('*').eq('keyword_id', keyword_id).execute()
         if response.data:
             summary = response.data[0]
             return {
+                'id': summary['id'],
+                'user_id': summary['user_id'],
+                'keyword_id': summary['keyword_id'],
                 'keyword': summary['keyword'],
                 'news_summary': summary['news_summary'],
                 'positive_summary': summary['postive_summary'],
-                'positive_sources_links': summary['postive_sources_links'],
+                'positive_sources_links': summary['postive_sources_links'].split(',') if summary['postive_sources_links'] else [],
                 'negative_summary': summary['negative_summary'],
-                'negative_sources_links': summary['negative_sources_links'],
+                'negative_sources_links': summary['negative_sources_links'].split(',') if summary['negative_sources_links'] else [],
                 'created_at': summary['created_at'],
                 'updated_at': summary['updated_at']
             }
         return None
     
     @staticmethod
-    def update_keyword_summary(analysis_id, news_summary, positive_summary, negative_summary, positive_sources_links, negative_sources_links):
+    def update_keyword_summary(analysis_id, news_summary, positive_summary, negative_summary, positive_sources_links, negative_sources_links, keyword_id):
+        supabase = get_supabase_client()
         try:
             # Get the analysis details
             analysis = supabase.table('keyword_analysis').select('*').eq('id', analysis_id).single().execute()
@@ -314,7 +337,8 @@ class DataService:
                 'negative_summary': negative_summary,
                 'postive_sources_links': positive_sources_links,
                 'negative_sources_links': negative_sources_links,
-                'updated_at': datetime.utcnow().isoformat()
+                'updated_at': datetime.utcnow().isoformat(),
+                'keyword_id': keyword_id
             }
             response = supabase.table('keyword_summary').update(update_data).eq('id', summary_id).execute()
             return bool(response.data)
@@ -333,4 +357,43 @@ class DataService:
             return bool(response.data)
         except Exception as e:
             print(f"Error updating analysis status: {str(e)}")
+            return False
+        
+    @staticmethod
+    def get_analysis_by_job_id(job_id):
+        supabase = get_supabase_client()
+        response = supabase.table('keyword_analysis').select('*').eq('job_id', job_id).execute()
+        return response.data[0] if response.data else None
+    
+    @staticmethod
+    def update_analysis_job_id(analysis_id, job_id):
+        supabase = get_supabase_client()
+        response = supabase.table('keyword_analysis').update({
+            'job_id': job_id
+        }).eq('id', analysis_id).execute()
+        return bool(response.data)
+    
+    @staticmethod
+    def get_active_analysis_for_keyword(keyword_id):
+        supabase = get_supabase_client()
+        response = supabase.table('keyword_analysis').select('*').eq('keyword_id', keyword_id).neq('status', 'completed').execute()
+        return response.data[0] if response.data else None
+    
+    @staticmethod
+    def update_keyword_analysis(analysis_id, news_summary, positive_summary, negative_summary, positive_sources_links, negative_sources_links, status):
+        supabase = get_supabase_client()
+        try:
+            update_data = {
+                'news_summary': news_summary,
+                'postive_summary': positive_summary,
+                'negative_summary': negative_summary,
+                'postive_sources_links': positive_sources_links,
+                'negative_sources_links': negative_sources_links,
+                'status': status,
+                'updated_at': datetime.utcnow().isoformat()
+            }
+            response = supabase.table('keyword_analysis').update(update_data).eq('id', analysis_id).execute()
+            return bool(response.data)
+        except Exception as e:
+            print(f"Error updating keyword analysis: {str(e)}")
             return False

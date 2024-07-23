@@ -1,6 +1,11 @@
+# backend/app/__init__.py
+from app.config import config
 from datetime import datetime
 from flask import Flask
-from app.config import config
+from redis import Redis
+from rq import Queue
+from dotenv import load_dotenv
+import os
 from app.extensions import init_extensions
 from app.routes import auth, main
 from jinja2 import Undefined
@@ -20,9 +25,15 @@ def to_datetime(value, format='%B %d, %Y'):
 def create_app():
     app = Flask(__name__)
     app.config.from_object(config)
-    
+
     # Initialize extensions
     init_extensions(app)
+    
+    # Set up Redis connection
+    # Set up Redis connection
+    app.redis = Redis.from_url(app.config['REDIS_URL'])
+    app.task_queue = Queue(connection=app.redis)
+    
     
     # Register blueprints
     app.register_blueprint(auth.bp)

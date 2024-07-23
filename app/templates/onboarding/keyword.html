@@ -3,31 +3,31 @@
 {% block title %}Manage Keywords{% endblock %}
 
 {% block content %}
-<div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+<div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
     <div class="sm:flex sm:items-center sm:justify-between">
         <div>
-            <h1 class="text-3xl font-bold leading-tight text-gray-900">Keywords / Topics of interest</h1>
+            <h1 class="text-2xl sm:text-3xl font-bold leading-tight text-gray-900">Topics of interest</h1>
         </div>
     </div>
-    <div class="mt-8">
-        <div class="bg-white shadow-lg rounded-lg overflow-hidden">
-            <div class="px-6 py-8">
-                <div class="flex rounded-md shadow-sm">
-                    <input type="text" id="newKeyword" class="flex-1 rounded-l-md border-2 border-gray-300 focus:border-black focus:ring-black text-lg py-3 px-4 bg-gray-50" placeholder="Enter keyword" aria-label="Enter keyword">
-                    <button type="button" onclick="addKeyword()" class="inline-flex items-center rounded-r-md border border-l-0 border-gray-300 bg-black px-6 text-lg font-medium text-white hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-black focus:ring-offset-2">Add</button>
+    <div class="mt-6 sm:mt-8">
+        <div class="bg-white shadow rounded-lg overflow-hidden">
+            <div class="px-4 py-6 sm:px-6 sm:py-8">
+                <div class="flex flex-col sm:flex-row rounded-md shadow-sm">
+                    <input type="text" id="newKeyword" class="flex-grow rounded-t-md sm:rounded-l-md sm:rounded-t-none border-2 border-gray-300 focus:border-black focus:ring-black text-base sm:text-lg py-3 px-4 bg-gray-50" placeholder="Enter keyword" aria-label="Enter keyword">
+                    <button type="button" onclick="addKeyword()" class="mt-2 sm:mt-0 inline-flex items-center justify-center rounded-b-md sm:rounded-r-md sm:rounded-b-none border border-l-0 border-gray-300 bg-black px-6 py-3 text-base sm:text-lg font-medium text-white hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-black focus:ring-offset-2">Add</button>
                 </div>
                 <div id="keywordMessage" class="mt-2 text-sm"></div>
             </div>
         </div>
-        <div class="mt-8 bg-white shadow-lg rounded-lg overflow-hidden">
-            <div class="px-6 py-8">
-                <h3 class="text-xl font-semibold text-gray-900 mb-4">Active Topics</h3>
-                <div id="keywordPills" class="flex flex-wrap gap-3">
+        <div class="mt-6 sm:mt-8 bg-white shadow rounded-lg overflow-hidden">
+            <div class="px-4 py-6 sm:px-6 sm:py-8">
+                <h3 class="text-lg sm:text-xl font-semibold text-gray-900 mb-4">Active Topics</h3>
+                <div id="keywordPills" class="flex flex-wrap gap-2 sm:gap-3">
                     {% for keyword in keywords %}
-                    <div class="inline-flex items-center px-4 py-2 rounded-md text-lg font-medium bg-gray-50 text-gray-800 border border-gray-200 shadow-sm">
+                    <div class="inline-flex items-center px-3 py-1 sm:px-4 sm:py-2 rounded-md text-base sm:text-lg font-medium bg-gray-50 text-gray-800 border border-gray-200 shadow-sm">
                         {{ keyword.keyword }}
                         <button onclick="deleteKeyword('{{ keyword.id }}')" class="ml-2 text-gray-400 hover:text-gray-600">
-                            <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                            <svg class="h-4 w-4 sm:h-5 sm:w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
                         </button>
                     </div>
                     {% endfor %}

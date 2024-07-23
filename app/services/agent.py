@@ -1,18 +1,29 @@
-# app/services/anthropic_chat.py
 import os
 import json
+from typing import Tuple, List, Dict, Any
 import anthropic
 from datetime import datetime
 from ..models.data_service import DataService
 from .context import ContextService
 from .tool import Tools, ToolsHandler
-from typing import List, Dict, Any
 
 client = anthropic.Anthropic(api_key=os.getenv("ANTHROPIC_API_KEY"))
 today = datetime.now().strftime("%Y-%m-%d")
+
+def parse_response_content(content: str) -> Tuple[str, str, str, List[str], List[str]]:
+    # Implement logic to parse the content and extract the required information
+    # This is a placeholder implementation
+    news_summary = content
+    positive_summary = ""
+    negative_summary = ""
+    positive_sources = []
+    negative_sources = []
+    return news_summary, positive_summary, negative_summary, positive_sources, negative_sources
+
+
 class AnthropicChat:
     @staticmethod
-    def process_conversation(keyword_analysis_id: str) -> List[Dict[str, Any]]:
+    def process_conversation(keyword_analysis_id: str) -> anthropic.types.Message:
         tools = Tools.load_tools()
         conversation = ContextService.build_context(keyword_analysis_id)
         print(f"process_conversation started with {keyword_analysis_id} with current context_len: {len(conversation)}")
@@ -21,9 +32,9 @@ class AnthropicChat:
             model="claude-3-5-sonnet-20240620",
             max_tokens=2000,
             temperature=0,
-            system=
-            """
-            Today is {today}.\n your task is to analyze the news and provide a summary of the news and the sentiment of the news.
+            system=f"""
+            Today is {today}.
+            Your task is to analyze the news and provide a summary of the news and the sentiment of the news.
             You will be given one keyword or phrase, use all the tools at your disposable to retrieve the news, and then summarize and analyze the news.
             """,
             tools=tools,
@@ -51,15 +62,39 @@ class AnthropicChat:
 
         if tool_result:
             # If a tool result is received, build the latest context and call process_conversation again
-            conversation = ContextService.build_context(keyword_analysis_id)
             return AnthropicChat.process_conversation(keyword_analysis_id)
 
         return response
 
     @staticmethod
-    def handle_chat(keyword_analysis_id: str, keyword: str) -> str:
-        DataService.save_message(keyword_analysis_id, "user", content=keyword)
-        # Process the conversation
-        response = AnthropicChat.process_conversation(keyword_analysis_id)
-        # Extract the text content from the response
-        return response
+    def handle_chat(keyword_analysis_id: str, keyword: str, anthropic_api_key: str) -> Dict[str, Any]:
+        try:
+            print(f"Starting handle_chat for keyword_analysis_id: {keyword_analysis_id}, keyword: {keyword}")
+            
+            save_result = DataService.save_message(keyword_analysis_id, "user", content=keyword)
+            print(f"Saved initial user message: {save_result}")
+            
+            response = AnthropicChat.process_conversation(keyword_analysis_id)
+            print(f"process_conversation response: {response}")
+            
+            # Check if the analysis is complete
+            if response.stop_reason != "tool_use":
+                print("Analysis complete, parsing response")
+                content = response.content[0].text
+                news_summary, positive_summary, negative_summary, positive_sources, negative_sources = parse_response_content(content)
+                
+                return {
+                    'status': 'completed',
+                    'news_summary': news_summary,
+                    'positive_summary': positive_summary,
+                    'negative_summary': negative_summary,
+                    'positive_sources_links': positive_sources,
+                    'negative_sources_links': negative_sources
+                }
+            else:
+                print("Analysis in progress, tool use detected")
+                return {'status': 'in_progress'}
+        except Exception as e:
+            print(f"Error in handle_chat: {str(e)}")
+            return {'status': 'failed'}
+        

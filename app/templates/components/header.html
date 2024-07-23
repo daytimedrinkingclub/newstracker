@@ -5,10 +5,7 @@
                 <a href="{{ url_for('main.feed') }}" class="flex items-center">
                     <svg class="h-8 w-auto" viewBox="0 0 300 40" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <text x="0" y="30" font-family="Arial, sans-serif" font-size="24" font-weight="bold" fill="#1a202c">
-                            News Tracker
-                        </text>
-                        <text x="180" y="30" font-family="Arial, sans-serif" font-size="14" fill="#4a5568">
-                            by ShipStation
+                            Personal News Feed
                         </text>
                     </svg>
                 </a>
@@ -60,16 +57,3 @@
         </div>
     </div>
 </header>
-
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-        const mobileMenuButton = document.querySelector('.mobile-menu-button');
-        const mobileMenu = document.getElementById('mobile-menu');
-        const menuIcons = mobileMenuButton.querySelectorAll('svg');
-
-        mobileMenuButton.addEventListener('click', function() {
-            mobileMenu.classList.toggle('hidden');
-            menuIcons.forEach(icon => icon.classList.toggle('hidden'));
-        });
-    });
-</script>
