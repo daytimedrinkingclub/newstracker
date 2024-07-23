@@ -2,15 +2,23 @@ import os
 import requests
 import json
 from typing import Dict, Any
+from ..models.data_service import DataService
 
 class SearchService:
-    BASE_URL = "https://api.tavily.com"
-    API_KEY = os.getenv("TAVILY_API_KEY")
-
     @staticmethod
-    def search(query: str, search_depth: str = "advanced", include_images: bool = False, 
+    def search(query: str, user_id: str, search_depth: str = "advanced", include_images: bool = False, 
                include_answer: bool = True, include_raw_content: bool = False, 
                max_results: int = 5) -> Dict[str, Any]:
+        
+        # check the user plan if free get keys from table if paid us os.environ
+        user_plan_type = DataService.get_user_plan_type(user_id)
+        if user_plan_type == "free":
+            keys = DataService.get_user_tavily_keys(user_id)
+        elif user_plan_type == "paid":
+            keys = os.getenv("TAVILY_API_KEY")
+
+        BASE_URL = "https://api.tavily.com"
+        API_KEY = keys
         """
         Perform a search using the Tavily Search API.
 
@@ -25,10 +33,10 @@ class SearchService:
         Returns:
             Dict[str, Any]: The search results.
         """
-        endpoint = f"{SearchService.BASE_URL}/search"
+        endpoint = f"{BASE_URL}/search"
         
         payload = {
-            "api_key": SearchService.API_KEY,
+            "api_key": API_KEY,
             "query": query,
             "search_depth": search_depth,
             "include_images": include_images,

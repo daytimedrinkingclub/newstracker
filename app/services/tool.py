@@ -1,4 +1,5 @@
 import os
+import logging
 import re
 import json
 from rq import get_current_job
@@ -20,22 +21,27 @@ class Tools:
                 with open(file_path, "r") as file:
                     tool_data = json.load(file)
                     tools.append(tool_data)
-        print(f"Tools loaded and returned {len(tools)} tools")
-        print(f"Loaded tools \n\n --------------------{tools} \n\n -----------")
+        logging.info(f"Tools loaded and returned {len(tools)} tools")
+        logging.info(f"Loaded tools \n\n --------------------{tools} \n\n -----------")
         return tools
     
 # This class can be called to process the tool use and call the required tool and return the tool result
 class ToolsHandler:
     @staticmethod
-    def process_tool_use(tool_name, tool_input, tool_use_id, chat_id):
-        print(f"process_tool_use function called")
+    def process_tool_use(tool_name, tool_input, tool_use_id, chat_id, user_id):
+        logging.info(f"process_tool_use function called")
         result = None
         
         if tool_name == "search_web":
-            result = SearchService.search(tool_input["query"])
+            result = SearchService.search(tool_input["query"], user_id)
+            DataService.save_message(chat_id, "user", content=result, tool_use_id=tool_use_id, tool_result=result)
+            # enque the next job where we return the message to handle chat function
         elif tool_name in ["positive_research", "negative_research"]:
             user_message = f"{tool_input['query']}"
-            result = AnthropicService.call_anthropic(tool_name, user_message)
+            result = AnthropicService.call_anthropic(tool_name, user_message, user_id)
+            DataService.save_message(chat_id, "user", content=result, tool_use_id=tool_use_id, tool_result=result)
+            # enque the next job where we return the message to handle chat function
+        # if tool name is update summary we need to end the ai simulation save the last message and update the keyword_summary table in supabase
         elif tool_name == "update_news_summary":
             keyword_id = tool_input.get('keyword_id')
             news_summary = tool_input.get('news_summary')
@@ -58,10 +64,6 @@ class ToolsHandler:
             result = "Error: Invalid tool name"
         
         if result:
-            DataService.save_message(chat_id, "user", content=result, tool_use_id=tool_use_id, tool_result=result)
-        
-        # Enqueue the next step of analysis
-        keyword = DataService.get_keyword_by_id(chat_id)['keyword']
-        enqueue_task(recursive_analysis, keyword, chat_id, 1)
-        
-        return result
+            DataService.save_message(chat_id, "assistant", content=result, tool_use_id=tool_use_id, tool_result=result)
+        logging.info(f"process_tool_use function returned {result}")
+        return "analysis_complete and keyword analysis summary updated"

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}Your App{% endblock %}</title>
+    <title>{% block title %}News agent by Shipstation{% endblock %}</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
@@ -42,7 +42,7 @@
             menuIcons.forEach(icon => icon.classList.toggle('hidden'));
         });
     });
-
     </script>
+    {% block scripts %}{% endblock %}
 </body>
 </html>

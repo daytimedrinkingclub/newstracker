@@ -125,10 +125,110 @@ news_app/
             config.py # config of the app
             extensions.py # app extensions
             supabase_config.py # supabase client setup
-            redis_config.py # not yet started empty file
+            redis_config.py # redis connection setup
         myvenv/ # local virtual environment
         requirements.txt 
         Procfile # heroku gunicorn run file
         run.py # local flask run file
+        run_worker.py # running redis worker
     readme.md
+```
+
+
+### Supabase tables
+
+1. user_plan
+```sql
+    create table
+    public.user_plan (
+        id uuid not null default uuid_generate_v4 (),
+        plan public.plan_enum not null,
+        user_id uuid not null,
+        created_at timestamp with time zone null default current_timestamp,
+        updated_at timestamp without time zone null default (now() at time zone 'utc'::text),
+        constraint user_plan_pkey primary key (id),
+        constraint user_plan_user_id_key unique (user_id),
+        constraint fk_user_plan_user foreign key (user_id) references auth.users (id)
+    ) tablespace pg_default;
+```
+2. user_keyowrd
+```sql
+create table
+  public.user_keyword (
+    id uuid not null default uuid_generate_v4 (),
+    keyword character varying(500) not null,
+    user_id uuid not null,
+    created_at timestamp with time zone null default current_timestamp,
+    constraint user_keyword_pkey primary key (id),
+    constraint fk_user_keyword_user foreign key (user_id) references auth.users (id)
+  ) tablespace pg_default;
+```
+3. keyword_analysis
+```sql
+create table
+  public.keyword_analysis (
+    id uuid not null default uuid_generate_v4 (),
+    user_id uuid not null,
+    keyword_id uuid not null,
+    created_at timestamp with time zone null default current_timestamp,
+    status text null,
+    job_id text null,
+    updated_at timestamp without time zone null,
+    keyword_summary_id uuid null,
+    constraint keyword_analysis_pkey primary key (id),
+    constraint fk_keyword_analysis_user foreign key (user_id) references auth.users (id),
+    constraint keyword_analysis_keyword_id_fkey foreign key (keyword_id) references user_keyword (id),
+    constraint keyword_analysis_keyword_summary_id_fkey foreign key (keyword_summary_id) references keyword_summary (id)
+  ) tablespace pg_default;
+```
+4. keyword_summary
+```sql
+create table
+  public.keyword_summary (
+    id uuid not null default uuid_generate_v4 (),
+    keyword character varying(500) not null,
+    news_summary text not null,
+    postive_summary text not null,
+    postive_sources_links text not null,
+    negative_summary text not null,
+    negative_sources_links text not null,
+    user_id uuid not null,
+    created_at timestamp with time zone null default current_timestamp,
+    updated_at timestamp with time zone null default current_timestamp,
+    keyword_id uuid null,
+    constraint keyword_summary_pkey primary key (id),
+    constraint fk_keyword_summary_user foreign key (user_id) references auth.users (id),
+    constraint keyword_summary_keyword_id_fkey foreign key (keyword_id) references user_keyword (id)
+  ) tablespace pg_default;
+```
+5. user_api_token
+```sql
+create table
+  public.user_api_token (
+    id uuid not null default uuid_generate_v4 (),
+    anthropic_api_key character varying(500) null,
+    tavily_api_key character varying(500) null,
+    user_id uuid not null,
+    created_at timestamp with time zone null default current_timestamp,
+    constraint user_api_token_pkey primary key (id),
+    constraint user_api_token_user_id_key unique (user_id),
+    constraint fk_user_api_token_user foreign key (user_id) references auth.users (id)
+  ) tablespace pg_default;
+```
+6. analysis_messages
+```sql
+create table
+  public.analysis_messages (
+    id uuid not null default uuid_generate_v4 (),
+    keyword_analysis_id uuid not null,
+    role public.role_enum not null,
+    content text not null,
+    tool_name text null,
+    tool_use_id text null,
+    tool_input jsonb null,
+    tool_result text null,
+    created_at timestamp with time zone null default current_timestamp,
+    constraint analysis_messages_pkey primary key (id),
+    constraint analysis_messages_keyword_analysis_id_fkey foreign key (keyword_analysis_id) references keyword_analysis (id)
+  ) tablespace pg_default;
 ```

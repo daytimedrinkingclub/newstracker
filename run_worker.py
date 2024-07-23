@@ -1,3 +1,4 @@
+# run_worker.py
 import os
 import sys
 from redis import Redis
@@ -15,8 +16,8 @@ from app import create_app
 # Create the Flask app
 app = create_app()
 
-# Custom worker class to disable job timeouts on Windows
-class WindowsWorker(SimpleWorker):
+# Custom worker class to disable job timeouts and handle long-running jobs
+class LongRunningWorker(SimpleWorker):
     def execute_job(self, job, queue):
         self.prepare_job_execution(job)
         try:
@@ -28,6 +29,10 @@ class WindowsWorker(SimpleWorker):
         else:
             self.handle_job_success(job=job, queue=queue)
 
+    def handle_job_success(self, job, queue):
+        super().handle_job_success(job, queue)
+        print(f"Job {job.id} completed successfully after {job.ended_at - job.started_at}")
+
 # Use the app context
 with app.app_context():
     redis_url = app.config['REDIS_URL']
@@ -36,6 +41,6 @@ with app.app_context():
 
     with Connection(redis_connection):
         queue = Queue('default')
-        worker = WindowsWorker([queue], connection=redis_connection)
+        worker = LongRunningWorker([queue], connection=redis_connection)
         print("Starting worker...")
-        worker.work(with_scheduler=True)
+        worker.work(with_scheduler=True, burst=False)  # Run continuously
