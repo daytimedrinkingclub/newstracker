@@ -1,0 +1,14 @@
+{
+    "name": "positive_summary",
+    "description": "This tool will call an ai agent to analyse the data provided and return a optimistic view point of the topic, try to share as much data that you found on search and your views to get a positive summary",
+    "input_schema": {
+      "type": "object",
+      "properties": {
+        "data_to_analyse": { 
+            "type": "string", 
+            "description": "Pass as much data / content in this string for the positive summary tool to analyse and share there views"
+        }
+      },
+      "required": ["data_to_analyse"]
+    }
+}

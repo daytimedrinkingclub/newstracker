@@ -1,0 +1,30 @@
+{
+    "name": "update_summary",
+    "description": "This tool will call an ai agent to analyse the data provided and return a optimistic view point of the topic, try to share as much data that you found on search and your views to get a positive summary",
+    "input_schema": {
+      "type": "object",
+      "properties": {
+        "summary": { 
+            "type": "string", 
+            "description": "Pass the summary that you found on search and your views"
+        },
+        "negative_summary": {
+            "type": "string",
+            "description": "pass the the negative summary generate using the negative_summary tool"
+        },
+        "positive_summary": {
+            "type": "string",
+            "description": "pass the the positive summary generate using the positive_summary tool"
+        },
+        "negative_sources": {
+            "type": "string",
+            "description": "pass the links with comma seperated values which were returned from the search_web tool, when you tried to search negative data"
+        },
+        "positive_sources": {
+            "type": "string",
+            "description": "pass the links with comma seperated values which were returned from the search_web tool, when you tried to search positive data"
+        }
+      },
+      "required": ["summary", "negative_summary", "positive_summary", "negative_sources", "positive_sources"]
+    }
+}

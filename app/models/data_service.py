@@ -1,5 +1,6 @@
 # app/services/data_service.py
 import os
+import uuid
 import logging
 from datetime import datetime
 from supabase import Client
@@ -323,6 +324,7 @@ class DataService:
         except Exception as e:
             logging.error(f"Error deleting keyword and related data: {str(e)}")
             return False
+        
     @staticmethod
     def update_keyword_summary(analysis_id, user_id, news_summary, positive_summary, negative_summary, positive_sources_links, negative_sources_links):
         try:
@@ -351,7 +353,7 @@ class DataService:
             return False
     
     @staticmethod       
-    def get_news_details(user_id, keyword_id):
+    def get_news_details(keyword_id):
         supabase = get_supabase_client()
         response = supabase.table('keyword_summary').select('*').eq('id', keyword_id).execute()
         return response.data[0] if response.data else None
@@ -359,8 +361,8 @@ class DataService:
     @staticmethod
     def get_keyword_by_id(keyword_id):
         supabase = get_supabase_client()
-        response = supabase.table('user_keyword').select('*').eq('id', keyword_id).execute()
-        return response.data[0] if response.data else None
+        response = supabase.table('user_keyword').select('keyword').eq('id', keyword_id).execute()
+        return response.data[0]['keyword'] if response.data else None
     
     @staticmethod
     def get_keyword_analysis_details(keyword_id):
@@ -387,17 +389,20 @@ class DataService:
         return None
 
     @staticmethod
-    def update_analysis_status(analysis_id, status, job_id=None):
+    def update_analysis_status(analysis_id, status, job_id=None, error_message=None):
         supabase = get_supabase_client()
         try:
-            response = supabase.table('keyword_analysis').update({
+            update_data = {
                 'status': status,
                 'updated_at': datetime.utcnow().isoformat(),
                 'job_id': job_id
-            }).eq('id', analysis_id).execute()
+            }
+            if error_message:
+                update_data['error_message'] = error_message
+            response = supabase.table('keyword_analysis').update(update_data).eq('id', analysis_id).execute()
             return bool(response.data)
         except Exception as e:
-            print(f"Error updating analysis status: {str(e)}")
+            logging.error(f"Error updating analysis status: {str(e)}")
             return False
         
     @staticmethod
@@ -405,14 +410,6 @@ class DataService:
         supabase = get_supabase_client()
         response = supabase.table('keyword_analysis').select('*').eq('job_id', job_id).execute()
         return response.data[0] if response.data else None
-    
-    @staticmethod
-    def update_analysis_job_id(analysis_id, job_id):
-        supabase = get_supabase_client()
-        response = supabase.table('keyword_analysis').update({
-            'job_id': job_id
-        }).eq('id', analysis_id).execute()
-        return bool(response.data)
     
     @staticmethod
     def get_active_analysis_for_keyword(keyword_id):
@@ -447,12 +444,31 @@ class DataService:
     def create_keyword_analysis(user_id, keyword_id):
         supabase = get_supabase_client()
         try:
+            # Convert UUID objects to strings
+            user_id_str = str(user_id) if isinstance(user_id, uuid.UUID) else user_id
+            keyword_id_str = str(keyword_id) if isinstance(keyword_id, uuid.UUID) else keyword_id
+            
             response = supabase.table('keyword_analysis').insert({
-                'user_id': user_id,
-                'keyword_id': keyword_id,
+                'user_id': user_id_str,
+                'keyword_id': keyword_id_str,
                 'status': 'pending'
             }).execute()
-            return response.data[0]['id'] if response.data else None
+            
+            if response.data:
+                return response.data[0]['id']  # This should already be a string
+            else:
+                raise Exception("No data returned from insert operation")
         except Exception as e:
             logging.error(f"Error creating keyword analysis: {str(e)}")
             return None
+        
+    @staticmethod
+    def get_latest_analysis_for_keyword(keyword_id):
+        supabase = get_supabase_client()
+        response = supabase.table('keyword_analysis') \
+            .select('*') \
+            .eq('keyword_id', keyword_id) \
+            .order('created_at', desc=True) \
+            .limit(1) \
+            .execute()
+        return response.data[0] if response.data else None

@@ -28,7 +28,7 @@ function sendAnalysisRequest(keywordId, actionText) {
     .then(data => {
         if (data.success) {
             button.querySelector('.status-text').textContent = 'Analyzing...';
-            checkStatus(data.job_id, keywordId);
+            checkStatus(keywordId);  // Note: we're now passing keywordId instead of job_id
         } else {
             throw new Error(data.message || 'Failed to start analysis');
         }
@@ -41,8 +41,8 @@ function sendAnalysisRequest(keywordId, actionText) {
     });
 }
 
-function checkStatus(jobId, keywordId) {
-    fetch(`/task_status/${jobId}`)
+function checkStatus(keywordId) {
+    fetch(`/task_status/${keywordId}`)
         .then(response => {
             if (!response.ok) {
                 throw new Error(`HTTP error! status: ${response.status}`);
@@ -57,10 +57,10 @@ function checkStatus(jobId, keywordId) {
                 button.onclick = () => window.refreshAnalysis(keywordId);
                 location.reload(); // Reload the page to show updated summary
             } else if (data.status === 'failed') {
-                throw new Error('Analysis failed. Please try again.');
+                throw new Error(data.error_message || 'Analysis failed. Please try again.');
             } else {
                 // Check again after 5 seconds
-                setTimeout(() => checkStatus(jobId, keywordId), 5000);
+                setTimeout(() => checkStatus(keywordId), 5000);
             }
         })
         .catch(error => {

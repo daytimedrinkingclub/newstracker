@@ -18,7 +18,7 @@ app = create_app()
 
 # Custom worker class to disable job timeouts and handle long-running jobs
 class LongRunningWorker(SimpleWorker):
-    def execute_job(self, job, queue):
+    def perform_job(self, job, queue):
         self.prepare_job_execution(job)
         try:
             job.perform()
@@ -28,10 +28,10 @@ class LongRunningWorker(SimpleWorker):
             self.handle_job_failure(job, queue=queue)
         else:
             self.handle_job_success(job=job, queue=queue)
+            print(f"Job {job.id} completed successfully after {job.ended_at - job.started_at}")
 
     def handle_job_success(self, job, queue):
-        super().handle_job_success(job, queue)
-        print(f"Job {job.id} completed successfully after {job.ended_at - job.started_at}")
+        super().handle_job_success(job=job, queue=queue)
 
 # Use the app context
 with app.app_context():

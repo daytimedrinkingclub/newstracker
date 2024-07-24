@@ -1,16 +1,12 @@
 import os
 import logging
-import re
 import json
-from rq import get_current_job
 from ..utils.redis_task_manager import enqueue_task
 from ..models.data_service import DataService
 from .search import SearchService
 from .ai import AnthropicService
 
-# This class is called by the Toolhandler function
 class Tools:
-    # This function loads the tools from the tools folder and returns the tools
     @staticmethod
     def load_tools():
         tools_dir = os.path.join(os.path.dirname(__file__), "tools")
@@ -18,52 +14,54 @@ class Tools:
         for file_name in os.listdir(tools_dir):
             if file_name.endswith(".json"):
                 file_path = os.path.join(tools_dir, file_name)
-                with open(file_path, "r") as file:
-                    tool_data = json.load(file)
-                    tools.append(tool_data)
+                try:
+                    with open(file_path, "r") as file:
+                        tool_data = json.load(file)
+                        tools.append(tool_data)
+                except json.JSONDecodeError as e:
+                    logging.error(f"Error loading tool from {file_path}: {str(e)}")
         logging.info(f"Tools loaded and returned {len(tools)} tools")
-        logging.info(f"Loaded tools \n\n --------------------{tools} \n\n -----------")
+        if not tools:
+            logging.warning("No tools were loaded. Check your tool JSON files.")
         return tools
-    
-# This class can be called to process the tool use and call the required tool and return the tool result
+
 class ToolsHandler:
     @staticmethod
-    def process_tool_use(tool_name, tool_input, tool_use_id, chat_id, user_id):
-        logging.info(f"process_tool_use function called")
-        result = None
+    def process_tool_use(tool_name, tool_input, tool_use_id, keyword_analysis_id, user_id):
+        from .agent import AnthropicChat  # Import here to avoid circular import
         
-        if tool_name == "search_web":
-            result = SearchService.search(tool_input["query"], user_id)
-            DataService.save_message(chat_id, "user", content=result, tool_use_id=tool_use_id, tool_result=result)
-            # enque the next job where we return the message to handle chat function
-        elif tool_name in ["positive_research", "negative_research"]:
-            user_message = f"{tool_input['query']}"
-            result = AnthropicService.call_anthropic(tool_name, user_message, user_id)
-            DataService.save_message(chat_id, "user", content=result, tool_use_id=tool_use_id, tool_result=result)
-            # enque the next job where we return the message to handle chat function
-        # if tool name is update summary we need to end the ai simulation save the last message and update the keyword_summary table in supabase
-        elif tool_name == "update_news_summary":
-            keyword_id = tool_input.get('keyword_id')
-            news_summary = tool_input.get('news_summary')
-            positive_summary = tool_input.get('positive_summary')
-            negative_summary = tool_input.get('negative_summary')
-            positive_sources_links = tool_input.get('positive_sources_links', [])
-            negative_sources_links = tool_input.get('negative_sources_links', [])
-            
-            DataService.update_keyword_summary(
-                keyword_id,
-                news_summary,
-                positive_summary,
-                negative_summary,
-                positive_sources_links,
-                negative_sources_links
-            )
-            
-            result = "Keyword summary updated"
-        else:
-            result = "Error: Invalid tool name"
+        logging.info(f"Processing tool use: {tool_name} for analysis {keyword_analysis_id}")
         
-        if result:
-            DataService.save_message(chat_id, "assistant", content=result, tool_use_id=tool_use_id, tool_result=result)
-        logging.info(f"process_tool_use function returned {result}")
-        return "analysis_complete and keyword analysis summary updated"
+        try:
+            result = None
+            if tool_name == "search_web":
+                result = SearchService.search(tool_input['search_query'])
+            elif tool_name == "positive_research":
+                result = AnthropicService.positive_research(tool_input['query'])
+            elif tool_name == "negative_research":
+                result = AnthropicService.negative_research(tool_input['query'])
+            elif tool_name == "update_news_summary":
+                result = DataService.update_keyword_summary(keyword_analysis_id, **tool_input)
+            else:
+                raise ValueError(f"Unknown tool: {tool_name}")
+
+            if result is None:
+                raise ValueError(f"Tool {tool_name} returned None result")
+
+            logging.info(f"Tool {tool_name} executed successfully")
+
+            # Save the tool result
+            DataService.save_message(keyword_analysis_id, "user", content=str(result), tool_use_id=tool_use_id, tool_result=str(result))
+
+            # Continue the conversation
+            next_job = enqueue_task(AnthropicChat.process_conversation, args=(keyword_analysis_id, user_id))
+            DataService.update_analysis_status(keyword_analysis_id, "processing", next_job.id)
+
+            logging.info(f"Enqueued next job {next_job.id} for analysis {keyword_analysis_id}")
+
+            return result
+
+        except Exception as e:
+            logging.error(f"Error processing tool use for {tool_name}: {str(e)}")
+            DataService.update_analysis_status(keyword_analysis_id, "failed", error_message=str(e))
+            raise

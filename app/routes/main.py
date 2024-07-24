@@ -4,7 +4,6 @@ from ..models.data_service import DataService
 from ..services.supabase_auth import is_authenticated, get_user
 from ..services.agent import AnthropicChat
 from functools import wraps
-
 bp = Blueprint('main', __name__)
 
 def login_required(f):
@@ -99,9 +98,9 @@ def feed():
 @login_required
 def get_news_summary(keyword_id):
     user = get_user(session['jwt'])
-    keyword = DataService.get_keyword_analysis_details(str(keyword_id))
+    keyword = DataService.get_keyword_analysis_details(keyword_id)
     if keyword:
-        return render_template('main/news_summary.html', keyword=keyword)
+        return render_template('main/news.html', keyword=keyword)
     else:
         flash('Summary not found', 'error')
         return redirect(url_for('main.feed'))
@@ -109,8 +108,7 @@ def get_news_summary(keyword_id):
 @bp.route('/feed/<uuid:keyword_id>/news')
 @login_required
 def keyword_feed(keyword_id):
-    user = get_user(session['jwt'])
-    feed_data = DataService.get_news_details(user['id'], keyword_id)
+    feed_data = DataService.get_news_details(keyword_id)
     return render_template('main/news.html', feed_data=feed_data)
 
 @bp.route('/startanalysis/<uuid:keyword_id>', methods=['POST'])
@@ -119,38 +117,49 @@ def start_analysis(keyword_id):
     logging.info(f"Entering start_analysis for keyword_id: {keyword_id}")
     user = get_user(session['jwt'])
     logging.info(f"User: {user['id']}")
-    keyword = DataService.get_keyword_by_id(str(keyword_id))
+    keyword = DataService.get_keyword_by_id(keyword_id)
     logging.info(f"Keyword: {keyword}")
     
-    # Check if there's an active analysis for this keyword
-    active_analysis = DataService.get_active_analysis_for_keyword(str(keyword_id))
-    
     try:
+        # Check if there's an active analysis for this keyword
+        active_analysis = DataService.get_active_analysis_for_keyword(str(keyword_id))
+        
         if active_analysis:
             logging.info(f"Reusing existing analysis: {active_analysis['id']}")
             analysis_id = active_analysis['id']
         else:
             logging.info("Creating new analysis")
-            analysis_id = DataService.create_keyword_analysis(user['id'], str(keyword_id))
+            analysis_id = DataService.create_keyword_analysis(str(user['id']), str(keyword_id))
         
         if not analysis_id:
             raise Exception("Failed to create or retrieve analysis")
         
         # Start the analysis
-        result = AnthropicChat.handle_chat(user['id'], keyword['keyword'], str(analysis_id))
+        result = AnthropicChat.handle_chat(str(user['id']), keyword_id=str(keyword_id), analysis_id=analysis_id)
         
-        # Update the analysis status to 'processing'
-        DataService.update_analysis_status(analysis_id, 'processing')
-        
-        return jsonify(success=True, job_id=analysis_id), 200
+        return jsonify(success=True, job_id=result['job_id'], status=result['status'], message=result['message']), 200
     except Exception as e:
         logging.error(f"Error starting analysis: {str(e)}")
         return jsonify(success=False, message=str(e)), 400
 
-@bp.route('/task_status/<job_id>', methods=['GET'])
+@bp.route('/task_status/<uuid:keyword_id>', methods=['GET'])
 @login_required
-def task_status(job_id):
-    analysis = DataService.get_analysis_by_job_id(job_id)
+def task_status(keyword_id):
+    analysis = DataService.get_latest_analysis_for_keyword(str(keyword_id))
     if analysis:
-        return jsonify(status=analysis['status'], keyword_id=analysis['keyword_id'])
+        response = {
+            'status': analysis['status'],
+            'job_id': analysis['job_id']
+        }
+        
+        # Include error message if it exists and status is 'failed'
+        if analysis['status'] == 'failed' and analysis.get('error_message'):
+            response['error_message'] = analysis['error_message']
+        
+        # Include updated_at timestamp
+        if analysis.get('updated_at'):
+            response['updated_at'] = analysis['updated_at']
+        
+        return jsonify(response)
+    
     return jsonify(status='not_found'), 404

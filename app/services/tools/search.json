@@ -1,0 +1,14 @@
+{
+    "name": "search_web",
+    "description": "Search for information using this tool, this tool can be used to find any kind of search information that you need from the web",
+    "input_schema": {
+      "type": "object",
+      "properties": {
+        "search_query": { 
+            "type": "string", 
+            "description": "The query to search for, always try to use this query when you need to search for something on the web the query can be searched with adding words or phrases to get positive and negative news / facts, use the search tool to get elaborate data before updating the summary"
+        }
+      },
+      "required": ["search_query"]
+    }
+}

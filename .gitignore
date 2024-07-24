@@ -2,8 +2,7 @@ myvenv/
 app/.env
 *.env
 .flaskenv
-*.__pycache__
-__pycache__/*
+**/__pycache__/
 .vscode
 .idea
 .DS_Store
@@ -12,12 +11,5 @@ __pycache__/*
 .env.development.local
 .env.test.local
 .env.production.local
-app/__pycache__/
-app/models/__pycache__/
-app/routes/__pycache__/
-app/services/__pycache__/
-app/utils/__pycache__/
-app/templates/__pycache__/
-app/static/__pycache__/
-app/tests/__pycache__/
 app/venv/
+*.pyc
