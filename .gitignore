@@ -13,3 +13,4 @@ app/.env
 .env.production.local
 app/venv/
 *.pyc
+app/__pycache__

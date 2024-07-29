@@ -64,7 +64,7 @@ class AnthropicChat:
                     "assistant", 
                     content=assistant_message.text,
                     tool_use_id=tool_use.id,
-                    tool_use_input=json.dumps(tool_use.input),
+                    tool_use_input=tool_use.input,
                     tool_name=tool_use.name
                 )
 
@@ -87,7 +87,6 @@ class AnthropicChat:
         DataService.save_message(analysis_id, "user", content=keyword)
         # Enqueue the first job to start the conversation
         job = enqueue_task(AnthropicChat.process_conversation, args=(analysis_id, user_id))
-        
         # Update the keyword analysis status to "queued"
         DataService.update_analysis_status(analysis_id, "queued", job.id)
         

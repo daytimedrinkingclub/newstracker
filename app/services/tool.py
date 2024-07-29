@@ -35,11 +35,12 @@ class ToolsHandler:
         try:
             result = None
             if tool_name == "search_web":
-                result = SearchService.search(tool_input['search_query'])
+                key = DataService.get_user_tavily_keys(user_id)
+                result = SearchService.search(tool_input['search_query'], user_id, key)
             elif tool_name == "positive_research":
-                result = AnthropicService.positive_research(tool_input['query'])
+                result = AnthropicService.call_anthropic(tool_input['query'], "positive_research", user_id)
             elif tool_name == "negative_research":
-                result = AnthropicService.negative_research(tool_input['query'])
+                result = AnthropicService.call_anthropic(tool_input['query'], "negative_research", user_id)
             elif tool_name == "update_news_summary":
                 result = DataService.update_keyword_summary(keyword_analysis_id, **tool_input)
             else:

@@ -43,7 +43,7 @@ class DataService:
             'content': content,
             'tool_name': tool_name,
             'tool_use_id': tool_use_id,
-            'tool_input': json.dumps(tool_use_input) if tool_use_input else None,
+            'tool_input': tool_use_input,
             'tool_result': tool_result
         }
         logging.info(f"Attempting to save message: {message}")
@@ -436,6 +436,7 @@ class DataService:
         supabase = get_supabase_client()
         response = supabase.table('user_api_token').select('tavily_api_key').eq('user_id', user_id).execute()
         if response.data and response.data[0]['tavily_api_key']:
+            logging.info(f"Tavily API key found: {response.data[0]['tavily_api_key']}")
             return response.data[0]['tavily_api_key']
         else:
             raise ValueError("Tavily API key not found or empty for the user")

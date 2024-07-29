@@ -19,7 +19,7 @@ class AnthropicService:
     @staticmethod
     def call_anthropic(tool_name, user_message, user_id):
         # check the user plan if free get keys from table if paid us os.environ
-        user_plan_type = DataService.get_user_plan_type(user_id)
+        user_plan_type = DataService.get_user_plans(user_id)
         if user_plan_type == "free":
             keys = DataService.get_user_anthropic_keys(user_id)
         elif user_plan_type == "paid":
