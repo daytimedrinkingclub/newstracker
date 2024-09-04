@@ -404,7 +404,7 @@ class DataService:
         except Exception as e:
             logging.error(f"Error updating analysis status: {str(e)}")
             return False
-        
+
     @staticmethod
     def get_analysis_by_job_id(job_id):
         supabase = get_supabase_client()

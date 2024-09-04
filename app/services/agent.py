@@ -9,7 +9,7 @@ from .context import ContextService
 from .tool import Tools, ToolsHandler
 from typing import List, Dict, Any
 from flask import current_app
-from ..utils.redis_task_manager import enqueue_task
+from ..utils.rabbitmq_task_manager import enqueue_task
 
 today = datetime.now().strftime("%Y-%m-%d")
 
@@ -70,9 +70,10 @@ class AnthropicChat:
 
                 # Enqueue tool use processing as a background task
                 job = enqueue_task(ToolsHandler.process_tool_use, tool_use.name, tool_use.input, tool_use.id, keyword_analysis_id, user_id)
-                DataService.update_analysis_status(keyword_analysis_id, "processing_tool_call", job.id)
+                DataService.update_analysis_status(keyword_analysis_id, "processing_tool_call", job)
 
-                return {"status": "processing", "job_id": job.id, "message": "Tool use processed and next job enqueued"}
+
+                return {"status": "processing", "message": "Tool use processed and next job enqueued"}
 
             except Exception as e:
                 logging.error(f"Error in process_conversation: {str(e)}")
@@ -88,13 +89,12 @@ class AnthropicChat:
         # Enqueue the first job to start the conversation
         job = enqueue_task(AnthropicChat.process_conversation, args=(analysis_id, user_id))
         # Update the keyword analysis status to "queued"
-        DataService.update_analysis_status(analysis_id, "queued", job.id)
+        DataService.update_analysis_status(analysis_id, "queued", job)
         
-        logging.info(f"Enqueued job with ID: {job.id}")
+        logging.info(f"Enqueued job for analysis {analysis_id}")
         
         return {
             "success": True, 
-            "job_id": job.id, 
             "status": "queued", 
             "message": "Analysis task has been queued successfully."
         }

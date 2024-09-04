@@ -71,7 +71,7 @@ Sample input "Puja Khedkar controversy"
 - Supabase with email password
 - Heroku for hosting
 - Supabase database 
-- RedisCloud connection to manage long running and background task
+- Rabitmq connection to manage long running and background task
 
 ### Folder Structure
 

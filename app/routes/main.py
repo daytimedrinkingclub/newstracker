@@ -137,7 +137,7 @@ def start_analysis(keyword_id):
         # Start the analysis
         result = AnthropicChat.handle_chat(str(user['id']), keyword_id=str(keyword_id), analysis_id=analysis_id)
         
-        return jsonify(success=True, job_id=result['job_id'], status=result['status'], message=result['message']), 200
+        return jsonify(success=True, analysis_id=analysis_id, status=result['status'], message=result['message']), 200
     except Exception as e:
         logging.error(f"Error starting analysis: {str(e)}")
         return jsonify(success=False, message=str(e)), 400

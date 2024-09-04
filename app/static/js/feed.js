@@ -40,8 +40,6 @@ function sendAnalysisRequest(keywordId, actionText) {
         alert(error.message || 'An error occurred. Please try again.');
     });
 }
-
-function checkStatus(keywordId) {
     fetch(`/task_status/${keywordId}`)
         .then(response => {
             if (!response.ok) {
@@ -71,4 +69,4 @@ function checkStatus(keywordId) {
             button.onclick = () => window.startAnalysis(keywordId);
             alert(error.message || 'An error occurred while checking status. Please try refreshing the page.');
         });
-}
+        });
