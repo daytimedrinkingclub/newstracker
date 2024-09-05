@@ -83,18 +83,22 @@ class AnthropicChat:
     @staticmethod
     def handle_chat(user_id: str, keyword_id: str, analysis_id: str) -> Dict[str, Any]:
         logging.info(f"Starting handle_chat for user_id: {user_id}, keyword_id: {keyword_id}, analysis_id: {analysis_id}")
-        keyword = DataService.get_keyword_by_id(keyword_id)
-        # Save the initial user message (keyword)
-        DataService.save_message(analysis_id, "user", content=keyword)
-        # Enqueue the first job to start the conversation
-        job = enqueue_task(AnthropicChat.process_conversation, args=(analysis_id, user_id))
-        # Update the keyword analysis status to "queued"
-        DataService.update_analysis_status(analysis_id, "queued", job)
-        
-        logging.info(f"Enqueued job for analysis {analysis_id}")
-        
-        return {
-            "success": True, 
-            "status": "queued", 
-            "message": "Analysis task has been queued successfully."
-        }
+        try:
+            keyword = DataService.get_keyword_by_id(keyword_id)
+            DataService.save_message(analysis_id, "user", content=keyword)
+            job = enqueue_task(AnthropicChat.process_conversation, args=(analysis_id, user_id))
+            DataService.update_analysis_status(analysis_id, "queued", job)
+            logging.info(f"Enqueued job for analysis {analysis_id}")
+            return {
+                "success": True, 
+                "status": "queued", 
+                "message": "Analysis task has been queued successfully."
+            }
+        except Exception as e:
+            logging.error(f"Error in handle_chat: {str(e)}")
+            DataService.update_analysis_status(analysis_id, "failed", error_message=str(e))
+            return {
+                "success": False,
+                "status": "failed",
+                "message": f"Failed to start analysis: {str(e)}"
+            }

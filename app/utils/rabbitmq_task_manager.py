@@ -12,20 +12,25 @@ def enqueue_task(func: Callable, *args: Any, **kwargs: Any) -> str:
     channel.queue_declare(queue=queue_name, durable=True)
 
     task = {
-        'func': func.__name__,
+        'job_id': str(uuid.uuid4()),
+        'func': f'{func.__module__}.{func.__name__}',
         'args': args,
-        'kwargs': kwargs,
-        'job_id': str(uuid.uuid4())  # Generate a unique job_id
+        'kwargs': kwargs
     }
     logging.info(f"Enqueueing task: {task}")
 
     message = json.dumps(task)
-    channel.basic_publish(
-        exchange='',
-        routing_key=queue_name,
-        body=message,
-        properties=pika.BasicProperties(
-            delivery_mode=2,  # make message persistent
-        ))
+    try:
+        channel.basic_publish(
+            exchange='',
+            routing_key=queue_name,
+            body=message,
+            properties=pika.BasicProperties(
+                delivery_mode=2,  # make message persistent
+            ))
+        logging.info(f"Task enqueued successfully: {task['job_id']}")
+    except Exception as e:
+        logging.error(f"Error enqueueing task: {str(e)}")
+        raise
 
-    return task['job_id']  # Return the job_id instead of the message
+    return task['job_id']

@@ -33,10 +33,7 @@ def callback(ch, method, properties, body):
         logging.info(f"Received message: {body}")
         task = json.loads(body)
         logging.info(f"Parsed task: {task}")
-        job_id = task.get('job_id')
-        if not job_id:
-            logging.error("No job_id found in task")
-            raise ValueError("No job_id in task")
+        job_id = task['job_id']  # Now we can directly access 'job_id'
         func_name = task['func']
         args = task['args']
         kwargs = task['kwargs']

@@ -28,7 +28,7 @@ function sendAnalysisRequest(keywordId, actionText) {
     .then(data => {
         if (data.success) {
             button.querySelector('.status-text').textContent = 'Analyzing...';
-            checkStatus(keywordId);  // Note: we're now passing keywordId instead of job_id
+            checkStatus(keywordId);
         } else {
             throw new Error(data.message || 'Failed to start analysis');
         }
@@ -40,6 +40,8 @@ function sendAnalysisRequest(keywordId, actionText) {
         alert(error.message || 'An error occurred. Please try again.');
     });
 }
+
+function checkStatus(keywordId) {
     fetch(`/task_status/${keywordId}`)
         .then(response => {
             if (!response.ok) {
@@ -53,11 +55,10 @@ function sendAnalysisRequest(keywordId, actionText) {
                 button.disabled = false;
                 button.querySelector('.status-text').textContent = 'Refresh';
                 button.onclick = () => window.refreshAnalysis(keywordId);
-                location.reload(); // Reload the page to show updated summary
+                location.reload();
             } else if (data.status === 'failed') {
                 throw new Error(data.error_message || 'Analysis failed. Please try again.');
             } else {
-                // Check again after 5 seconds
                 setTimeout(() => checkStatus(keywordId), 5000);
             }
         })
@@ -69,4 +70,4 @@ function sendAnalysisRequest(keywordId, actionText) {
             button.onclick = () => window.startAnalysis(keywordId);
             alert(error.message || 'An error occurred while checking status. Please try refreshing the page.');
         });
-        });
+}

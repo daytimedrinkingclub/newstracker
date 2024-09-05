@@ -395,11 +395,13 @@ class DataService:
             update_data = {
                 'status': status,
                 'updated_at': datetime.utcnow().isoformat(),
-                'job_id': job_id
             }
+            if job_id is not None:
+                update_data['job_id'] = job_id
             if error_message:
                 update_data['error_message'] = error_message
             response = supabase.table('keyword_analysis').update(update_data).eq('id', analysis_id).execute()
+            logging.info(f"Updated analysis status: {analysis_id} to {status}")
             return bool(response.data)
         except Exception as e:
             logging.error(f"Error updating analysis status: {str(e)}")
