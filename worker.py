@@ -30,8 +30,13 @@ def get_rabbitmq_connection():
 
 def callback(ch, method, properties, body):
     try:
+        logging.info(f"Received message: {body}")
         task = json.loads(body)
-        job_id = task['job_id']
+        logging.info(f"Parsed task: {task}")
+        job_id = task.get('job_id')
+        if not job_id:
+            logging.error("No job_id found in task")
+            raise ValueError("No job_id in task")
         func_name = task['func']
         args = task['args']
         kwargs = task['kwargs']
@@ -49,6 +54,8 @@ def callback(ch, method, properties, body):
     except Exception as e:
         logger.error(f"Error processing task: {str(e)}")
         ch.basic_nack(delivery_tag=method.delivery_tag, requeue=True)
+
+def main():
     while True:
         try:
             connection = get_rabbitmq_connection()
