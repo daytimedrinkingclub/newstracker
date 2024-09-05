@@ -12,8 +12,9 @@ def enqueue_task(func: Callable, *args: Any, **kwargs: Any) -> str:
     channel.queue_declare(queue=queue_name, durable=True)
 
     task = {
-        'job_id': str(uuid.uuid4()),
-        'func': f'{func.__module__}.{func.__name__}',
+        'job_id': str(uuid.uuid4()),  # Add this line
+        'id': str(uuid.uuid4()),
+        'func': func.__name__,
         'args': args,
         'kwargs': kwargs
     }

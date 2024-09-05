@@ -6,7 +6,7 @@ import anthropic
 from datetime import datetime
 from ..models.data_service import DataService
 from .context import ContextService
-from .tool import Tools, ToolsHandler
+from .tool import Tools
 from typing import List, Dict, Any
 from flask import current_app
 from ..utils.rabbitmq_task_manager import enqueue_task
@@ -16,6 +16,7 @@ today = datetime.now().strftime("%Y-%m-%d")
 class AnthropicChat:
     @staticmethod
     def process_conversation(keyword_analysis_id: str, user_id: str) -> Dict[str, Any]:
+        from .tool import ToolsHandler  # Move this import inside the method
         with current_app.app_context():
             try:
                 # Get user plan and API key

@@ -7,6 +7,7 @@ from ..models.data_service import DataService
 from .search import SearchService
 from .ai import AnthropicService
 
+
 # RabbitMQ configuration
 RABBITMQ_URL = os.getenv('RABBITMQ_URL', 'amqp://guest:guest@localhost:5672/%2F')
 
@@ -35,8 +36,7 @@ class Tools:
 class ToolsHandler:
     @staticmethod
     def process_tool_use(tool_name, tool_input, tool_use_id, keyword_analysis_id, user_id):
-        from .agent import AnthropicChat  # Import here to avoid circular import
-        
+        from .agent import AnthropicChat  # Move this import inside the method
         logging.info(f"Processing tool use: {tool_name} for analysis {keyword_analysis_id}")
         
         try:

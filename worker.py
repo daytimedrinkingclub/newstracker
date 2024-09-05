@@ -33,15 +33,17 @@ def callback(ch, method, properties, body):
         logging.info(f"Received message: {body}")
         task = json.loads(body)
         logging.info(f"Parsed task: {task}")
-        job_id = task['job_id']  # Now we can directly access 'job_id'
+        job_id = task['id']  # Change this line
         func_name = task['func']
         args = task['args']
         kwargs = task['kwargs']
 
         # Dynamically import the function
-        module_name, func_name = func_name.rsplit('.', 1)
-        module = importlib.import_module(module_name)
-        func = getattr(module, func_name)
+        module_parts = func_name.split('.')
+        module = __import__(module_parts[0], fromlist=module_parts[1:])
+        for part in module_parts[1:]:
+            module = getattr(module, part)
+        func = module
 
         # Execute the function
         result = func(*args, **kwargs)
