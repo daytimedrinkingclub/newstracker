@@ -5,6 +5,7 @@ import importlib
 import os
 import time
 import logging
+from app.services.agent import AnthropicChat
 
 # Set up logging
 logging.basicConfig(level=logging.INFO)
@@ -46,7 +47,10 @@ def callback(ch, method, properties, body):
         func = module
 
         # Execute the function
-        result = func(*args, **kwargs)
+        if func_name == 'app.services.agent.AnthropicChat.handle_chat':
+            result = AnthropicChat.handle_chat(*args, **kwargs)
+        else:
+            result = func(*args, **kwargs)
         logger.info(f"Processed task: {func_name}, Job ID: {job_id}, Result: {result}")
 
         ch.basic_ack(delivery_tag=method.delivery_tag)
