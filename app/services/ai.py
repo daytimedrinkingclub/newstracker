@@ -20,21 +20,29 @@ class AnthropicService:
     @staticmethod
     def call_anthropic(tool_name, user_message, user_id):
         logging.info(f"Calling Anthropic for tool: {tool_name}")
+        
+        # Get user plan type
+        user_plans = DataService.get_user_plans(user_id)
+        user_plan_type = user_plans[0]['plan'] if user_plans else None
+
         logging.info(f"User plan type: {user_plan_type}")
-        logging.info(f"API key retrieved: {'Yes' if keys else 'No'}")
-        logging.info(f"Prompt selected: {prompt[:50]}...")  # Log first 50 characters of prompt
-        logging.info(f"Sending request to Anthropic API")
         
-        # check the user plan if free get keys from table if paid us os.environ
-        user_plan_type = DataService.get_user_plans(user_id)
-        if user_plan_type == "free":
+        # Determine which API key to use
+        if user_plan_type == "freemium":
             keys = DataService.get_user_anthropic_keys(user_id)
-        elif user_plan_type == "paid":
+        elif user_plan_type == "premium":
             keys = os.getenv("ANTHROPIC_API_KEY")
-        
+        else:
+            raise ValueError(f"Unknown user plan type: {user_plan_type}")
+
+        logging.info(f"API key retrieved: {'Yes' if keys else 'No'}")
+
         client = anthropic.Anthropic(api_key=keys)
 
         prompt = AnthropicService.prompt_selector(tool_name)
+        logging.info(f"Prompt selected: {prompt[:50]}...")  # Log first 50 characters of prompt
+        logging.info(f"Sending request to Anthropic API")
+
         response = client.messages.create(
             model="claude-3-5-sonnet-20240620",
             max_tokens=2000,
