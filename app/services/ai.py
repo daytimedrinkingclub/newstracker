@@ -1,3 +1,4 @@
+import logging
 import os
 import anthropic
 from ..models.data_service import DataService
@@ -18,6 +19,12 @@ class AnthropicService:
 
     @staticmethod
     def call_anthropic(tool_name, user_message, user_id):
+        logging.info(f"Calling Anthropic for tool: {tool_name}")
+        logging.info(f"User plan type: {user_plan_type}")
+        logging.info(f"API key retrieved: {'Yes' if keys else 'No'}")
+        logging.info(f"Prompt selected: {prompt[:50]}...")  # Log first 50 characters of prompt
+        logging.info(f"Sending request to Anthropic API")
+        
         # check the user plan if free get keys from table if paid us os.environ
         user_plan_type = DataService.get_user_plans(user_id)
         if user_plan_type == "free":
@@ -38,4 +45,5 @@ class AnthropicService:
             ]
         )
 
+        logging.info(f"Response received from Anthropic API")
         return response.content[0].text

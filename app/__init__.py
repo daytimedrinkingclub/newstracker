@@ -1,7 +1,5 @@
 # backend/app/__init__.py
 from flask import Flask
-from redis import Redis
-from rq import Queue
 from datetime import datetime
 from dotenv import load_dotenv
 import os
@@ -28,10 +26,6 @@ def to_datetime(value, format='%B %d, %Y'):
 def create_app():
     app = Flask(__name__, static_folder='static', static_url_path='/static')
     app.config.from_object(config)
-
-    # # Set up Redis connection
-    app.redis = Redis.from_url(app.config['REDIS_URL'])
-    app.task_queue = Queue(connection=app.redis)
     
     # Initialize extensions
     init_extensions(app)

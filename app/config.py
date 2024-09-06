@@ -21,17 +21,6 @@ class Config(object):
     PAYPAL_CLIENT_ID = os.getenv('PAYPAL_CLIENT_ID')
     PAYPAL_CLIENT_SECRET = os.getenv('PAYPAL_CLIENT_SECRET')
     FLASK_ENV = os.getenv('FLASK_ENV')
-    DEBUG = os.getenv('FLASK_DEBUG', '0') == '1'  
+    DEBUG = os.getenv('FLASK_DEBUG', '0') == '1'
 
-    REDIS_HOST = os.getenv('REDIS_HOST', 'redis-17458.c98.us-east-1-4.ec2.redns.redis-cloud.com')
-    REDIS_PORT = int(os.getenv('REDIS_PORT', 17458))
-    REDIS_PASSWORD = os.getenv('REDIS_PASSWORD', 'Kabeer@Seth@271998')
-    REDIS_URL = os.getenv('REDIS_URL') or f"redis://:{REDIS_PASSWORD}@{REDIS_HOST}:{REDIS_PORT}/0"
-# Print loaded environment variables for debugging
-print("Loaded environment variables:")
-for key, value in Config.__dict__.items():
-    if not key.startswith('__'):
-        print(f"{key}: {value}")
-
-# Use a single Config class
 config = Config()

@@ -1,4 +1,3 @@
-# app/services/agent.py
 import os
 import json
 import logging
@@ -9,7 +8,6 @@ from .context import ContextService
 from .tool import Tools
 from typing import List, Dict, Any
 from flask import current_app
-from ..utils.rabbitmq_task_manager import enqueue_task
 
 today = datetime.now().strftime("%Y-%m-%d")
 
@@ -21,16 +19,20 @@ class AnthropicChat:
             try:
                 # Get user plan and API key
                 user_plan_type = DataService.get_user_plans(user_id)
+                logging.info(f"User plan type: {user_plan_type}")
                 keys = DataService.get_user_anthropic_keys(user_id) if user_plan_type == "free" else os.getenv("ANTHROPIC_API_KEY")
+                logging.info(f"API keys retrieved: {'Yes' if keys else 'No'}")
                 
                 client = anthropic.Anthropic(api_key=keys)
                 tools = Tools.load_tools()
+                logging.info(f"Number of tools loaded: {len(tools)}")
                 
                 if not tools:
                     raise ValueError("No tools were loaded. Check your tool JSON files.")
                 
                 conversation = ContextService.build_context(keyword_analysis_id)
-                logging.info(f"process_conversation started with {keyword_analysis_id}, context length: {len(conversation)}")
+                logging.info(f"Conversation context length: {len(conversation)}")
+                logging.info(f"Sending request to Anthropic API")
                 
                 response = client.messages.create(
                     model="claude-3-5-sonnet-20240620",
@@ -45,7 +47,6 @@ class AnthropicChat:
                     tools=tools,
                     messages=conversation,
                 )
-                
                 logging.info(f"Response Received from ANTHROPIC API: {response}")
                 
                 assistant_message = next(block for block in response.content if block.type == "text")
@@ -69,12 +70,11 @@ class AnthropicChat:
                     tool_name=tool_use.name
                 )
 
-                # Enqueue tool use processing as a background task
-                job = enqueue_task(ToolsHandler.process_tool_use, tool_use.name, tool_use.input, tool_use.id, keyword_analysis_id, user_id)
-                DataService.update_analysis_status(keyword_analysis_id, "processing_tool_call", job)
+                # Process tool use directly
+                result = ToolsHandler.process_tool_use(tool_use.name, tool_use.input, tool_use.id, keyword_analysis_id, user_id)
+                DataService.update_analysis_status(keyword_analysis_id, "processing")
 
-
-                return {"status": "processing", "message": "Tool use processed and next job enqueued"}
+                return {"status": "processing", "message": "Tool use processed and continuing analysis"}
 
             except Exception as e:
                 logging.error(f"Error in process_conversation: {str(e)}")
@@ -87,14 +87,10 @@ class AnthropicChat:
         try:
             keyword = DataService.get_keyword_by_id(keyword_id)
             DataService.save_message(analysis_id, "user", content=keyword)
-            job = enqueue_task(AnthropicChat.process_conversation, args=(analysis_id, user_id))
-            DataService.update_analysis_status(analysis_id, "queued", job)
-            logging.info(f"Enqueued job for analysis {analysis_id}")
-            return {
-                "success": True, 
-                "status": "queued", 
-                "message": "Analysis task has been queued successfully."
-            }
+            result = AnthropicChat.process_conversation(analysis_id, user_id)
+            DataService.update_analysis_status(analysis_id, result['status'])
+            logging.info(f"Analysis started for {analysis_id}")
+            return result
         except Exception as e:
             logging.error(f"Error in handle_chat: {str(e)}")
             DataService.update_analysis_status(analysis_id, "failed", error_message=str(e))

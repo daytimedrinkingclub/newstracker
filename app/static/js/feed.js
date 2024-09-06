@@ -35,6 +35,8 @@ function sendAnalysisRequest(keywordId, actionText) {
     })
     .catch(error => {
         console.error('Error:', error);
+        console.error('API Endpoint:', `/startanalysis/${keywordId}`);
+        console.error('File: feed.js');
         button.disabled = false;
         button.querySelector('.status-text').textContent = actionText;
         alert(error.message || 'An error occurred. Please try again.');

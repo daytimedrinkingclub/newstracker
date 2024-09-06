@@ -53,7 +53,6 @@ def manage_plan():
         success = DataService.delete_user_plan(plan_id)
         DataService.delete_user_api_tokens(user['id'])
         return jsonify(success=success), 200 if success else 400
-
 @bp.route('/keyword')
 @login_required
 def keyword():
@@ -86,7 +85,6 @@ def delete_keyword(keyword_id):
     else:
         logging.warning(f"Failed to delete keyword {keyword_id} for user {user['id']}")
         return jsonify(success=False, error="Failed to delete keyword or keyword not found"), 404
-
 @bp.route('/feed')
 @login_required
 def feed():
@@ -141,7 +139,6 @@ def start_analysis(keyword_id):
     except Exception as e:
         logging.error(f"Error starting analysis: {str(e)}")
         return jsonify(success=False, message=str(e)), 400
-
 @bp.route('/task_status/<uuid:keyword_id>', methods=['GET'])
 @login_required
 def task_status(keyword_id):

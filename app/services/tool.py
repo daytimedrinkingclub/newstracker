@@ -1,18 +1,9 @@
 import os
 import logging
 import json
-import pika
-from ..utils.rabbitmq_task_manager import enqueue_task
 from ..models.data_service import DataService
 from .search import SearchService
 from .ai import AnthropicService
-
-
-# RabbitMQ configuration
-RABBITMQ_URL = os.getenv('RABBITMQ_URL', 'amqp://guest:guest@localhost:5672/%2F')
-
-def get_rabbitmq_connection():
-    return pika.BlockingConnection(pika.URLParameters(RABBITMQ_URL))
 
 class Tools:
     @staticmethod
@@ -62,10 +53,9 @@ class ToolsHandler:
             DataService.save_message(keyword_analysis_id, "user", content=str(result), tool_use_id=tool_use_id, tool_result=str(result))
             
             # Continue the conversation
-            next_job = enqueue_task(AnthropicChat.process_conversation, args=(keyword_analysis_id, user_id))
-            DataService.update_analysis_status(keyword_analysis_id, "processing", next_job)
+            AnthropicChat.process_conversation(keyword_analysis_id, user_id)
 
-            logging.info(f"Enqueued next job for analysis {keyword_analysis_id}")
+            logging.info(f"Continued conversation for analysis {keyword_analysis_id}")
 
             return result
 

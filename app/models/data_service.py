@@ -428,9 +428,12 @@ class DataService:
     def get_user_anthropic_keys(user_id):
         supabase = get_supabase_client()
         response = supabase.table('user_api_token').select('anthropic_api_key').eq('user_id', user_id).execute()
+        logging.info(f"Fetching Anthropic API key for user {user_id}")
         if response.data and response.data[0]['anthropic_api_key']:
+            logging.info("Anthropic API key found for user")
             return response.data[0]['anthropic_api_key']
         else:
+            logging.error(f"Anthropic API key not found or empty for user {user_id}")
             raise ValueError("Anthropic API key not found or empty for the user")
 
     @staticmethod
