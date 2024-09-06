@@ -31,8 +31,19 @@ class AnthropicChat:
                     raise ValueError("No tools were loaded. Check your tool JSON files.")
                 
                 conversation = ContextService.build_context(keyword_analysis_id)
+                
+                # Validate conversation structure
+                for i, message in enumerate(conversation):
+                    if message['role'] == 'user' and any(block['type'] == 'tool_result' for block in message['content']):
+                        if i == 0 or not any(block['type'] == 'tool_use' for block in conversation[i-1]['content']):
+                            # Remove invalid tool_result block
+                            message['content'] = [block for block in message['content'] if block['type'] != 'tool_result']
+                
                 logging.info(f"Conversation context length: {len(conversation)}")
                 logging.info(f"Sending request to Anthropic API")
+                
+                logging.info(f"Conversation context: {json.dumps(conversation, indent=2)}")
+                logging.info(f"Number of messages in conversation: {len(conversation)}")
                 
                 response = client.messages.create(
                     model="claude-3-5-sonnet-20240620",

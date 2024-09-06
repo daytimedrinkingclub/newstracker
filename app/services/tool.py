@@ -35,11 +35,11 @@ class ToolsHandler:
             if tool_name == "search_web":
                 key = DataService.get_user_tavily_keys(user_id)
                 result = SearchService.search(tool_input['search_query'], user_id, key)
-            elif tool_name == "positive_research":
-                result = AnthropicService.call_anthropic(tool_input['query'], "positive_research", user_id)
-            elif tool_name == "negative_research":
-                result = AnthropicService.call_anthropic(tool_input['query'], "negative_research", user_id)
-            elif tool_name == "update_news_summary":
+            elif tool_name == "positive_summary":
+                result = AnthropicService.call_anthropic(tool_input['data_to_analyse'], "positive_prompt", user_id)
+            elif tool_name == "negative_summary":
+                result = AnthropicService.call_anthropic(tool_input['data_to_analyse'], "negative_prompt", user_id)
+            elif tool_name == "update_summary":
                 result = DataService.update_keyword_summary(keyword_analysis_id, **tool_input)
             else:
                 raise ValueError(f"Unknown tool: {tool_name}")
@@ -50,7 +50,7 @@ class ToolsHandler:
             logging.info(f"Tool {tool_name} executed successfully")
 
             # Save the tool result
-            DataService.save_message(keyword_analysis_id, "user", content=str(result), tool_use_id=tool_use_id, tool_result=str(result))
+            DataService.save_message(keyword_analysis_id, "user", content="Tool result", tool_use_id=tool_use_id, tool_result=str(result))
             
             # Continue the conversation
             AnthropicChat.process_conversation(keyword_analysis_id, user_id)

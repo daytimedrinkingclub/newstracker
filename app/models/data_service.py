@@ -41,11 +41,16 @@ class DataService:
             'keyword_analysis_id': keyword_analysis_id,
             'role': role,
             'content': content,
-            'tool_name': tool_name,
-            'tool_use_id': tool_use_id,
-            'tool_input': tool_use_input,
-            'tool_result': tool_result
         }
+        
+        if role == 'assistant' and tool_name:
+            message['tool_name'] = tool_name
+            message['tool_use_id'] = tool_use_id
+            message['tool_input'] = tool_use_input
+        elif role == 'user' and tool_result:
+            message['tool_result'] = tool_result
+            message['tool_use_id'] = tool_use_id
+        
         logging.info(f"Attempting to save message: {message}")
         try:
             response = supabase.table('analysis_messages').insert(message).execute()
@@ -61,9 +66,13 @@ class DataService:
         response = supabase.table('analysis_messages').select('*').eq('keyword_analysis_id', keyword_analysis_id).order('created_at').execute()
         messages = response.data
         conversation = []
+        last_message_had_tool_use = False
+
         for message in messages:
-            if message['role'] == "user":
-                if message['tool_result']:
+            current_role = message['role']
+            
+            if current_role == "user":
+                if message.get('tool_result') and last_message_had_tool_use:
                     conversation.append({
                         "role": "user",
                         "content": [
@@ -84,33 +93,21 @@ class DataService:
                             }
                         ]
                     })
-            elif message['role'] == "assistant":
-                if message['tool_name']:
-                    conversation.append({
-                        "role": "assistant",
-                        "content": [
-                            {
-                                "type": "text",
-                                "text": message['content']
-                            },
-                            {
-                                "type": "tool_use",
-                                "id": message['tool_use_id'],
-                                "name": message['tool_name'],
-                                "input": message['tool_input']
-                            }
-                        ]
+                last_message_had_tool_use = False
+            elif current_role == "assistant":
+                content = [{"type": "text", "text": message['content']}]
+                if message.get('tool_name'):
+                    content.append({
+                        "type": "tool_use",
+                        "id": message['tool_use_id'] or str(uuid.uuid4()),
+                        "name": message['tool_name'],
+                        "input": message['tool_input']
                     })
+                    last_message_had_tool_use = True
                 else:
-                    conversation.append({
-                        "role": "assistant",
-                        "content": [
-                            {
-                                "type": "text",
-                                "text": message['content']
-                            }
-                        ]
-                    })
+                    last_message_had_tool_use = False
+                conversation.append({"role": "assistant", "content": content})
+
         return conversation
     
     @staticmethod
@@ -395,13 +392,11 @@ class DataService:
             update_data = {
                 'status': status,
                 'updated_at': datetime.utcnow().isoformat(),
+                'job_id': job_id
             }
-            if job_id is not None:
-                update_data['job_id'] = job_id
             if error_message:
                 update_data['error_message'] = error_message
             response = supabase.table('keyword_analysis').update(update_data).eq('id', analysis_id).execute()
-            logging.info(f"Updated analysis status: {analysis_id} to {status}")
             return bool(response.data)
         except Exception as e:
             logging.error(f"Error updating analysis status: {str(e)}")
@@ -428,12 +423,9 @@ class DataService:
     def get_user_anthropic_keys(user_id):
         supabase = get_supabase_client()
         response = supabase.table('user_api_token').select('anthropic_api_key').eq('user_id', user_id).execute()
-        logging.info(f"Fetching Anthropic API key for user {user_id}")
         if response.data and response.data[0]['anthropic_api_key']:
-            logging.info("Anthropic API key found for user")
             return response.data[0]['anthropic_api_key']
         else:
-            logging.error(f"Anthropic API key not found or empty for user {user_id}")
             raise ValueError("Anthropic API key not found or empty for the user")
 
     @staticmethod
