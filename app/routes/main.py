@@ -115,8 +115,8 @@ def start_analysis(keyword_id):
     logging.info(f"Entering start_analysis for keyword_id: {keyword_id}")
     user = get_user(session['jwt'])
     logging.info(f"User: {user['id']}")
-    keyword = DataService.get_keyword_by_id(keyword_id)
-    logging.info(f"Keyword: {keyword}")
+    keyword_data = DataService.get_keyword_by_id(str(keyword_id))
+    logging.info(f"Keyword data: {keyword_data}")
     
     try:
         # Check if there's an active analysis for this keyword
@@ -132,8 +132,8 @@ def start_analysis(keyword_id):
         if not analysis_id:
             raise Exception("Failed to create or retrieve analysis")
         
-        # Start the analysis
-        result = AnthropicChat.handle_chat(str(user['id']), keyword_id=str(keyword_id), analysis_id=analysis_id)
+        # Start the analysis with the keyword
+        result = AnthropicChat.handle_chat(str(user['id']), keyword_id=str(keyword_id), analysis_id=analysis_id, keyword=keyword_data['keyword'])
         
         return jsonify(success=True, analysis_id=analysis_id, status=result['status'], message=result['message']), 200
     except Exception as e:

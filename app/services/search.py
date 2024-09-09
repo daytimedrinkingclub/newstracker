@@ -3,9 +3,12 @@ import requests
 import json
 from typing import Dict, Any
 from ..models.data_service import DataService
+from ..utils.rate_limiter import RateLimiter, exponential_backoff
 
 class SearchService:
     @staticmethod
+    @RateLimiter(max_calls=5, period=60)  # 5 calls per minute
+    @exponential_backoff(max_retries=3, base_delay=2)
     def search(query: str, user_id: str, search_depth: str = "advanced", include_images: bool = False, 
                include_answer: bool = True, include_raw_content: bool = False, 
                max_results: int = 5, key: str = None) -> Dict[str, Any]:
@@ -39,6 +42,7 @@ class SearchService:
         }
 
         try:
+            logging.info("seeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee")
             logging.info(f"Sending request to Tavily API with payload: {payload}")
             response = requests.post(endpoint, json=payload)
             response.raise_for_status()

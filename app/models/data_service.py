@@ -325,8 +325,10 @@ class DataService:
     @staticmethod
     def update_keyword_summary(analysis_id, user_id, news_summary, positive_summary, negative_summary, positive_sources_links, negative_sources_links):
         try:
+            logging.info(f"Updating keyword summary for analysis_id: {analysis_id}")
             # Get the analysis details
             analysis = supabase.table('keyword_analysis').select('*').eq('id', analysis_id).single().execute()
+            logging.info(f"Analysis data: {analysis.data}")
             id = analysis.data['keyword_summary_id']
             keyword_id = analysis.data['keyword_id']
             keyword = analysis.data['keyword']
@@ -343,10 +345,12 @@ class DataService:
                 'negative_sources_links': negative_sources_links,
                 'updated_at': datetime.utcnow().isoformat()
             }
+            logging.info(f"Update data: {update_data}")
             response = supabase.table('keyword_summary').update(update_data).eq('id', id).eq('keyword_id', keyword_id).execute()
+            logging.info(f"Update response: {response.data}")
             return bool(response.data)
         except Exception as e:
-            print(f"Error in update_keyword_summary: {str(e)}")
+            logging.error(f"Error in update_keyword_summary: {str(e)}")
             return False
     
     @staticmethod       
@@ -359,16 +363,26 @@ class DataService:
     def get_keyword_by_id(keyword_id):
         supabase = get_supabase_client()
         response = supabase.table('user_keyword').select('keyword').eq('id', keyword_id).execute()
-        return response.data[0]['keyword'] if response.data else None
+        if response.data and len(response.data) > 0:
+            keyword_value = response.data[0].get('keyword')
+            logging.info(f"Keyword: {keyword_value}")
+            return {'keyword': keyword_value}
+        else:
+            logging.error(f"No keyword found for id: {keyword_id}")
+            raise ValueError("Keyword not found")
     
     @staticmethod
     def get_keyword_analysis_details(keyword_id):
         supabase = get_supabase_client()
+        logging.info(f"Fetching keyword analysis details for keyword_id: {keyword_id}")
         response = supabase.table('keyword_summary').select('*, keyword_analysis(status, job_id)').eq('keyword_id', keyword_id).execute()
+        logging.info(f"Response data: {response.data}")
         if response.data:
             summary = response.data[0]
             analysis = summary['keyword_analysis'][0] if summary['keyword_analysis'] else {}
-            return {
+            logging.info(f"Summary: {summary}")
+            logging.info(f"Analysis: {analysis}")
+            result = {
                 'id': summary['id'],
                 'user_id': summary['user_id'],
                 'keyword_id': summary['keyword_id'],
@@ -383,6 +397,9 @@ class DataService:
                 'analysis_status': analysis.get('status', 'pending'),
                 'analysis_job_id': analysis.get('job_id')
             }
+            logging.info(f"Returning result: {result}")
+            return result
+        logging.warning(f"No data found for keyword_id: {keyword_id}")
         return None
 
     @staticmethod
@@ -470,3 +487,11 @@ class DataService:
             .limit(1) \
             .execute()
         return response.data[0] if response.data else None
+
+    @staticmethod
+    def get_keyword_for_analysis(analysis_id):
+        supabase = get_supabase_client()
+        response = supabase.table('keyword_analysis').select('user_keyword(keyword)').eq('id', analysis_id).execute()
+        if response.data and response.data[0]['user_keyword']:
+            return response.data[0]['user_keyword']['keyword']
+        return None

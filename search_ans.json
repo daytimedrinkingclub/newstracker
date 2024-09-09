@@ -1,0 +1,77 @@
+[
+    {
+        "role": "user",
+        "content": [
+            {
+                "type": "text",
+                "text": "how good was Olympics 2024 swimming ?"
+            }
+        ]
+    },
+    {
+        "role": "assistant",
+        "content": [
+            {
+                "type": "text",
+                "text": "Certainly! I'll analyze the news about the swimming events at the 2024 Olympics for you. To do this effectively, I'll need to use several tools to gather information and provide a comprehensive summary. Let's start by searching for relevant information."
+            }
+        ]
+    },
+    {
+        "role": "user",
+        "content": [
+            {
+                "type": "text",
+                "text": "Tool result"
+            },
+            {
+                "type": "tool_result",
+                "tool_use_id": "toolu_019F2KgCqpDSac9DZrDLyeTS",
+                "content": {
+                    "query": "Olympics 2024 swimming results and highlights",
+                    "follow_up_questions": null,
+                    "answer": "As of the latest available data, you can find live updates, results, and highlights from various days of swimming events at the 2024 Olympics in Paris. The USA secured its first gold medal in swimming with a strong performance from the team comprising Alexy, Guilinao, Armstrong, and Dressel. Additionally, there are highlights showcasing the top moments from the Swimming events at the Olympic Games Paris 2024. For the most recent and detailed information, it is recommended to refer to the provided sources directly.",
+                    "images": [],
+                    "results": [
+                        {
+                            "title": "Olympics swimming Day 1 results: USA wins first 2024 Olympics gold with ...",
+                            "url": "https://www.sportingnews.com/au/olympics/news/olympics-swimming-live-results-highlights-day-1/0057867bd4f9a236b0c7f438",
+                            "content": "Live swimming updates, highlights from Day 1 at 2024 Olympics (All times Eastern) 3:57 p.m.: The USA has its first gold medal in Paris.The quarter of Alexy, Guilinao, Armstrong and Dressel outpace ...",
+                            "score": 0.99791706,
+                            "raw_content": null
+                        },
+                        {
+                            "title": "Highlights | Swimming | Olympic Games Paris 2024",
+                            "url": "https://olympics.com/en/paris-2024/videos/highlights-swimming-olympic-games-paris-2024",
+                            "content": "Relive the top moments from the Swimming events at the Olympic Games Paris 2024. ... Skip to language selection Skip to Login/Profile Skip to Search Skip to footer. Leon MARCHAND Paris 2024 | Olympic Games. Highlights | Swimming | Olympic Games Paris 2024 ... WORLDWIDE PARTNERS. Paralympic Games. Download the Official App. Olympic Games ...",
+                            "score": 0.9960083,
+                            "raw_content": null
+                        },
+                        {
+                            "title": "Olympics swimming Day 5 results, highlights: Leon Marchand, Katie ...",
+                            "url": "https://www.sportingnews.com/us/olympics/news/olympics-swimming-live-results-updates-highlights-day-5/9a8e4cdf44a69469f7084c2f",
+                            "content": "The Sporting News has you covered on live updates, results and highlights from Day 5 of swimming at the 2024 Paris Olympics. MORE: Watch Olympics swimming live with Fubo (free trial) Olympic ...",
+                            "score": 0.9952448,
+                            "raw_content": null
+                        },
+                        {
+                            "title": "Paris 2024 Olympics - Latest News, Schedules & Results",
+                            "url": "https://olympics.com/en/paris-2024?os=win&ref=app",
+                            "content": "Welcome to the Paris 2024 Summer Olympic Games website. Follow the world's top athletes as they go for gold in France (Jul 26-Aug 11, 2024). ... HIGHLIGHTS View all. Summer MCINTOSH. Summer McIntosh (CAN) | Swimming | Athlete Profile. Athletics. Women's Marathon | Athletics | Olympic Games Paris 2024. Swimming. Men's 200m Breaststroke - Final ...",
+                            "score": 0.9925104,
+                            "raw_content": null
+                        },
+                        {
+                            "title": "2024 Olympics: Day 1 Finals Live Recap - SwimSwam",
+                            "url": "https://swimswam.com/2024-olympics-day-1-finals-live-recap/",
+                            "content": "2024 PARIS SUMMER OLYMPIC GAMES. Pool Swimming: July 27 - August 4, 2024 ... ⚡️2024 PARIS OLYMPIC GAMES SWIMMING RESULTS- DAY 1 FINALS . WOMEN'S 100 FLY- SEMIFINALS WR: 55.18 Gretchen ...",
+                            "score": 0.9917164,
+                            "raw_content": null
+                        }
+                    ],
+                    "response_time": 3.69
+                }
+            }
+        ]
+    }
+]

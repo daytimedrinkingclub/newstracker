@@ -17,6 +17,11 @@ class AnthropicChat:
         from .tool import ToolsHandler  # Move this import inside the method
         with current_app.app_context():
             try:
+                # Get the keyword associated with this analysis
+                keyword = DataService.get_keyword_for_analysis(keyword_analysis_id)
+                if not keyword:
+                    raise ValueError("No keyword found for this analysis")
+
                 # Get user plan and API key
                 user_plan_type = DataService.get_user_plans(user_id)
                 logging.info(f"User plan type: {user_plan_type}")
@@ -30,8 +35,12 @@ class AnthropicChat:
                 if not tools:
                     raise ValueError("No tools were loaded. Check your tool JSON files.")
                 
-                
                 conversation = ContextService.build_context(keyword_analysis_id)
+
+                # Add the keyword as the first user message if the conversation is empty
+                if not conversation:
+                    conversation = [{"role": "user", "content": [{"type": "text", "text": f"Analyze the news for the keyword: {keyword}"}]}]
+                    DataService.save_message(keyword_analysis_id, "user", content=f"Analyze the news for the keyword: {keyword}")
 
                 conversation = conversation[-5:]
                 logging.info(f"Conversation: {conversation}")
@@ -45,7 +54,6 @@ class AnthropicChat:
                         if i == 0 or not any(block['type'] == 'tool_use' for block in conversation[i-1]['content']):
                             # Remove invalid tool_result block
                             message['content'] = [block for block in message['content'] if block['type'] != 'tool_result']
-                
                 logging.info(f"Conversation context length: {len(conversation)}")
                 logging.info(f"Sending request to Anthropic API")
                 
@@ -100,11 +108,10 @@ class AnthropicChat:
                 raise
 
     @staticmethod
-    def handle_chat(user_id: str, keyword_id: str, analysis_id: str) -> Dict[str, Any]:
-        logging.info(f"Starting handle_chat for user_id: {user_id}, keyword_id: {keyword_id}, analysis_id: {analysis_id}")
+    def handle_chat(user_id: str, keyword_id: str, analysis_id: str, keyword: str) -> Dict[str, Any]:
+        logging.info(f"Starting handle_chat for user_id: {user_id}, keyword_id: {keyword_id}, analysis_id: {analysis_id}, keyword: {keyword}")
         try:
-            keyword = DataService.get_keyword_by_id(keyword_id)
-            DataService.save_message(analysis_id, "user", content=keyword)
+            DataService.save_message(analysis_id, "user", content=f"Analyze the news for the keyword: {keyword}")
             result = AnthropicChat.process_conversation(analysis_id, user_id)
             DataService.update_analysis_status(analysis_id, result['status'])
             logging.info(f"Analysis started for {analysis_id}")

@@ -2,6 +2,7 @@ import logging
 import os
 import anthropic
 from ..models.data_service import DataService
+from ..utils.rate_limiter import RateLimiter, exponential_backoff
 
 class AnthropicService:
     @staticmethod
@@ -18,6 +19,8 @@ class AnthropicService:
             raise ValueError(f"Unknown tool name: {tool_name}")
 
     @staticmethod
+    @RateLimiter(max_calls=5, period=60)  # 10 calls per minute
+    @exponential_backoff(max_retries=3, base_delay=2)
     def call_anthropic(tool_name, user_message, user_id):
         logging.info(f"Calling Anthropic for tool: {tool_name}")
         
