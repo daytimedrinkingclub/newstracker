@@ -1,3 +1,4 @@
+import logging
 import requests
 import json
 from typing import Dict, Any
@@ -38,14 +39,18 @@ class SearchService:
         }
 
         try:
+            logging.info(f"Sending request to Tavily API with payload: {payload}")
             response = requests.post(endpoint, json=payload)
             response.raise_for_status()
-            return response.json()
+            result = response.json()
+            logging.info(f"Search result length: {len(str(result))} characters")
+            logging.info(f"Search result: {result}")
+            return result
         except requests.RequestException as e:
             if e.response is not None and e.response.status_code == 422:
-                print("Received a 422 error. Please check your request parameters.")
+                logging.error(f"Received a 422 error. Response content: {e.response.content}")
                 return {"error": "Invalid request parameters. Please check your input."}
-            print(f"An error occurred while making the request: {e}")
+            logging.error(f"An error occurred while making the request: {e}")
             return {"error": str(e)}
         except json.JSONDecodeError:
             print("Failed to decode the API response")

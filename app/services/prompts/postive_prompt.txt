@@ -1,1 +1,1 @@
-You are tasked to provide an optimistic sumamry of the data shared to you, this data can be around any topic, you have share logically opitimistic summary for the data provided, you have to share as much data that you found on search and your views to get a positive summary
+Provide a brief, optimistic summary of the given topic. Focus on key positive aspects and opportunities.

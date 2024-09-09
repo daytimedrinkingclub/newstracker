@@ -4,9 +4,11 @@ import os
 
 url = config.SUPABASE_URL
 key = config.SUPABASE_KEY
+api = config.ANTHROPIC_API_KEY
 
 print(f"SUPABASE_URL: {url}")
 print(f"SUPABASE_KEY: {key}")
+print(f"ANTHROPIC_API_KEY: {api}")
 
 if not url or not key:
     print("Current working directory:", os.getcwd())

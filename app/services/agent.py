@@ -30,8 +30,15 @@ class AnthropicChat:
                 if not tools:
                     raise ValueError("No tools were loaded. Check your tool JSON files.")
                 
-                conversation = ContextService.build_context(keyword_analysis_id)
                 
+                conversation = ContextService.build_context(keyword_analysis_id)
+
+                conversation = conversation[-5:]
+                logging.info(f"Conversation: {conversation}")
+
+                total_tokens = sum(len(json.dumps(msg)) for msg in conversation)
+                logging.info(f"Total tokens in conversation: {total_tokens}")
+
                 # Validate conversation structure
                 for i, message in enumerate(conversation):
                     if message['role'] == 'user' and any(block['type'] == 'tool_result' for block in message['content']):
@@ -47,7 +54,7 @@ class AnthropicChat:
                 
                 response = client.messages.create(
                     model="claude-3-5-sonnet-20240620",
-                    max_tokens=2000,
+                    max_tokens=1000,
                     temperature=0,
                     system=f"""
                     Today is {today}.

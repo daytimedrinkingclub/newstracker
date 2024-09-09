@@ -25,8 +25,6 @@ class AnthropicService:
         user_plans = DataService.get_user_plans(user_id)
         user_plan_type = user_plans[0]['plan'] if user_plans else None
 
-        logging.info(f"User plan type: {user_plan_type}")
-        
         # Determine which API key to use
         if user_plan_type == "freemium":
             keys = DataService.get_user_anthropic_keys(user_id)
@@ -35,23 +33,25 @@ class AnthropicService:
         else:
             raise ValueError(f"Unknown user plan type: {user_plan_type}")
 
-        logging.info(f"API key retrieved: {'Yes' if keys else 'No'}")
-
         client = anthropic.Anthropic(api_key=keys)
 
         prompt = AnthropicService.prompt_selector(tool_name)
-        logging.info(f"Prompt selected: {prompt[:50]}...")  # Log first 50 characters of prompt
-        logging.info(f"Sending request to Anthropic API")
-
+        logging.info(f"Prompt: {prompt}")
+        
+        # Adjust max_tokens based on the input length
+        input_length = len(user_message)
+        max_tokens = min(4000, max(1000, input_length * 2))  # Adjust this formula as needed
+        
         response = client.messages.create(
             model="claude-3-5-sonnet-20240620",
-            max_tokens=2000,
+            max_tokens=max_tokens,
             system=prompt,
             temperature=0,
             messages=[
-                {"role": "user", "content": user_message}
+                {"role": "user", "content": user_message[:4000]}  # Limit user message to 4000 characters
             ]
         )
 
-        logging.info(f"Response received from Anthropic API")
-        return response.content[0].text
+        result = response.content[0].text[:4000]  # Limit response to 4000 characters
+        logging.info(f"Anthropic response length: {len(result)} characters")
+        return result

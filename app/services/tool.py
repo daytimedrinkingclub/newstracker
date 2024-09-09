@@ -27,14 +27,25 @@ class Tools:
 class ToolsHandler:
     @staticmethod
     def process_tool_use(tool_name, tool_input, tool_use_id, keyword_analysis_id, user_id):
-        from .agent import AnthropicChat  # Move this import inside the method
+        from .agent import AnthropicChat
         logging.info(f"Processing tool use: {tool_name} for analysis {keyword_analysis_id}")
         
         try:
             result = None
             if tool_name == "search_web":
                 key = DataService.get_user_tavily_keys(user_id)
-                result = SearchService.search(tool_input['search_query'], user_id, key)
+                logging.info(f"Search query: {tool_input['search_query']}")
+                logging.info(f"User ID: {user_id}")
+                logging.info(f"Tavily API key: {key}")
+                result = SearchService.search(tool_input['search_query'], user_id, key=key)
+                logging.info(f"Search results: {result}")
+                
+                # Truncate the result if it's too long
+                max_result_length = 4000  # Adjust this value as needed
+                if len(str(result)) > max_result_length:
+                    logging.warning(f"Search result truncated from {len(str(result))} to {max_result_length} characters")
+                    result = str(result)[:max_result_length] + "... (truncated)"
+            
             elif tool_name == "positive_summary":
                 result = AnthropicService.call_anthropic(tool_input['data_to_analyse'], "positive_prompt", user_id)
             elif tool_name == "negative_summary":

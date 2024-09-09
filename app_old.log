@@ -1,0 +1,1011 @@
+2024-09-09 13:41:04,872 - werkzeug - WARNING -  * Debugger is active!
+2024-09-09 13:41:04,876 - werkzeug - INFO -  * Debugger PIN: 330-279-427
+2024-09-09 13:44:08,993 - httpx - INFO - HTTP Request: GET https://ihmwyribamieeumszjjv.supabase.co/auth/v1/user "HTTP/2 200 OK"
+2024-09-09 13:44:08,995 - root - INFO - Entering start_analysis for keyword_id: 5eb27417-cd60-4c5e-a37b-d2eece9341e0
+2024-09-09 13:44:09,097 - httpx - INFO - HTTP Request: GET https://ihmwyribamieeumszjjv.supabase.co/auth/v1/user "HTTP/2 200 OK"
+2024-09-09 13:44:09,098 - root - INFO - User: a01fe001-ddb1-423e-aea4-a376d7740303
+2024-09-09 13:44:09,701 - httpx - INFO - HTTP Request: GET https://ihmwyribamieeumszjjv.supabase.co/rest/v1/user_keyword?select=keyword&id=eq.5eb27417-cd60-4c5e-a37b-d2eece9341e0 "HTTP/2 200 OK"
+2024-09-09 13:44:09,710 - root - INFO - Keyword: who is gonna win the  2024 US elections?
+2024-09-09 13:44:09,907 - httpx - INFO - HTTP Request: GET https://ihmwyribamieeumszjjv.supabase.co/rest/v1/keyword_analysis?select=%2A&keyword_id=eq.5eb27417-cd60-4c5e-a37b-d2eece9341e0&status=in.%28pending%2Cprocessing%29&order=created_at.desc&limit=1 "HTTP/2 200 OK"
+2024-09-09 13:44:09,908 - root - INFO - Active analysis query result: []
+2024-09-09 13:44:09,908 - root - INFO - Creating new analysis
+2024-09-09 13:44:10,003 - httpx - INFO - HTTP Request: POST https://ihmwyribamieeumszjjv.supabase.co/rest/v1/keyword_analysis "HTTP/2 201 Created"
+2024-09-09 13:44:10,005 - root - INFO - Starting handle_chat for user_id: a01fe001-ddb1-423e-aea4-a376d7740303, keyword_id: 5eb27417-cd60-4c5e-a37b-d2eece9341e0, analysis_id: 7fdbb051-f0c1-49f6-b958-2daec5e89809
+2024-09-09 13:44:10,102 - httpx - INFO - HTTP Request: GET https://ihmwyribamieeumszjjv.supabase.co/rest/v1/user_keyword?select=keyword&id=eq.5eb27417-cd60-4c5e-a37b-d2eece9341e0 "HTTP/2 200 OK"
+2024-09-09 13:44:10,105 - root - INFO - Attempting to save message: {'keyword_analysis_id': '7fdbb051-f0c1-49f6-b958-2daec5e89809', 'role': 'user', 'content': 'who is gonna win the  2024 US elections?'}
+2024-09-09 13:44:10,205 - httpx - INFO - HTTP Request: POST https://ihmwyribamieeumszjjv.supabase.co/rest/v1/analysis_messages "HTTP/2 201 Created"
+2024-09-09 13:44:10,207 - root - INFO - Message saved successfully: {'id': 'ffe26bf8-37d1-4615-b9c5-47c858296837', 'keyword_analysis_id': '7fdbb051-f0c1-49f6-b958-2daec5e89809', 'role': 'user', 'content': 'who is gonna win the  2024 US elections?', 'tool_name': None, 'tool_use_id': None, 'tool_input': None, 'tool_result': None, 'created_at': '2024-09-09T08:14:10.258726+00:00'}
+2024-09-09 13:44:10,316 - httpx - INFO - HTTP Request: GET https://ihmwyribamieeumszjjv.supabase.co/rest/v1/user_plan?select=%2A&user_id=eq.a01fe001-ddb1-423e-aea4-a376d7740303 "HTTP/2 200 OK"
+2024-09-09 13:44:10,321 - root - INFO - User plans fetched successfully: [{'id': 'ee8522d2-d935-4f21-9d0d-fd5127cc62fe', 'plan': 'freemium', 'user_id': 'a01fe001-ddb1-423e-aea4-a376d7740303', 'created_at': '2024-09-09T07:33:47.586069+00:00', 'updated_at': '2024-09-09T07:33:47.586069', 'keyword_limit': None}]
+2024-09-09 13:44:10,322 - root - INFO - User plan type: [{'id': 'ee8522d2-d935-4f21-9d0d-fd5127cc62fe', 'plan': 'freemium', 'user_id': 'a01fe001-ddb1-423e-aea4-a376d7740303', 'created_at': '2024-09-09T07:33:47.586069+00:00', 'updated_at': '2024-09-09T07:33:47.586069', 'keyword_limit': None}]
+2024-09-09 13:44:10,322 - root - INFO - API keys retrieved: Yes
+2024-09-09 13:44:10,827 - root - INFO - Tools loaded and returned 4 tools
+2024-09-09 13:44:10,827 - root - INFO - Number of tools loaded: 4
+2024-09-09 13:44:10,920 - httpx - INFO - HTTP Request: GET https://ihmwyribamieeumszjjv.supabase.co/rest/v1/analysis_messages?select=%2A&keyword_analysis_id=eq.7fdbb051-f0c1-49f6-b958-2daec5e89809&order=created_at "HTTP/2 200 OK"
+2024-09-09 13:44:10,922 - root - INFO - Retrieved messages for chat_id: 7fdbb051-f0c1-49f6-b958-2daec5e89809
+2024-09-09 13:44:10,922 - root - INFO - Conversation context: [
+  {
+    "role": "user",
+    "content": [
+      {
+        "type": "text",
+        "text": "who is gonna win the  2024 US elections?"
+      }
+    ]
+  }
+]
+2024-09-09 13:44:10,923 - root - INFO - Number of messages in conversation: 1
+2024-09-09 13:44:10,923 - root - INFO - Total tokens in conversation: 99
+2024-09-09 13:44:10,923 - root - INFO - Sending request to Anthropic API
+2024-09-09 13:44:15,470 - httpx - INFO - HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2024-09-09 13:44:15,483 - root - INFO - Response Received from ANTHROPIC API: {
+  "id": "msg_01FbS24DNeZpJw85YXx2qRhP",
+  "content": [
+    {
+      "text": "To analyze the current situation regarding the 2024 US elections and provide a balanced summary, I'll need to gather information from various sources. Let's start by searching for recent news and predictions about the upcoming election.",
+      "type": "text"
+    },
+    {
+      "id": "toolu_017a2N8JdnR6xM2DgniukPoP",
+      "input": {
+        "search_query": "2024 US presidential election predictions and polls"
+      },
+      "name": "search_web",
+      "type": "tool_use"
+    }
+  ],
+  "model": "claude-3-5-sonnet-20240620",
+  "role": "assistant",
+  "stop_reason": "tool_use",
+  "stop_sequence": null,
+  "type": "message",
+  "usage": {
+    "input_tokens": 1072,
+    "output_tokens": 108
+  }
+}
+2024-09-09 13:44:15,484 - root - INFO - Attempting to save message: {'keyword_analysis_id': '7fdbb051-f0c1-49f6-b958-2daec5e89809', 'role': 'assistant', 'content': "To analyze the current situation regarding the 2024 US elections and provide a balanced summary, I'll need to gather information from various sources. Let's start by searching for recent news and predictions about the upcoming election."}
+2024-09-09 13:44:15,580 - httpx - INFO - HTTP Request: POST https://ihmwyribamieeumszjjv.supabase.co/rest/v1/analysis_messages "HTTP/2 201 Created"
+2024-09-09 13:44:15,586 - root - INFO - Message saved successfully: {'id': '22557fc5-b158-4d19-9d7f-1b74c91bd8e4', 'keyword_analysis_id': '7fdbb051-f0c1-49f6-b958-2daec5e89809', 'role': 'assistant', 'content': "To analyze the current situation regarding the 2024 US elections and provide a balanced summary, I'll need to gather information from various sources. Let's start by searching for recent news and predictions about the upcoming election.", 'tool_name': None, 'tool_use_id': None, 'tool_input': None, 'tool_result': None, 'created_at': '2024-09-09T08:14:15.634478+00:00'}
+2024-09-09 13:44:15,586 - root - INFO - Tool use detected: search_web
+2024-09-09 13:44:15,593 - root - INFO - Attempting to save message: {'keyword_analysis_id': '7fdbb051-f0c1-49f6-b958-2daec5e89809', 'role': 'assistant', 'content': "To analyze the current situation regarding the 2024 US elections and provide a balanced summary, I'll need to gather information from various sources. Let's start by searching for recent news and predictions about the upcoming election.", 'tool_name': 'search_web', 'tool_use_id': 'toolu_017a2N8JdnR6xM2DgniukPoP', 'tool_input': {'search_query': '2024 US presidential election predictions and polls'}}
+2024-09-09 13:44:15,680 - httpx - INFO - HTTP Request: POST https://ihmwyribamieeumszjjv.supabase.co/rest/v1/analysis_messages "HTTP/2 201 Created"
+2024-09-09 13:44:15,680 - root - INFO - Message saved successfully: {'id': 'af3cdea6-5ea7-483e-a905-82f43b4ee0e6', 'keyword_analysis_id': '7fdbb051-f0c1-49f6-b958-2daec5e89809', 'role': 'assistant', 'content': "To analyze the current situation regarding the 2024 US elections and provide a balanced summary, I'll need to gather information from various sources. Let's start by searching for recent news and predictions about the upcoming election.", 'tool_name': 'search_web', 'tool_use_id': 'toolu_017a2N8JdnR6xM2DgniukPoP', 'tool_input': {'search_query': '2024 US presidential election predictions and polls'}, 'tool_result': None, 'created_at': '2024-09-09T08:14:15.743718+00:00'}
+2024-09-09 13:44:15,680 - root - INFO - Processing tool use: search_web for analysis 7fdbb051-f0c1-49f6-b958-2daec5e89809
+2024-09-09 13:44:15,782 - httpx - INFO - HTTP Request: GET https://ihmwyribamieeumszjjv.supabase.co/rest/v1/user_api_token?select=tavily_api_key&user_id=eq.a01fe001-ddb1-423e-aea4-a376d7740303 "HTTP/2 200 OK"
+2024-09-09 13:44:15,783 - root - INFO - Tavily API key found: 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
+2024-09-09 13:44:16,873 - root - INFO - Tool search_web executed successfully
+2024-09-09 13:44:16,874 - root - INFO - Attempting to save message: {'keyword_analysis_id': '7fdbb051-f0c1-49f6-b958-2daec5e89809', 'role': 'user', 'content': 'Tool result', 'tool_result': "{'error': 'Invalid request parameters. Please check your input.'}", 'tool_use_id': 'toolu_017a2N8JdnR6xM2DgniukPoP'}
+2024-09-09 13:44:16,967 - httpx - INFO - HTTP Request: POST https://ihmwyribamieeumszjjv.supabase.co/rest/v1/analysis_messages "HTTP/2 201 Created"
+2024-09-09 13:44:16,968 - root - INFO - Message saved successfully: {'id': '8522c0c9-44a5-4f96-ba0b-d00d6daa9eff', 'keyword_analysis_id': '7fdbb051-f0c1-49f6-b958-2daec5e89809', 'role': 'user', 'content': 'Tool result', 'tool_name': None, 'tool_use_id': 'toolu_017a2N8JdnR6xM2DgniukPoP', 'tool_input': None, 'tool_result': "{'error': 'Invalid request parameters. Please check your input.'}", 'created_at': '2024-09-09T08:14:17.023949+00:00'}
+2024-09-09 13:44:17,063 - httpx - INFO - HTTP Request: GET https://ihmwyribamieeumszjjv.supabase.co/rest/v1/user_plan?select=%2A&user_id=eq.a01fe001-ddb1-423e-aea4-a376d7740303 "HTTP/2 200 OK"
+2024-09-09 13:44:17,064 - root - INFO - User plans fetched successfully: [{'id': 'ee8522d2-d935-4f21-9d0d-fd5127cc62fe', 'plan': 'freemium', 'user_id': 'a01fe001-ddb1-423e-aea4-a376d7740303', 'created_at': '2024-09-09T07:33:47.586069+00:00', 'updated_at': '2024-09-09T07:33:47.586069', 'keyword_limit': None}]
+2024-09-09 13:44:17,065 - root - INFO - User plan type: [{'id': 'ee8522d2-d935-4f21-9d0d-fd5127cc62fe', 'plan': 'freemium', 'user_id': 'a01fe001-ddb1-423e-aea4-a376d7740303', 'created_at': '2024-09-09T07:33:47.586069+00:00', 'updated_at': '2024-09-09T07:33:47.586069', 'keyword_limit': None}]
+2024-09-09 13:44:17,065 - root - INFO - API keys retrieved: Yes
+2024-09-09 13:44:17,316 - root - INFO - Tools loaded and returned 4 tools
+2024-09-09 13:44:17,317 - root - INFO - Number of tools loaded: 4
+2024-09-09 13:44:17,413 - httpx - INFO - HTTP Request: GET https://ihmwyribamieeumszjjv.supabase.co/rest/v1/analysis_messages?select=%2A&keyword_analysis_id=eq.7fdbb051-f0c1-49f6-b958-2daec5e89809&order=created_at "HTTP/2 200 OK"
+2024-09-09 13:44:17,414 - root - INFO - Retrieved messages for chat_id: 7fdbb051-f0c1-49f6-b958-2daec5e89809
+2024-09-09 13:44:17,415 - root - INFO - Conversation context: [
+  {
+    "role": "user",
+    "content": [
+      {
+        "type": "text",
+        "text": "who is gonna win the  2024 US elections?"
+      }
+    ]
+  },
+  {
+    "role": "assistant",
+    "content": [
+      {
+        "type": "text",
+        "text": "To analyze the current situation regarding the 2024 US elections and provide a balanced summary, I'll need to gather information from various sources. Let's start by searching for recent news and predictions about the upcoming election."
+      }
+    ]
+  },
+  {
+    "role": "user",
+    "content": [
+      {
+        "type": "text",
+        "text": "Tool result"
+      },
+      {
+        "type": "tool_result",
+        "tool_use_id": "toolu_017a2N8JdnR6xM2DgniukPoP",
+        "content": "{'error': 'Invalid request parameters. Please check your input.'}"
+      }
+    ]
+  }
+]
+2024-09-09 13:44:17,415 - root - INFO - Number of messages in conversation: 3
+2024-09-09 13:44:17,415 - root - INFO - Total tokens in conversation: 623
+2024-09-09 13:44:17,415 - root - INFO - Sending request to Anthropic API
+2024-09-09 13:44:17,894 - httpx - INFO - HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 400 Bad Request"
+2024-09-09 13:44:17,895 - root - ERROR - Error in process_conversation: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'messages.2: `tool_result` block(s) provided when previous message does not contain any `tool_use` blocks'}}
+2024-09-09 13:44:17,990 - httpx - INFO - HTTP Request: PATCH https://ihmwyribamieeumszjjv.supabase.co/rest/v1/keyword_analysis?id=eq.7fdbb051-f0c1-49f6-b958-2daec5e89809 "HTTP/2 200 OK"
+2024-09-09 13:44:17,995 - root - ERROR - Error processing tool use for search_web: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'messages.2: `tool_result` block(s) provided when previous message does not contain any `tool_use` blocks'}}
+2024-09-09 13:44:18,096 - httpx - INFO - HTTP Request: PATCH https://ihmwyribamieeumszjjv.supabase.co/rest/v1/keyword_analysis?id=eq.7fdbb051-f0c1-49f6-b958-2daec5e89809 "HTTP/2 200 OK"
+2024-09-09 13:44:18,097 - root - ERROR - Error in process_conversation: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'messages.2: `tool_result` block(s) provided when previous message does not contain any `tool_use` blocks'}}
+2024-09-09 13:44:18,397 - httpx - INFO - HTTP Request: PATCH https://ihmwyribamieeumszjjv.supabase.co/rest/v1/keyword_analysis?id=eq.7fdbb051-f0c1-49f6-b958-2daec5e89809 "HTTP/2 200 OK"
+2024-09-09 13:44:18,398 - root - ERROR - Error in handle_chat: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'messages.2: `tool_result` block(s) provided when previous message does not contain any `tool_use` blocks'}}
+2024-09-09 13:44:18,611 - httpx - INFO - HTTP Request: PATCH https://ihmwyribamieeumszjjv.supabase.co/rest/v1/keyword_analysis?id=eq.7fdbb051-f0c1-49f6-b958-2daec5e89809 "HTTP/2 200 OK"
+2024-09-09 13:44:18,613 - werkzeug - INFO - 127.0.0.1 - - [09/Sep/2024 13:44:18] "POST /startanalysis/5eb27417-cd60-4c5e-a37b-d2eece9341e0 HTTP/1.1" 200 -
+2024-09-09 13:44:18,772 - httpx - INFO - HTTP Request: GET https://ihmwyribamieeumszjjv.supabase.co/auth/v1/user "HTTP/2 200 OK"
+2024-09-09 13:44:19,021 - httpx - INFO - HTTP Request: GET https://ihmwyribamieeumszjjv.supabase.co/rest/v1/keyword_analysis?select=%2A&keyword_id=eq.5eb27417-cd60-4c5e-a37b-d2eece9341e0&order=created_at.desc&limit=1 "HTTP/2 200 OK"
+2024-09-09 13:44:19,023 - werkzeug - INFO - 127.0.0.1 - - [09/Sep/2024 13:44:19] "GET /task_status/5eb27417-cd60-4c5e-a37b-d2eece9341e0 HTTP/1.1" 200 -
+2024-09-09 13:45:39,522 - werkzeug - INFO -  * Detected change in 'E:\\intern\\newstracker\\app\\services\\agent.py', reloading
+2024-09-09 13:45:41,782 - werkzeug - WARNING -  * Debugger is active!
+2024-09-09 13:45:41,785 - werkzeug - INFO -  * Debugger PIN: 330-279-427
+2024-09-09 13:46:44,374 - werkzeug - INFO -  * Detected change in 'E:\\intern\\newstracker\\app\\services\\agent.py', reloading
+2024-09-09 13:46:46,819 - werkzeug - WARNING -  * Debugger is active!
+2024-09-09 13:46:46,828 - werkzeug - INFO -  * Debugger PIN: 330-279-427
+2024-09-09 13:46:52,092 - httpx - INFO - HTTP Request: GET https://ihmwyribamieeumszjjv.supabase.co/auth/v1/user "HTTP/2 200 OK"
+2024-09-09 13:46:52,094 - root - INFO - Entering start_analysis for keyword_id: 5eb27417-cd60-4c5e-a37b-d2eece9341e0
+2024-09-09 13:46:52,203 - httpx - INFO - HTTP Request: GET https://ihmwyribamieeumszjjv.supabase.co/auth/v1/user "HTTP/2 200 OK"
+2024-09-09 13:46:52,204 - root - INFO - User: a01fe001-ddb1-423e-aea4-a376d7740303
+2024-09-09 13:46:52,630 - httpx - INFO - HTTP Request: GET https://ihmwyribamieeumszjjv.supabase.co/rest/v1/user_keyword?select=keyword&id=eq.5eb27417-cd60-4c5e-a37b-d2eece9341e0 "HTTP/2 200 OK"
+2024-09-09 13:46:52,635 - root - INFO - Keyword: who is gonna win the  2024 US elections?
+2024-09-09 13:46:52,761 - httpx - INFO - HTTP Request: GET https://ihmwyribamieeumszjjv.supabase.co/rest/v1/keyword_analysis?select=%2A&keyword_id=eq.5eb27417-cd60-4c5e-a37b-d2eece9341e0&status=in.%28pending%2Cprocessing%29&order=created_at.desc&limit=1 "HTTP/2 200 OK"
+2024-09-09 13:46:52,762 - root - INFO - Active analysis query result: []
+2024-09-09 13:46:52,763 - root - INFO - Creating new analysis
+2024-09-09 13:46:52,858 - httpx - INFO - HTTP Request: POST https://ihmwyribamieeumszjjv.supabase.co/rest/v1/keyword_analysis "HTTP/2 201 Created"
+2024-09-09 13:46:52,860 - root - INFO - Starting handle_chat for user_id: a01fe001-ddb1-423e-aea4-a376d7740303, keyword_id: 5eb27417-cd60-4c5e-a37b-d2eece9341e0, analysis_id: bb66da14-8ecf-4bca-ace0-734ec893b269
+2024-09-09 13:46:52,953 - httpx - INFO - HTTP Request: GET https://ihmwyribamieeumszjjv.supabase.co/rest/v1/user_keyword?select=keyword&id=eq.5eb27417-cd60-4c5e-a37b-d2eece9341e0 "HTTP/2 200 OK"
+2024-09-09 13:46:52,955 - root - INFO - Attempting to save message: {'keyword_analysis_id': 'bb66da14-8ecf-4bca-ace0-734ec893b269', 'role': 'user', 'content': 'who is gonna win the  2024 US elections?'}
+2024-09-09 13:46:53,055 - httpx - INFO - HTTP Request: POST https://ihmwyribamieeumszjjv.supabase.co/rest/v1/analysis_messages "HTTP/2 201 Created"
+2024-09-09 13:46:53,057 - root - INFO - Message saved successfully: {'id': 'be151d5b-f83f-4693-9bfa-272b3e15173f', 'keyword_analysis_id': 'bb66da14-8ecf-4bca-ace0-734ec893b269', 'role': 'user', 'content': 'who is gonna win the  2024 US elections?', 'tool_name': None, 'tool_use_id': None, 'tool_input': None, 'tool_result': None, 'created_at': '2024-09-09T08:16:53.113891+00:00'}
+2024-09-09 13:46:53,157 - httpx - INFO - HTTP Request: GET https://ihmwyribamieeumszjjv.supabase.co/rest/v1/user_plan?select=%2A&user_id=eq.a01fe001-ddb1-423e-aea4-a376d7740303 "HTTP/2 200 OK"
+2024-09-09 13:46:53,159 - root - INFO - User plans fetched successfully: [{'id': 'ee8522d2-d935-4f21-9d0d-fd5127cc62fe', 'plan': 'freemium', 'user_id': 'a01fe001-ddb1-423e-aea4-a376d7740303', 'created_at': '2024-09-09T07:33:47.586069+00:00', 'updated_at': '2024-09-09T07:33:47.586069', 'keyword_limit': None}]
+2024-09-09 13:46:53,159 - root - INFO - User plan type: [{'id': 'ee8522d2-d935-4f21-9d0d-fd5127cc62fe', 'plan': 'freemium', 'user_id': 'a01fe001-ddb1-423e-aea4-a376d7740303', 'created_at': '2024-09-09T07:33:47.586069+00:00', 'updated_at': '2024-09-09T07:33:47.586069', 'keyword_limit': None}]
+2024-09-09 13:46:53,159 - root - INFO - API keys retrieved: Yes
+2024-09-09 13:46:53,614 - root - INFO - Tools loaded and returned 4 tools
+2024-09-09 13:46:53,615 - root - INFO - Number of tools loaded: 4
+2024-09-09 13:46:53,714 - httpx - INFO - HTTP Request: GET https://ihmwyribamieeumszjjv.supabase.co/rest/v1/analysis_messages?select=%2A&keyword_analysis_id=eq.bb66da14-8ecf-4bca-ace0-734ec893b269&order=created_at "HTTP/2 200 OK"
+2024-09-09 13:46:53,718 - root - INFO - Retrieved messages for chat_id: bb66da14-8ecf-4bca-ace0-734ec893b269
+2024-09-09 13:46:53,719 - root - INFO - Conversation context length: 1
+2024-09-09 13:46:53,719 - root - INFO - Total tokens in conversation: 99
+2024-09-09 13:46:53,719 - root - INFO - Sending request to Anthropic API
+2024-09-09 13:46:53,719 - root - INFO - Conversation context: [
+  {
+    "role": "user",
+    "content": [
+      {
+        "type": "text",
+        "text": "who is gonna win the  2024 US elections?"
+      }
+    ]
+  }
+]
+2024-09-09 13:46:53,719 - root - INFO - Number of messages in conversation: 1
+2024-09-09 13:46:59,174 - httpx - INFO - HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2024-09-09 13:46:59,180 - root - INFO - Response Received from ANTHROPIC API: Message(id='msg_01SZU8TTvh2DrYKBzAvFVEQd', content=[TextBlock(text="To analyze the current situation regarding the 2024 US elections and provide a balanced summary, I'll need to gather information from various sources. Let's start by searching for recent news and predictions about the upcoming election.", type='text'), ToolUseBlock(id='toolu_01BBHiYsQZtifwNdFL93ohiF', input={'search_query': '2024 US presidential election predictions and polls'}, name='search_web', type='tool_use')], model='claude-3-5-sonnet-20240620', role='assistant', stop_reason='tool_use', stop_sequence=None, type='message', usage=Usage(input_tokens=1072, output_tokens=108))
+2024-09-09 13:46:59,181 - root - INFO - Attempting to save message: {'keyword_analysis_id': 'bb66da14-8ecf-4bca-ace0-734ec893b269', 'role': 'assistant', 'content': "To analyze the current situation regarding the 2024 US elections and provide a balanced summary, I'll need to gather information from various sources. Let's start by searching for recent news and predictions about the upcoming election."}
+2024-09-09 13:46:59,358 - httpx - INFO - HTTP Request: POST https://ihmwyribamieeumszjjv.supabase.co/rest/v1/analysis_messages "HTTP/2 201 Created"
+2024-09-09 13:46:59,363 - root - INFO - Message saved successfully: {'id': '86fd6cc6-6daa-43ab-b71e-38591119014e', 'keyword_analysis_id': 'bb66da14-8ecf-4bca-ace0-734ec893b269', 'role': 'assistant', 'content': "To analyze the current situation regarding the 2024 US elections and provide a balanced summary, I'll need to gather information from various sources. Let's start by searching for recent news and predictions about the upcoming election.", 'tool_name': None, 'tool_use_id': None, 'tool_input': None, 'tool_result': None, 'created_at': '2024-09-09T08:16:59.41499+00:00'}
+2024-09-09 13:46:59,363 - root - INFO - Tool use detected: search_web
+2024-09-09 13:46:59,364 - root - INFO - Attempting to save message: {'keyword_analysis_id': 'bb66da14-8ecf-4bca-ace0-734ec893b269', 'role': 'assistant', 'content': "To analyze the current situation regarding the 2024 US elections and provide a balanced summary, I'll need to gather information from various sources. Let's start by searching for recent news and predictions about the upcoming election.", 'tool_name': 'search_web', 'tool_use_id': 'toolu_01BBHiYsQZtifwNdFL93ohiF', 'tool_input': {'search_query': '2024 US presidential election predictions and polls'}}
+2024-09-09 13:46:59,469 - httpx - INFO - HTTP Request: POST https://ihmwyribamieeumszjjv.supabase.co/rest/v1/analysis_messages "HTTP/2 201 Created"
+2024-09-09 13:46:59,470 - root - INFO - Message saved successfully: {'id': 'c5295f76-981f-41a7-8353-472cdb4a2a3e', 'keyword_analysis_id': 'bb66da14-8ecf-4bca-ace0-734ec893b269', 'role': 'assistant', 'content': "To analyze the current situation regarding the 2024 US elections and provide a balanced summary, I'll need to gather information from various sources. Let's start by searching for recent news and predictions about the upcoming election.", 'tool_name': 'search_web', 'tool_use_id': 'toolu_01BBHiYsQZtifwNdFL93ohiF', 'tool_input': {'search_query': '2024 US presidential election predictions and polls'}, 'tool_result': None, 'created_at': '2024-09-09T08:16:59.520254+00:00'}
+2024-09-09 13:46:59,470 - root - INFO - Processing tool use: search_web for analysis bb66da14-8ecf-4bca-ace0-734ec893b269
+2024-09-09 13:46:59,570 - httpx - INFO - HTTP Request: GET https://ihmwyribamieeumszjjv.supabase.co/rest/v1/user_api_token?select=tavily_api_key&user_id=eq.a01fe001-ddb1-423e-aea4-a376d7740303 "HTTP/2 200 OK"
+2024-09-09 13:46:59,571 - root - INFO - Tavily API key found: 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
+2024-09-09 13:47:00,724 - root - INFO - Tool search_web executed successfully
+2024-09-09 13:47:00,724 - root - INFO - Attempting to save message: {'keyword_analysis_id': 'bb66da14-8ecf-4bca-ace0-734ec893b269', 'role': 'user', 'content': 'Tool result', 'tool_result': "{'error': 'Invalid request parameters. Please check your input.'}", 'tool_use_id': 'toolu_01BBHiYsQZtifwNdFL93ohiF'}
+2024-09-09 13:47:00,827 - httpx - INFO - HTTP Request: POST https://ihmwyribamieeumszjjv.supabase.co/rest/v1/analysis_messages "HTTP/2 201 Created"
+2024-09-09 13:47:00,831 - root - INFO - Message saved successfully: {'id': 'ee0cbf56-ca58-41ef-a427-35c8f536610e', 'keyword_analysis_id': 'bb66da14-8ecf-4bca-ace0-734ec893b269', 'role': 'user', 'content': 'Tool result', 'tool_name': None, 'tool_use_id': 'toolu_01BBHiYsQZtifwNdFL93ohiF', 'tool_input': None, 'tool_result': "{'error': 'Invalid request parameters. Please check your input.'}", 'created_at': '2024-09-09T08:17:00.885355+00:00'}
+2024-09-09 13:47:00,921 - httpx - INFO - HTTP Request: GET https://ihmwyribamieeumszjjv.supabase.co/rest/v1/user_plan?select=%2A&user_id=eq.a01fe001-ddb1-423e-aea4-a376d7740303 "HTTP/2 200 OK"
+2024-09-09 13:47:00,922 - root - INFO - User plans fetched successfully: [{'id': 'ee8522d2-d935-4f21-9d0d-fd5127cc62fe', 'plan': 'freemium', 'user_id': 'a01fe001-ddb1-423e-aea4-a376d7740303', 'created_at': '2024-09-09T07:33:47.586069+00:00', 'updated_at': '2024-09-09T07:33:47.586069', 'keyword_limit': None}]
+2024-09-09 13:47:00,922 - root - INFO - User plan type: [{'id': 'ee8522d2-d935-4f21-9d0d-fd5127cc62fe', 'plan': 'freemium', 'user_id': 'a01fe001-ddb1-423e-aea4-a376d7740303', 'created_at': '2024-09-09T07:33:47.586069+00:00', 'updated_at': '2024-09-09T07:33:47.586069', 'keyword_limit': None}]
+2024-09-09 13:47:00,922 - root - INFO - API keys retrieved: Yes
+2024-09-09 13:47:01,381 - root - INFO - Tools loaded and returned 4 tools
+2024-09-09 13:47:01,381 - root - INFO - Number of tools loaded: 4
+2024-09-09 13:47:01,501 - httpx - INFO - HTTP Request: GET https://ihmwyribamieeumszjjv.supabase.co/rest/v1/analysis_messages?select=%2A&keyword_analysis_id=eq.bb66da14-8ecf-4bca-ace0-734ec893b269&order=created_at "HTTP/2 200 OK"
+2024-09-09 13:47:01,503 - root - INFO - Retrieved messages for chat_id: bb66da14-8ecf-4bca-ace0-734ec893b269
+2024-09-09 13:47:01,503 - root - INFO - Conversation context length: 3
+2024-09-09 13:47:01,503 - root - INFO - Total tokens in conversation: 469
+2024-09-09 13:47:01,503 - root - INFO - Sending request to Anthropic API
+2024-09-09 13:47:01,503 - root - INFO - Conversation context: [
+  {
+    "role": "user",
+    "content": [
+      {
+        "type": "text",
+        "text": "who is gonna win the  2024 US elections?"
+      }
+    ]
+  },
+  {
+    "role": "assistant",
+    "content": [
+      {
+        "type": "text",
+        "text": "To analyze the current situation regarding the 2024 US elections and provide a balanced summary, I'll need to gather information from various sources. Let's start by searching for recent news and predictions about the upcoming election."
+      }
+    ]
+  },
+  {
+    "role": "user",
+    "content": [
+      {
+        "type": "text",
+        "text": "Tool result"
+      }
+    ]
+  }
+]
+2024-09-09 13:47:01,503 - root - INFO - Number of messages in conversation: 3
+2024-09-09 13:47:02,044 - httpx - INFO - HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 429 Too Many Requests"
+2024-09-09 13:47:02,046 - anthropic._base_client - INFO - Retrying request to /v1/messages in 0.940756 seconds
+2024-09-09 13:47:03,475 - httpx - INFO - HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 429 Too Many Requests"
+2024-09-09 13:47:03,476 - anthropic._base_client - INFO - Retrying request to /v1/messages in 1.733603 seconds
+2024-09-09 13:47:05,597 - httpx - INFO - HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 429 Too Many Requests"
+2024-09-09 13:47:05,598 - root - ERROR - Error in process_conversation: Error code: 429 - {'type': 'error', 'error': {'type': 'rate_limit_error', 'message': 'Number of request tokens has exceeded your daily rate limit (https://docs.anthropic.com/en/api/rate-limits); see the response headers for current usage. Please reduce the prompt length or the maximum tokens requested, or try again later. You may also contact sales at https://www.anthropic.com/contact-sales to discuss your options for a rate limit increase.'}}
+2024-09-09 13:47:05,694 - httpx - INFO - HTTP Request: PATCH https://ihmwyribamieeumszjjv.supabase.co/rest/v1/keyword_analysis?id=eq.bb66da14-8ecf-4bca-ace0-734ec893b269 "HTTP/2 200 OK"
+2024-09-09 13:47:05,699 - root - ERROR - Error processing tool use for search_web: Error code: 429 - {'type': 'error', 'error': {'type': 'rate_limit_error', 'message': 'Number of request tokens has exceeded your daily rate limit (https://docs.anthropic.com/en/api/rate-limits); see the response headers for current usage. Please reduce the prompt length or the maximum tokens requested, or try again later. You may also contact sales at https://www.anthropic.com/contact-sales to discuss your options for a rate limit increase.'}}
+2024-09-09 13:47:05,822 - httpx - INFO - HTTP Request: PATCH https://ihmwyribamieeumszjjv.supabase.co/rest/v1/keyword_analysis?id=eq.bb66da14-8ecf-4bca-ace0-734ec893b269 "HTTP/2 200 OK"
+2024-09-09 13:47:05,824 - root - ERROR - Error in process_conversation: Error code: 429 - {'type': 'error', 'error': {'type': 'rate_limit_error', 'message': 'Number of request tokens has exceeded your daily rate limit (https://docs.anthropic.com/en/api/rate-limits); see the response headers for current usage. Please reduce the prompt length or the maximum tokens requested, or try again later. You may also contact sales at https://www.anthropic.com/contact-sales to discuss your options for a rate limit increase.'}}
+2024-09-09 13:47:05,925 - httpx - INFO - HTTP Request: PATCH https://ihmwyribamieeumszjjv.supabase.co/rest/v1/keyword_analysis?id=eq.bb66da14-8ecf-4bca-ace0-734ec893b269 "HTTP/2 200 OK"
+2024-09-09 13:47:05,927 - root - ERROR - Error in handle_chat: Error code: 429 - {'type': 'error', 'error': {'type': 'rate_limit_error', 'message': 'Number of request tokens has exceeded your daily rate limit (https://docs.anthropic.com/en/api/rate-limits); see the response headers for current usage. Please reduce the prompt length or the maximum tokens requested, or try again later. You may also contact sales at https://www.anthropic.com/contact-sales to discuss your options for a rate limit increase.'}}
+2024-09-09 13:47:06,037 - httpx - INFO - HTTP Request: PATCH https://ihmwyribamieeumszjjv.supabase.co/rest/v1/keyword_analysis?id=eq.bb66da14-8ecf-4bca-ace0-734ec893b269 "HTTP/2 200 OK"
+2024-09-09 13:47:06,039 - werkzeug - INFO - 127.0.0.1 - - [09/Sep/2024 13:47:06] "POST /startanalysis/5eb27417-cd60-4c5e-a37b-d2eece9341e0 HTTP/1.1" 200 -
+2024-09-09 13:47:06,560 - httpx - INFO - HTTP Request: GET https://ihmwyribamieeumszjjv.supabase.co/auth/v1/user "HTTP/2 200 OK"
+2024-09-09 13:47:06,663 - httpx - INFO - HTTP Request: GET https://ihmwyribamieeumszjjv.supabase.co/rest/v1/keyword_analysis?select=%2A&keyword_id=eq.5eb27417-cd60-4c5e-a37b-d2eece9341e0&order=created_at.desc&limit=1 "HTTP/2 200 OK"
+2024-09-09 13:47:06,665 - werkzeug - INFO - 127.0.0.1 - - [09/Sep/2024 13:47:06] "GET /task_status/5eb27417-cd60-4c5e-a37b-d2eece9341e0 HTTP/1.1" 200 -
+2024-09-09 13:50:01,233 - werkzeug - INFO -  * Detected change in 'E:\\intern\\newstracker\\app\\services\\ai.py', reloading
+2024-09-09 13:50:02,587 - werkzeug - WARNING -  * Debugger is active!
+2024-09-09 13:50:02,589 - werkzeug - INFO -  * Debugger PIN: 330-279-427
+2024-09-09 13:51:35,121 - werkzeug - INFO -  * Detected change in 'E:\\intern\\newstracker\\app\\services\\agent.py', reloading
+2024-09-09 13:51:36,687 - werkzeug - WARNING -  * Debugger is active!
+2024-09-09 13:51:36,692 - werkzeug - INFO -  * Debugger PIN: 330-279-427
+2024-09-09 13:51:40,256 - httpx - INFO - HTTP Request: GET https://ihmwyribamieeumszjjv.supabase.co/auth/v1/user "HTTP/2 200 OK"
+2024-09-09 13:51:40,361 - httpx - INFO - HTTP Request: GET https://ihmwyribamieeumszjjv.supabase.co/auth/v1/user "HTTP/2 200 OK"
+2024-09-09 13:51:40,749 - httpx - INFO - HTTP Request: GET https://ihmwyribamieeumszjjv.supabase.co/rest/v1/user_keyword?select=%2A&user_id=eq.a01fe001-ddb1-423e-aea4-a376d7740303 "HTTP/2 200 OK"
+2024-09-09 13:51:40,857 - httpx - INFO - HTTP Request: GET https://ihmwyribamieeumszjjv.supabase.co/rest/v1/keyword_analysis?select=status%2C%20updated_at&keyword_id=eq.5eb27417-cd60-4c5e-a37b-d2eece9341e0&order=created_at.desc&limit=1 "HTTP/2 200 OK"
+2024-09-09 13:51:40,946 - httpx - INFO - HTTP Request: GET https://ihmwyribamieeumszjjv.supabase.co/rest/v1/keyword_summary?select=news_summary&id=eq.5eb27417-cd60-4c5e-a37b-d2eece9341e0 "HTTP/2 200 OK"
+2024-09-09 13:51:40,947 - root - INFO - User keywords fetched successfully: [{'id': '5eb27417-cd60-4c5e-a37b-d2eece9341e0', 'keyword': 'who is gonna win the  2024 US elections?', 'user_id': 'a01fe001-ddb1-423e-aea4-a376d7740303', 'created_at': '2024-09-09T07:34:32.767516+00:00', 'refresh_button': True, 'last_analysis': datetime.datetime(2024, 9, 9, 8, 17, 5, 927649), 'news_summary': None}]
+2024-09-09 13:51:40,974 - werkzeug - INFO - 127.0.0.1 - - [09/Sep/2024 13:51:40] "GET /feed HTTP/1.1" 200 -
+2024-09-09 13:51:41,040 - werkzeug - INFO - 127.0.0.1 - - [09/Sep/2024 13:51:41] "[36mGET /static/js/feed.js HTTP/1.1[0m" 304 -
+2024-09-09 13:51:42,453 - httpx - INFO - HTTP Request: GET https://ihmwyribamieeumszjjv.supabase.co/auth/v1/user "HTTP/2 200 OK"
+2024-09-09 13:51:42,453 - root - INFO - Entering start_analysis for keyword_id: 5eb27417-cd60-4c5e-a37b-d2eece9341e0
+2024-09-09 13:51:42,559 - httpx - INFO - HTTP Request: GET https://ihmwyribamieeumszjjv.supabase.co/auth/v1/user "HTTP/2 200 OK"
+2024-09-09 13:51:42,560 - root - INFO - User: a01fe001-ddb1-423e-aea4-a376d7740303
+2024-09-09 13:51:42,663 - httpx - INFO - HTTP Request: GET https://ihmwyribamieeumszjjv.supabase.co/rest/v1/user_keyword?select=keyword&id=eq.5eb27417-cd60-4c5e-a37b-d2eece9341e0 "HTTP/2 200 OK"
+2024-09-09 13:51:42,664 - root - INFO - Keyword: who is gonna win the  2024 US elections?
+2024-09-09 13:51:42,759 - httpx - INFO - HTTP Request: GET https://ihmwyribamieeumszjjv.supabase.co/rest/v1/keyword_analysis?select=%2A&keyword_id=eq.5eb27417-cd60-4c5e-a37b-d2eece9341e0&status=in.%28pending%2Cprocessing%29&order=created_at.desc&limit=1 "HTTP/2 200 OK"
+2024-09-09 13:51:42,760 - root - INFO - Active analysis query result: []
+2024-09-09 13:51:42,760 - root - INFO - Creating new analysis
+2024-09-09 13:51:42,868 - httpx - INFO - HTTP Request: POST https://ihmwyribamieeumszjjv.supabase.co/rest/v1/keyword_analysis "HTTP/2 201 Created"
+2024-09-09 13:51:42,869 - root - INFO - Starting handle_chat for user_id: a01fe001-ddb1-423e-aea4-a376d7740303, keyword_id: 5eb27417-cd60-4c5e-a37b-d2eece9341e0, analysis_id: c15bb8b5-45c3-453c-8a44-cfa7498958a2
+2024-09-09 13:51:42,967 - httpx - INFO - HTTP Request: GET https://ihmwyribamieeumszjjv.supabase.co/rest/v1/user_keyword?select=keyword&id=eq.5eb27417-cd60-4c5e-a37b-d2eece9341e0 "HTTP/2 200 OK"
+2024-09-09 13:51:42,968 - root - INFO - Attempting to save message: {'keyword_analysis_id': 'c15bb8b5-45c3-453c-8a44-cfa7498958a2', 'role': 'user', 'content': 'who is gonna win the  2024 US elections?'}
+2024-09-09 13:51:43,060 - httpx - INFO - HTTP Request: POST https://ihmwyribamieeumszjjv.supabase.co/rest/v1/analysis_messages "HTTP/2 201 Created"
+2024-09-09 13:51:43,061 - root - INFO - Message saved successfully: {'id': '0ace0a54-520f-4b1b-b301-8a2586d86880', 'keyword_analysis_id': 'c15bb8b5-45c3-453c-8a44-cfa7498958a2', 'role': 'user', 'content': 'who is gonna win the  2024 US elections?', 'tool_name': None, 'tool_use_id': None, 'tool_input': None, 'tool_result': None, 'created_at': '2024-09-09T08:21:43.124605+00:00'}
+2024-09-09 13:51:43,157 - httpx - INFO - HTTP Request: GET https://ihmwyribamieeumszjjv.supabase.co/rest/v1/user_plan?select=%2A&user_id=eq.a01fe001-ddb1-423e-aea4-a376d7740303 "HTTP/2 200 OK"
+2024-09-09 13:51:43,157 - root - INFO - User plans fetched successfully: [{'id': 'ee8522d2-d935-4f21-9d0d-fd5127cc62fe', 'plan': 'freemium', 'user_id': 'a01fe001-ddb1-423e-aea4-a376d7740303', 'created_at': '2024-09-09T07:33:47.586069+00:00', 'updated_at': '2024-09-09T07:33:47.586069', 'keyword_limit': None}]
+2024-09-09 13:51:43,158 - root - INFO - User plan type: [{'id': 'ee8522d2-d935-4f21-9d0d-fd5127cc62fe', 'plan': 'freemium', 'user_id': 'a01fe001-ddb1-423e-aea4-a376d7740303', 'created_at': '2024-09-09T07:33:47.586069+00:00', 'updated_at': '2024-09-09T07:33:47.586069', 'keyword_limit': None}]
+2024-09-09 13:51:43,158 - root - INFO - API keys retrieved: Yes
+2024-09-09 13:51:43,368 - root - INFO - Tools loaded and returned 4 tools
+2024-09-09 13:51:43,369 - root - INFO - Number of tools loaded: 4
+2024-09-09 13:51:43,458 - httpx - INFO - HTTP Request: GET https://ihmwyribamieeumszjjv.supabase.co/rest/v1/analysis_messages?select=%2A&keyword_analysis_id=eq.c15bb8b5-45c3-453c-8a44-cfa7498958a2&order=created_at "HTTP/2 200 OK"
+2024-09-09 13:51:43,459 - root - INFO - Retrieved messages for chat_id: c15bb8b5-45c3-453c-8a44-cfa7498958a2
+2024-09-09 13:51:48,607 - httpx - INFO - HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2024-09-09 13:51:48,612 - root - INFO - Attempting to save message: {'keyword_analysis_id': 'c15bb8b5-45c3-453c-8a44-cfa7498958a2', 'role': 'assistant', 'content': "To provide a comprehensive analysis of the 2024 US elections, we'll need to gather information from various sources and consider different perspectives. Let's start by searching for current information about the upcoming election."}
+2024-09-09 13:51:48,779 - httpx - INFO - HTTP Request: POST https://ihmwyribamieeumszjjv.supabase.co/rest/v1/analysis_messages "HTTP/2 201 Created"
+2024-09-09 13:51:48,783 - root - INFO - Message saved successfully: {'id': 'c65d9785-8436-48cf-85b1-53c016694314', 'keyword_analysis_id': 'c15bb8b5-45c3-453c-8a44-cfa7498958a2', 'role': 'assistant', 'content': "To provide a comprehensive analysis of the 2024 US elections, we'll need to gather information from various sources and consider different perspectives. Let's start by searching for current information about the upcoming election.", 'tool_name': None, 'tool_use_id': None, 'tool_input': None, 'tool_result': None, 'created_at': '2024-09-09T08:21:48.836093+00:00'}
+2024-09-09 13:51:48,784 - root - INFO - Tool use detected: search_web
+2024-09-09 13:51:48,784 - root - INFO - Attempting to save message: {'keyword_analysis_id': 'c15bb8b5-45c3-453c-8a44-cfa7498958a2', 'role': 'assistant', 'content': "To provide a comprehensive analysis of the 2024 US elections, we'll need to gather information from various sources and consider different perspectives. Let's start by searching for current information about the upcoming election.", 'tool_name': 'search_web', 'tool_use_id': 'toolu_01APthWDpeG6SFWzndH6S6WQ', 'tool_input': {'search_query': '2024 US presidential election candidates and predictions'}}
+2024-09-09 13:51:48,877 - httpx - INFO - HTTP Request: POST https://ihmwyribamieeumszjjv.supabase.co/rest/v1/analysis_messages "HTTP/2 201 Created"
+2024-09-09 13:51:48,879 - root - INFO - Message saved successfully: {'id': '55891ebe-7f0e-4265-8a47-a39fc68b4a54', 'keyword_analysis_id': 'c15bb8b5-45c3-453c-8a44-cfa7498958a2', 'role': 'assistant', 'content': "To provide a comprehensive analysis of the 2024 US elections, we'll need to gather information from various sources and consider different perspectives. Let's start by searching for current information about the upcoming election.", 'tool_name': 'search_web', 'tool_use_id': 'toolu_01APthWDpeG6SFWzndH6S6WQ', 'tool_input': {'search_query': '2024 US presidential election candidates and predictions'}, 'tool_result': None, 'created_at': '2024-09-09T08:21:48.937618+00:00'}
+2024-09-09 13:51:48,879 - root - INFO - Processing tool use: search_web for analysis c15bb8b5-45c3-453c-8a44-cfa7498958a2
+2024-09-09 13:51:48,970 - httpx - INFO - HTTP Request: GET https://ihmwyribamieeumszjjv.supabase.co/rest/v1/user_api_token?select=tavily_api_key&user_id=eq.a01fe001-ddb1-423e-aea4-a376d7740303 "HTTP/2 200 OK"
+2024-09-09 13:51:48,973 - root - INFO - Tavily API key found: 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
+2024-09-09 13:51:49,815 - root - INFO - Tool search_web executed successfully
+2024-09-09 13:51:49,815 - root - INFO - Attempting to save message: {'keyword_analysis_id': 'c15bb8b5-45c3-453c-8a44-cfa7498958a2', 'role': 'user', 'content': 'Tool result', 'tool_result': "{'error': 'Invalid request parameters. Please check your input.'}", 'tool_use_id': 'toolu_01APthWDpeG6SFWzndH6S6WQ'}
+2024-09-09 13:51:49,921 - httpx - INFO - HTTP Request: POST https://ihmwyribamieeumszjjv.supabase.co/rest/v1/analysis_messages "HTTP/2 201 Created"
+2024-09-09 13:51:49,922 - root - INFO - Message saved successfully: {'id': 'eb327178-7c7b-4d3e-a252-8f6427c15b11', 'keyword_analysis_id': 'c15bb8b5-45c3-453c-8a44-cfa7498958a2', 'role': 'user', 'content': 'Tool result', 'tool_name': None, 'tool_use_id': 'toolu_01APthWDpeG6SFWzndH6S6WQ', 'tool_input': None, 'tool_result': "{'error': 'Invalid request parameters. Please check your input.'}", 'created_at': '2024-09-09T08:21:49.969039+00:00'}
+2024-09-09 13:51:50,015 - httpx - INFO - HTTP Request: GET https://ihmwyribamieeumszjjv.supabase.co/rest/v1/user_plan?select=%2A&user_id=eq.a01fe001-ddb1-423e-aea4-a376d7740303 "HTTP/2 200 OK"
+2024-09-09 13:51:50,015 - root - INFO - User plans fetched successfully: [{'id': 'ee8522d2-d935-4f21-9d0d-fd5127cc62fe', 'plan': 'freemium', 'user_id': 'a01fe001-ddb1-423e-aea4-a376d7740303', 'created_at': '2024-09-09T07:33:47.586069+00:00', 'updated_at': '2024-09-09T07:33:47.586069', 'keyword_limit': None}]
+2024-09-09 13:51:50,016 - root - INFO - User plan type: [{'id': 'ee8522d2-d935-4f21-9d0d-fd5127cc62fe', 'plan': 'freemium', 'user_id': 'a01fe001-ddb1-423e-aea4-a376d7740303', 'created_at': '2024-09-09T07:33:47.586069+00:00', 'updated_at': '2024-09-09T07:33:47.586069', 'keyword_limit': None}]
+2024-09-09 13:51:50,016 - root - INFO - API keys retrieved: Yes
+2024-09-09 13:51:50,211 - root - INFO - Tools loaded and returned 4 tools
+2024-09-09 13:51:50,211 - root - INFO - Number of tools loaded: 4
+2024-09-09 13:51:50,301 - httpx - INFO - HTTP Request: GET https://ihmwyribamieeumszjjv.supabase.co/rest/v1/analysis_messages?select=%2A&keyword_analysis_id=eq.c15bb8b5-45c3-453c-8a44-cfa7498958a2&order=created_at "HTTP/2 200 OK"
+2024-09-09 13:51:50,302 - root - INFO - Retrieved messages for chat_id: c15bb8b5-45c3-453c-8a44-cfa7498958a2
+2024-09-09 13:51:50,719 - httpx - INFO - HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 400 Bad Request"
+2024-09-09 13:51:50,720 - root - ERROR - Error in process_conversation: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'messages.2: `tool_result` block(s) provided when previous message does not contain any `tool_use` blocks'}}
+2024-09-09 13:51:50,820 - httpx - INFO - HTTP Request: PATCH https://ihmwyribamieeumszjjv.supabase.co/rest/v1/keyword_analysis?id=eq.c15bb8b5-45c3-453c-8a44-cfa7498958a2 "HTTP/2 200 OK"
+2024-09-09 13:51:50,824 - root - ERROR - Error processing tool use for search_web: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'messages.2: `tool_result` block(s) provided when previous message does not contain any `tool_use` blocks'}}
+2024-09-09 13:51:50,923 - httpx - INFO - HTTP Request: PATCH https://ihmwyribamieeumszjjv.supabase.co/rest/v1/keyword_analysis?id=eq.c15bb8b5-45c3-453c-8a44-cfa7498958a2 "HTTP/2 200 OK"
+2024-09-09 13:51:50,924 - root - ERROR - Error in process_conversation: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'messages.2: `tool_result` block(s) provided when previous message does not contain any `tool_use` blocks'}}
+2024-09-09 13:51:51,024 - httpx - INFO - HTTP Request: PATCH https://ihmwyribamieeumszjjv.supabase.co/rest/v1/keyword_analysis?id=eq.c15bb8b5-45c3-453c-8a44-cfa7498958a2 "HTTP/2 200 OK"
+2024-09-09 13:51:51,024 - root - ERROR - Error in handle_chat: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'messages.2: `tool_result` block(s) provided when previous message does not contain any `tool_use` blocks'}}
+2024-09-09 13:51:51,120 - httpx - INFO - HTTP Request: PATCH https://ihmwyribamieeumszjjv.supabase.co/rest/v1/keyword_analysis?id=eq.c15bb8b5-45c3-453c-8a44-cfa7498958a2 "HTTP/2 200 OK"
+2024-09-09 13:51:51,122 - werkzeug - INFO - 127.0.0.1 - - [09/Sep/2024 13:51:51] "POST /startanalysis/5eb27417-cd60-4c5e-a37b-d2eece9341e0 HTTP/1.1" 200 -
+2024-09-09 13:51:51,574 - httpx - INFO - HTTP Request: GET https://ihmwyribamieeumszjjv.supabase.co/auth/v1/user "HTTP/2 200 OK"
+2024-09-09 13:51:51,661 - httpx - INFO - HTTP Request: GET https://ihmwyribamieeumszjjv.supabase.co/rest/v1/keyword_analysis?select=%2A&keyword_id=eq.5eb27417-cd60-4c5e-a37b-d2eece9341e0&order=created_at.desc&limit=1 "HTTP/2 200 OK"
+2024-09-09 13:51:51,663 - werkzeug - INFO - 127.0.0.1 - - [09/Sep/2024 13:51:51] "GET /task_status/5eb27417-cd60-4c5e-a37b-d2eece9341e0 HTTP/1.1" 200 -
+2024-09-09 13:52:57,942 - werkzeug - INFO -  * Detected change in 'E:\\intern\\newstracker\\app\\services\\agent.py', reloading
+2024-09-09 13:52:59,485 - werkzeug - WARNING -  * Debugger is active!
+2024-09-09 13:52:59,488 - werkzeug - INFO -  * Debugger PIN: 330-279-427
+2024-09-09 13:53:31,379 - werkzeug - INFO -  * Detected change in 'E:\\intern\\newstracker\\app\\services\\agent.py', reloading
+2024-09-09 13:53:49,178 - werkzeug - WARNING -  * Debugger is active!
+2024-09-09 13:53:49,180 - werkzeug - INFO -  * Debugger PIN: 330-279-427
+2024-09-09 13:53:55,446 - httpx - INFO - HTTP Request: GET https://ihmwyribamieeumszjjv.supabase.co/auth/v1/user "HTTP/2 200 OK"
+2024-09-09 13:53:55,447 - root - INFO - Entering start_analysis for keyword_id: 5eb27417-cd60-4c5e-a37b-d2eece9341e0
+2024-09-09 13:53:55,541 - httpx - INFO - HTTP Request: GET https://ihmwyribamieeumszjjv.supabase.co/auth/v1/user "HTTP/2 200 OK"
+2024-09-09 13:53:55,541 - root - INFO - User: a01fe001-ddb1-423e-aea4-a376d7740303
+2024-09-09 13:53:55,888 - httpx - INFO - HTTP Request: GET https://ihmwyribamieeumszjjv.supabase.co/rest/v1/user_keyword?select=keyword&id=eq.5eb27417-cd60-4c5e-a37b-d2eece9341e0 "HTTP/2 200 OK"
+2024-09-09 13:53:55,893 - root - INFO - Keyword: who is gonna win the  2024 US elections?
+2024-09-09 13:53:56,015 - httpx - INFO - HTTP Request: GET https://ihmwyribamieeumszjjv.supabase.co/rest/v1/keyword_analysis?select=%2A&keyword_id=eq.5eb27417-cd60-4c5e-a37b-d2eece9341e0&status=in.%28pending%2Cprocessing%29&order=created_at.desc&limit=1 "HTTP/2 200 OK"
+2024-09-09 13:53:56,017 - root - INFO - Active analysis query result: []
+2024-09-09 13:53:56,017 - root - INFO - Creating new analysis
+2024-09-09 13:53:56,114 - httpx - INFO - HTTP Request: POST https://ihmwyribamieeumszjjv.supabase.co/rest/v1/keyword_analysis "HTTP/2 201 Created"
+2024-09-09 13:53:56,115 - root - INFO - Starting handle_chat for user_id: a01fe001-ddb1-423e-aea4-a376d7740303, keyword_id: 5eb27417-cd60-4c5e-a37b-d2eece9341e0, analysis_id: 2476f20c-4577-4311-adc6-a2ffc52166cb
+2024-09-09 13:53:56,216 - httpx - INFO - HTTP Request: GET https://ihmwyribamieeumszjjv.supabase.co/rest/v1/user_keyword?select=keyword&id=eq.5eb27417-cd60-4c5e-a37b-d2eece9341e0 "HTTP/2 200 OK"
+2024-09-09 13:53:56,218 - root - INFO - Attempting to save message: {'keyword_analysis_id': '2476f20c-4577-4311-adc6-a2ffc52166cb', 'role': 'user', 'content': 'who is gonna win the  2024 US elections?'}
+2024-09-09 13:53:56,319 - httpx - INFO - HTTP Request: POST https://ihmwyribamieeumszjjv.supabase.co/rest/v1/analysis_messages "HTTP/2 201 Created"
+2024-09-09 13:53:56,320 - root - INFO - Message saved successfully: {'id': '69e98fd3-e962-47e7-b337-4924105888fe', 'keyword_analysis_id': '2476f20c-4577-4311-adc6-a2ffc52166cb', 'role': 'user', 'content': 'who is gonna win the  2024 US elections?', 'tool_name': None, 'tool_use_id': None, 'tool_input': None, 'tool_result': None, 'created_at': '2024-09-09T08:23:56.387251+00:00'}
+2024-09-09 13:53:56,415 - httpx - INFO - HTTP Request: GET https://ihmwyribamieeumszjjv.supabase.co/rest/v1/user_plan?select=%2A&user_id=eq.a01fe001-ddb1-423e-aea4-a376d7740303 "HTTP/2 200 OK"
+2024-09-09 13:53:56,416 - root - INFO - User plans fetched successfully: [{'id': 'ee8522d2-d935-4f21-9d0d-fd5127cc62fe', 'plan': 'freemium', 'user_id': 'a01fe001-ddb1-423e-aea4-a376d7740303', 'created_at': '2024-09-09T07:33:47.586069+00:00', 'updated_at': '2024-09-09T07:33:47.586069', 'keyword_limit': None}]
+2024-09-09 13:53:56,416 - root - INFO - User plan type: [{'id': 'ee8522d2-d935-4f21-9d0d-fd5127cc62fe', 'plan': 'freemium', 'user_id': 'a01fe001-ddb1-423e-aea4-a376d7740303', 'created_at': '2024-09-09T07:33:47.586069+00:00', 'updated_at': '2024-09-09T07:33:47.586069', 'keyword_limit': None}]
+2024-09-09 13:53:56,416 - root - INFO - API keys retrieved: Yes
+2024-09-09 13:53:56,607 - root - INFO - Tools loaded and returned 4 tools
+2024-09-09 13:53:56,608 - root - INFO - Number of tools loaded: 4
+2024-09-09 13:53:56,617 - root - ERROR - Error in process_conversation: cannot access local variable 'conversation' where it is not associated with a value
+2024-09-09 13:53:56,713 - httpx - INFO - HTTP Request: PATCH https://ihmwyribamieeumszjjv.supabase.co/rest/v1/keyword_analysis?id=eq.2476f20c-4577-4311-adc6-a2ffc52166cb "HTTP/2 200 OK"
+2024-09-09 13:53:56,717 - root - ERROR - Error in handle_chat: cannot access local variable 'conversation' where it is not associated with a value
+2024-09-09 13:53:56,813 - httpx - INFO - HTTP Request: PATCH https://ihmwyribamieeumszjjv.supabase.co/rest/v1/keyword_analysis?id=eq.2476f20c-4577-4311-adc6-a2ffc52166cb "HTTP/2 200 OK"
+2024-09-09 13:53:56,815 - werkzeug - INFO - 127.0.0.1 - - [09/Sep/2024 13:53:56] "POST /startanalysis/5eb27417-cd60-4c5e-a37b-d2eece9341e0 HTTP/1.1" 200 -
+2024-09-09 13:53:56,917 - httpx - INFO - HTTP Request: GET https://ihmwyribamieeumszjjv.supabase.co/auth/v1/user "HTTP/2 200 OK"
+2024-09-09 13:53:57,011 - httpx - INFO - HTTP Request: GET https://ihmwyribamieeumszjjv.supabase.co/rest/v1/keyword_analysis?select=%2A&keyword_id=eq.5eb27417-cd60-4c5e-a37b-d2eece9341e0&order=created_at.desc&limit=1 "HTTP/2 200 OK"
+2024-09-09 13:53:57,012 - werkzeug - INFO - 127.0.0.1 - - [09/Sep/2024 13:53:57] "GET /task_status/5eb27417-cd60-4c5e-a37b-d2eece9341e0 HTTP/1.1" 200 -
+2024-09-09 13:54:58,076 - werkzeug - INFO -  * Detected change in 'E:\\intern\\newstracker\\app\\services\\agent.py', reloading
+2024-09-09 13:54:59,574 - werkzeug - WARNING -  * Debugger is active!
+2024-09-09 13:54:59,577 - werkzeug - INFO -  * Debugger PIN: 330-279-427
+2024-09-09 13:55:02,189 - httpx - INFO - HTTP Request: GET https://ihmwyribamieeumszjjv.supabase.co/auth/v1/user "HTTP/2 200 OK"
+2024-09-09 13:55:02,191 - root - INFO - Entering start_analysis for keyword_id: 5eb27417-cd60-4c5e-a37b-d2eece9341e0
+2024-09-09 13:55:02,387 - httpx - INFO - HTTP Request: GET https://ihmwyribamieeumszjjv.supabase.co/auth/v1/user "HTTP/2 200 OK"
+2024-09-09 13:55:02,389 - root - INFO - User: a01fe001-ddb1-423e-aea4-a376d7740303
+2024-09-09 13:55:02,789 - httpx - INFO - HTTP Request: GET https://ihmwyribamieeumszjjv.supabase.co/rest/v1/user_keyword?select=keyword&id=eq.5eb27417-cd60-4c5e-a37b-d2eece9341e0 "HTTP/2 200 OK"
+2024-09-09 13:55:02,793 - root - INFO - Keyword: who is gonna win the  2024 US elections?
+2024-09-09 13:55:02,936 - httpx - INFO - HTTP Request: GET https://ihmwyribamieeumszjjv.supabase.co/rest/v1/keyword_analysis?select=%2A&keyword_id=eq.5eb27417-cd60-4c5e-a37b-d2eece9341e0&status=in.%28pending%2Cprocessing%29&order=created_at.desc&limit=1 "HTTP/2 200 OK"
+2024-09-09 13:55:02,937 - root - INFO - Active analysis query result: []
+2024-09-09 13:55:02,937 - root - INFO - Creating new analysis
+2024-09-09 13:55:03,060 - httpx - INFO - HTTP Request: POST https://ihmwyribamieeumszjjv.supabase.co/rest/v1/keyword_analysis "HTTP/2 201 Created"
+2024-09-09 13:55:03,061 - root - INFO - Starting handle_chat for user_id: a01fe001-ddb1-423e-aea4-a376d7740303, keyword_id: 5eb27417-cd60-4c5e-a37b-d2eece9341e0, analysis_id: 7433fb41-bcd7-48b2-977b-0c65569e2514
+2024-09-09 13:55:03,157 - httpx - INFO - HTTP Request: GET https://ihmwyribamieeumszjjv.supabase.co/rest/v1/user_keyword?select=keyword&id=eq.5eb27417-cd60-4c5e-a37b-d2eece9341e0 "HTTP/2 200 OK"
+2024-09-09 13:55:03,159 - root - INFO - Attempting to save message: {'keyword_analysis_id': '7433fb41-bcd7-48b2-977b-0c65569e2514', 'role': 'user', 'content': 'who is gonna win the  2024 US elections?'}
+2024-09-09 13:55:03,256 - httpx - INFO - HTTP Request: POST https://ihmwyribamieeumszjjv.supabase.co/rest/v1/analysis_messages "HTTP/2 201 Created"
+2024-09-09 13:55:03,258 - root - INFO - Message saved successfully: {'id': '7d4329b8-c0e6-4918-8845-6cb5ae4de587', 'keyword_analysis_id': '7433fb41-bcd7-48b2-977b-0c65569e2514', 'role': 'user', 'content': 'who is gonna win the  2024 US elections?', 'tool_name': None, 'tool_use_id': None, 'tool_input': None, 'tool_result': None, 'created_at': '2024-09-09T08:25:03.316229+00:00'}
+2024-09-09 13:55:03,349 - httpx - INFO - HTTP Request: GET https://ihmwyribamieeumszjjv.supabase.co/rest/v1/user_plan?select=%2A&user_id=eq.a01fe001-ddb1-423e-aea4-a376d7740303 "HTTP/2 200 OK"
+2024-09-09 13:55:03,349 - root - INFO - User plans fetched successfully: [{'id': 'ee8522d2-d935-4f21-9d0d-fd5127cc62fe', 'plan': 'freemium', 'user_id': 'a01fe001-ddb1-423e-aea4-a376d7740303', 'created_at': '2024-09-09T07:33:47.586069+00:00', 'updated_at': '2024-09-09T07:33:47.586069', 'keyword_limit': None}]
+2024-09-09 13:55:03,350 - root - INFO - User plan type: [{'id': 'ee8522d2-d935-4f21-9d0d-fd5127cc62fe', 'plan': 'freemium', 'user_id': 'a01fe001-ddb1-423e-aea4-a376d7740303', 'created_at': '2024-09-09T07:33:47.586069+00:00', 'updated_at': '2024-09-09T07:33:47.586069', 'keyword_limit': None}]
+2024-09-09 13:55:03,350 - root - INFO - API keys retrieved: Yes
+2024-09-09 13:55:03,546 - root - INFO - Tools loaded and returned 4 tools
+2024-09-09 13:55:03,547 - root - INFO - Number of tools loaded: 4
+2024-09-09 13:55:03,668 - httpx - INFO - HTTP Request: GET https://ihmwyribamieeumszjjv.supabase.co/rest/v1/analysis_messages?select=%2A&keyword_analysis_id=eq.7433fb41-bcd7-48b2-977b-0c65569e2514&order=created_at "HTTP/2 200 OK"
+2024-09-09 13:55:03,671 - root - INFO - Retrieved messages for chat_id: 7433fb41-bcd7-48b2-977b-0c65569e2514
+2024-09-09 13:55:03,671 - root - INFO - Conversation context length: 1
+2024-09-09 13:55:03,671 - root - INFO - Sending request to Anthropic API
+2024-09-09 13:55:03,672 - root - INFO - Conversation context: [
+  {
+    "role": "user",
+    "content": [
+      {
+        "type": "text",
+        "text": "who is gonna win the  2024 US elections?"
+      }
+    ]
+  }
+]
+2024-09-09 13:55:03,672 - root - INFO - Number of messages in conversation: 1
+2024-09-09 13:55:04,229 - httpx - INFO - HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 429 Too Many Requests"
+2024-09-09 13:55:04,229 - anthropic._base_client - INFO - Retrying request to /v1/messages in 0.961116 seconds
+2024-09-09 13:55:06,344 - httpx - INFO - HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 429 Too Many Requests"
+2024-09-09 13:55:06,345 - anthropic._base_client - INFO - Retrying request to /v1/messages in 1.525313 seconds
+2024-09-09 13:55:08,251 - httpx - INFO - HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 429 Too Many Requests"
+2024-09-09 13:55:08,252 - root - ERROR - Error in process_conversation: Error code: 429 - {'type': 'error', 'error': {'type': 'rate_limit_error', 'message': 'Number of request tokens has exceeded your daily rate limit (https://docs.anthropic.com/en/api/rate-limits); see the response headers for current usage. Please reduce the prompt length or the maximum tokens requested, or try again later. You may also contact sales at https://www.anthropic.com/contact-sales to discuss your options for a rate limit increase.'}}
+2024-09-09 13:55:08,352 - httpx - INFO - HTTP Request: PATCH https://ihmwyribamieeumszjjv.supabase.co/rest/v1/keyword_analysis?id=eq.7433fb41-bcd7-48b2-977b-0c65569e2514 "HTTP/2 200 OK"
+2024-09-09 13:55:08,356 - root - ERROR - Error in handle_chat: Error code: 429 - {'type': 'error', 'error': {'type': 'rate_limit_error', 'message': 'Number of request tokens has exceeded your daily rate limit (https://docs.anthropic.com/en/api/rate-limits); see the response headers for current usage. Please reduce the prompt length or the maximum tokens requested, or try again later. You may also contact sales at https://www.anthropic.com/contact-sales to discuss your options for a rate limit increase.'}}
+2024-09-09 13:55:08,462 - httpx - INFO - HTTP Request: PATCH https://ihmwyribamieeumszjjv.supabase.co/rest/v1/keyword_analysis?id=eq.7433fb41-bcd7-48b2-977b-0c65569e2514 "HTTP/2 200 OK"
+2024-09-09 13:55:08,464 - werkzeug - INFO - 127.0.0.1 - - [09/Sep/2024 13:55:08] "POST /startanalysis/5eb27417-cd60-4c5e-a37b-d2eece9341e0 HTTP/1.1" 200 -
+2024-09-09 13:55:08,648 - httpx - INFO - HTTP Request: GET https://ihmwyribamieeumszjjv.supabase.co/auth/v1/user "HTTP/2 200 OK"
+2024-09-09 13:55:08,746 - httpx - INFO - HTTP Request: GET https://ihmwyribamieeumszjjv.supabase.co/rest/v1/keyword_analysis?select=%2A&keyword_id=eq.5eb27417-cd60-4c5e-a37b-d2eece9341e0&order=created_at.desc&limit=1 "HTTP/2 200 OK"
+2024-09-09 13:55:08,747 - werkzeug - INFO - 127.0.0.1 - - [09/Sep/2024 13:55:08] "GET /task_status/5eb27417-cd60-4c5e-a37b-d2eece9341e0 HTTP/1.1" 200 -
+2024-09-09 13:55:29,496 - werkzeug - INFO -  * Detected change in 'E:\\intern\\newstracker\\app\\services\\agent.py', reloading
+2024-09-09 13:55:31,077 - werkzeug - WARNING -  * Debugger is active!
+2024-09-09 13:55:31,080 - werkzeug - INFO -  * Debugger PIN: 330-279-427
+2024-09-09 13:55:31,274 - httpx - INFO - HTTP Request: GET https://ihmwyribamieeumszjjv.supabase.co/auth/v1/user "HTTP/2 200 OK"
+2024-09-09 13:55:31,275 - root - INFO - Entering start_analysis for keyword_id: 5eb27417-cd60-4c5e-a37b-d2eece9341e0
+2024-09-09 13:55:31,382 - httpx - INFO - HTTP Request: GET https://ihmwyribamieeumszjjv.supabase.co/auth/v1/user "HTTP/2 200 OK"
+2024-09-09 13:55:31,384 - root - INFO - User: a01fe001-ddb1-423e-aea4-a376d7740303
+2024-09-09 13:55:31,719 - httpx - INFO - HTTP Request: GET https://ihmwyribamieeumszjjv.supabase.co/rest/v1/user_keyword?select=keyword&id=eq.5eb27417-cd60-4c5e-a37b-d2eece9341e0 "HTTP/2 200 OK"
+2024-09-09 13:55:31,722 - root - INFO - Keyword: who is gonna win the  2024 US elections?
+2024-09-09 13:55:31,815 - httpx - INFO - HTTP Request: GET https://ihmwyribamieeumszjjv.supabase.co/rest/v1/keyword_analysis?select=%2A&keyword_id=eq.5eb27417-cd60-4c5e-a37b-d2eece9341e0&status=in.%28pending%2Cprocessing%29&order=created_at.desc&limit=1 "HTTP/2 200 OK"
+2024-09-09 13:55:31,816 - root - INFO - Active analysis query result: []
+2024-09-09 13:55:31,816 - root - INFO - Creating new analysis
+2024-09-09 13:55:31,910 - httpx - INFO - HTTP Request: POST https://ihmwyribamieeumszjjv.supabase.co/rest/v1/keyword_analysis "HTTP/2 201 Created"
+2024-09-09 13:55:31,911 - root - INFO - Starting handle_chat for user_id: a01fe001-ddb1-423e-aea4-a376d7740303, keyword_id: 5eb27417-cd60-4c5e-a37b-d2eece9341e0, analysis_id: d6ec57e9-5f8b-4a66-930f-d552b531cc46
+2024-09-09 13:55:32,000 - httpx - INFO - HTTP Request: GET https://ihmwyribamieeumszjjv.supabase.co/rest/v1/user_keyword?select=keyword&id=eq.5eb27417-cd60-4c5e-a37b-d2eece9341e0 "HTTP/2 200 OK"
+2024-09-09 13:55:32,002 - root - INFO - Attempting to save message: {'keyword_analysis_id': 'd6ec57e9-5f8b-4a66-930f-d552b531cc46', 'role': 'user', 'content': 'who is gonna win the  2024 US elections?'}
+2024-09-09 13:55:32,096 - httpx - INFO - HTTP Request: POST https://ihmwyribamieeumszjjv.supabase.co/rest/v1/analysis_messages "HTTP/2 201 Created"
+2024-09-09 13:55:32,097 - root - INFO - Message saved successfully: {'id': '56717177-d30d-4c9e-9204-e31aecbf7692', 'keyword_analysis_id': 'd6ec57e9-5f8b-4a66-930f-d552b531cc46', 'role': 'user', 'content': 'who is gonna win the  2024 US elections?', 'tool_name': None, 'tool_use_id': None, 'tool_input': None, 'tool_result': None, 'created_at': '2024-09-09T08:25:32.165705+00:00'}
+2024-09-09 13:55:32,191 - httpx - INFO - HTTP Request: GET https://ihmwyribamieeumszjjv.supabase.co/rest/v1/user_plan?select=%2A&user_id=eq.a01fe001-ddb1-423e-aea4-a376d7740303 "HTTP/2 200 OK"
+2024-09-09 13:55:32,192 - root - INFO - User plans fetched successfully: [{'id': 'ee8522d2-d935-4f21-9d0d-fd5127cc62fe', 'plan': 'freemium', 'user_id': 'a01fe001-ddb1-423e-aea4-a376d7740303', 'created_at': '2024-09-09T07:33:47.586069+00:00', 'updated_at': '2024-09-09T07:33:47.586069', 'keyword_limit': None}]
+2024-09-09 13:55:32,192 - root - INFO - User plan type: [{'id': 'ee8522d2-d935-4f21-9d0d-fd5127cc62fe', 'plan': 'freemium', 'user_id': 'a01fe001-ddb1-423e-aea4-a376d7740303', 'created_at': '2024-09-09T07:33:47.586069+00:00', 'updated_at': '2024-09-09T07:33:47.586069', 'keyword_limit': None}]
+2024-09-09 13:55:32,192 - root - INFO - API keys retrieved: Yes
+2024-09-09 13:55:32,393 - root - INFO - Tools loaded and returned 4 tools
+2024-09-09 13:55:32,393 - root - INFO - Number of tools loaded: 4
+2024-09-09 13:55:32,486 - httpx - INFO - HTTP Request: GET https://ihmwyribamieeumszjjv.supabase.co/rest/v1/analysis_messages?select=%2A&keyword_analysis_id=eq.d6ec57e9-5f8b-4a66-930f-d552b531cc46&order=created_at "HTTP/2 200 OK"
+2024-09-09 13:55:32,490 - root - INFO - Retrieved messages for chat_id: d6ec57e9-5f8b-4a66-930f-d552b531cc46
+2024-09-09 13:55:32,490 - root - INFO - Total tokens in conversation: 99
+2024-09-09 13:55:32,500 - root - INFO - Conversation context length: 1
+2024-09-09 13:55:32,501 - root - INFO - Sending request to Anthropic API
+2024-09-09 13:55:32,501 - root - INFO - Conversation context: [
+  {
+    "role": "user",
+    "content": [
+      {
+        "type": "text",
+        "text": "who is gonna win the  2024 US elections?"
+      }
+    ]
+  }
+]
+2024-09-09 13:55:32,501 - root - INFO - Number of messages in conversation: 1
+2024-09-09 13:55:33,112 - httpx - INFO - HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 429 Too Many Requests"
+2024-09-09 13:55:33,112 - anthropic._base_client - INFO - Retrying request to /v1/messages in 0.975504 seconds
+2024-09-09 13:55:34,554 - httpx - INFO - HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 429 Too Many Requests"
+2024-09-09 13:55:34,555 - anthropic._base_client - INFO - Retrying request to /v1/messages in 1.532450 seconds
+2024-09-09 13:55:36,476 - httpx - INFO - HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 429 Too Many Requests"
+2024-09-09 13:55:36,477 - root - ERROR - Error in process_conversation: Error code: 429 - {'type': 'error', 'error': {'type': 'rate_limit_error', 'message': 'Number of request tokens has exceeded your daily rate limit (https://docs.anthropic.com/en/api/rate-limits); see the response headers for current usage. Please reduce the prompt length or the maximum tokens requested, or try again later. You may also contact sales at https://www.anthropic.com/contact-sales to discuss your options for a rate limit increase.'}}
+2024-09-09 13:55:36,597 - httpx - INFO - HTTP Request: PATCH https://ihmwyribamieeumszjjv.supabase.co/rest/v1/keyword_analysis?id=eq.d6ec57e9-5f8b-4a66-930f-d552b531cc46 "HTTP/2 200 OK"
+2024-09-09 13:55:36,600 - root - ERROR - Error in handle_chat: Error code: 429 - {'type': 'error', 'error': {'type': 'rate_limit_error', 'message': 'Number of request tokens has exceeded your daily rate limit (https://docs.anthropic.com/en/api/rate-limits); see the response headers for current usage. Please reduce the prompt length or the maximum tokens requested, or try again later. You may also contact sales at https://www.anthropic.com/contact-sales to discuss your options for a rate limit increase.'}}
+2024-09-09 13:55:36,689 - httpx - INFO - HTTP Request: PATCH https://ihmwyribamieeumszjjv.supabase.co/rest/v1/keyword_analysis?id=eq.d6ec57e9-5f8b-4a66-930f-d552b531cc46 "HTTP/2 200 OK"
+2024-09-09 13:55:36,691 - werkzeug - INFO - 127.0.0.1 - - [09/Sep/2024 13:55:36] "POST /startanalysis/5eb27417-cd60-4c5e-a37b-d2eece9341e0 HTTP/1.1" 200 -
+2024-09-09 13:55:36,852 - httpx - INFO - HTTP Request: GET https://ihmwyribamieeumszjjv.supabase.co/auth/v1/user "HTTP/2 200 OK"
+2024-09-09 13:55:36,952 - httpx - INFO - HTTP Request: GET https://ihmwyribamieeumszjjv.supabase.co/rest/v1/keyword_analysis?select=%2A&keyword_id=eq.5eb27417-cd60-4c5e-a37b-d2eece9341e0&order=created_at.desc&limit=1 "HTTP/2 200 OK"
+2024-09-09 13:55:36,953 - werkzeug - INFO - 127.0.0.1 - - [09/Sep/2024 13:55:36] "GET /task_status/5eb27417-cd60-4c5e-a37b-d2eece9341e0 HTTP/1.1" 200 -
+2024-09-09 14:24:23,712 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:5000
+2024-09-09 14:24:23,713 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2024-09-09 14:24:23,714 - werkzeug - INFO -  * Restarting with stat
+2024-09-09 14:24:24,943 - werkzeug - WARNING -  * Debugger is active!
+2024-09-09 14:24:24,947 - werkzeug - INFO -  * Debugger PIN: 330-279-427
+2024-09-09 14:26:44,870 - httpx - INFO - HTTP Request: GET https://ihmwyribamieeumszjjv.supabase.co/auth/v1/user "HTTP/2 403 Forbidden"
+2024-09-09 14:26:44,887 - werkzeug - INFO - 127.0.0.1 - - [09/Sep/2024 14:26:44] "[35m[1mGET /feed HTTP/1.1[0m" 500 -
+2024-09-09 14:26:44,990 - werkzeug - INFO - 127.0.0.1 - - [09/Sep/2024 14:26:44] "[36mGET /feed?__debugger__=yes&cmd=resource&f=debugger.js HTTP/1.1[0m" 304 -
+2024-09-09 14:26:44,992 - werkzeug - INFO - 127.0.0.1 - - [09/Sep/2024 14:26:44] "[36mGET /feed?__debugger__=yes&cmd=resource&f=style.css HTTP/1.1[0m" 304 -
+2024-09-09 14:26:45,668 - werkzeug - INFO - 127.0.0.1 - - [09/Sep/2024 14:26:45] "[36mGET /feed?__debugger__=yes&cmd=resource&f=console.png HTTP/1.1[0m" 304 -
+2024-09-09 14:26:45,930 - werkzeug - INFO - 127.0.0.1 - - [09/Sep/2024 14:26:45] "[36mGET /feed?__debugger__=yes&cmd=resource&f=console.png HTTP/1.1[0m" 304 -
+2024-09-09 14:27:47,243 - werkzeug - INFO - 127.0.0.1 - - [09/Sep/2024 14:27:47] "[32mGET /feed HTTP/1.1[0m" 302 -
+2024-09-09 14:27:47,298 - werkzeug - INFO - 127.0.0.1 - - [09/Sep/2024 14:27:47] "GET /login HTTP/1.1" 200 -
+2024-09-09 14:27:49,835 - werkzeug - INFO - 127.0.0.1 - - [09/Sep/2024 14:27:49] "[32mGET /keyword HTTP/1.1[0m" 302 -
+2024-09-09 14:27:56,659 - httpx - INFO - HTTP Request: POST https://ihmwyribamieeumszjjv.supabase.co/auth/v1/token?grant_type=password "HTTP/2 200 OK"
+2024-09-09 14:27:56,794 - httpx - INFO - HTTP Request: GET https://ihmwyribamieeumszjjv.supabase.co/auth/v1/user "HTTP/2 200 OK"
+2024-09-09 14:27:57,696 - httpx - INFO - HTTP Request: GET https://ihmwyribamieeumszjjv.supabase.co/rest/v1/user_plan?select=%2A&user_id=eq.a01fe001-ddb1-423e-aea4-a376d7740303 "HTTP/2 200 OK"
+2024-09-09 14:27:57,719 - root - INFO - User plans fetched successfully: [{'id': 'ee8522d2-d935-4f21-9d0d-fd5127cc62fe', 'plan': 'freemium', 'user_id': 'a01fe001-ddb1-423e-aea4-a376d7740303', 'created_at': '2024-09-09T07:33:47.586069+00:00', 'updated_at': '2024-09-09T07:33:47.586069', 'keyword_limit': None}]
+2024-09-09 14:27:57,721 - werkzeug - INFO - 127.0.0.1 - - [09/Sep/2024 14:27:57] "[32mPOST /login HTTP/1.1[0m" 302 -
+2024-09-09 14:27:57,851 - httpx - INFO - HTTP Request: GET https://ihmwyribamieeumszjjv.supabase.co/auth/v1/user "HTTP/2 200 OK"
+2024-09-09 14:27:58,133 - httpx - INFO - HTTP Request: GET https://ihmwyribamieeumszjjv.supabase.co/auth/v1/user "HTTP/2 200 OK"
+2024-09-09 14:27:58,251 - httpx - INFO - HTTP Request: GET https://ihmwyribamieeumszjjv.supabase.co/rest/v1/user_keyword?select=%2A&user_id=eq.a01fe001-ddb1-423e-aea4-a376d7740303 "HTTP/2 200 OK"
+2024-09-09 14:27:58,261 - werkzeug - INFO - 127.0.0.1 - - [09/Sep/2024 14:27:58] "GET /keyword HTTP/1.1" 200 -
+2024-09-09 14:27:58,677 - werkzeug - INFO - 127.0.0.1 - - [09/Sep/2024 14:27:58] "[36mGET /static/js/keyword.js HTTP/1.1[0m" 304 -
+2024-09-09 14:28:04,618 - httpx - INFO - HTTP Request: GET https://ihmwyribamieeumszjjv.supabase.co/auth/v1/user "HTTP/2 200 OK"
+2024-09-09 14:28:04,774 - httpx - INFO - HTTP Request: GET https://ihmwyribamieeumszjjv.supabase.co/auth/v1/user "HTTP/2 200 OK"
+2024-09-09 14:28:04,930 - httpx - INFO - HTTP Request: GET https://ihmwyribamieeumszjjv.supabase.co/rest/v1/user_keyword?select=%2A&user_id=eq.a01fe001-ddb1-423e-aea4-a376d7740303 "HTTP/2 200 OK"
+2024-09-09 14:28:05,158 - httpx - INFO - HTTP Request: GET https://ihmwyribamieeumszjjv.supabase.co/rest/v1/keyword_analysis?select=status%2C%20updated_at&keyword_id=eq.5eb27417-cd60-4c5e-a37b-d2eece9341e0&order=created_at.desc&limit=1 "HTTP/2 200 OK"
+2024-09-09 14:28:05,260 - httpx - INFO - HTTP Request: GET https://ihmwyribamieeumszjjv.supabase.co/rest/v1/keyword_summary?select=news_summary&id=eq.5eb27417-cd60-4c5e-a37b-d2eece9341e0 "HTTP/2 200 OK"
+2024-09-09 14:28:05,262 - root - INFO - User keywords fetched successfully: [{'id': '5eb27417-cd60-4c5e-a37b-d2eece9341e0', 'keyword': 'who is gonna win the  2024 US elections?', 'user_id': 'a01fe001-ddb1-423e-aea4-a376d7740303', 'created_at': '2024-09-09T07:34:32.767516+00:00', 'refresh_button': True, 'last_analysis': datetime.datetime(2024, 9, 9, 8, 25, 36, 601164), 'news_summary': None}]
+2024-09-09 14:28:05,283 - werkzeug - INFO - 127.0.0.1 - - [09/Sep/2024 14:28:05] "GET /feed HTTP/1.1" 200 -
+2024-09-09 14:28:05,370 - werkzeug - INFO - 127.0.0.1 - - [09/Sep/2024 14:28:05] "[36mGET /static/js/feed.js HTTP/1.1[0m" 304 -
+2024-09-09 14:28:07,362 - httpx - INFO - HTTP Request: GET https://ihmwyribamieeumszjjv.supabase.co/auth/v1/user "HTTP/2 200 OK"
+2024-09-09 14:28:07,364 - root - INFO - Entering start_analysis for keyword_id: 5eb27417-cd60-4c5e-a37b-d2eece9341e0
+2024-09-09 14:28:07,474 - httpx - INFO - HTTP Request: GET https://ihmwyribamieeumszjjv.supabase.co/auth/v1/user "HTTP/2 200 OK"
+2024-09-09 14:28:07,476 - root - INFO - User: a01fe001-ddb1-423e-aea4-a376d7740303
+2024-09-09 14:28:07,607 - httpx - INFO - HTTP Request: GET https://ihmwyribamieeumszjjv.supabase.co/rest/v1/user_keyword?select=keyword&id=eq.5eb27417-cd60-4c5e-a37b-d2eece9341e0 "HTTP/2 200 OK"
+2024-09-09 14:28:07,608 - root - INFO - Keyword: who is gonna win the  2024 US elections?
+2024-09-09 14:28:07,822 - httpx - INFO - HTTP Request: GET https://ihmwyribamieeumszjjv.supabase.co/rest/v1/keyword_analysis?select=%2A&keyword_id=eq.5eb27417-cd60-4c5e-a37b-d2eece9341e0&status=in.%28pending%2Cprocessing%29&order=created_at.desc&limit=1 "HTTP/2 200 OK"
+2024-09-09 14:28:07,828 - root - INFO - Active analysis query result: []
+2024-09-09 14:28:07,828 - root - INFO - Creating new analysis
+2024-09-09 14:28:07,974 - httpx - INFO - HTTP Request: POST https://ihmwyribamieeumszjjv.supabase.co/rest/v1/keyword_analysis "HTTP/2 201 Created"
+2024-09-09 14:28:07,976 - root - INFO - Starting handle_chat for user_id: a01fe001-ddb1-423e-aea4-a376d7740303, keyword_id: 5eb27417-cd60-4c5e-a37b-d2eece9341e0, analysis_id: d3f3fb70-da57-4d4b-845a-3a79b1e0ecc3
+2024-09-09 14:28:08,092 - httpx - INFO - HTTP Request: GET https://ihmwyribamieeumszjjv.supabase.co/rest/v1/user_keyword?select=keyword&id=eq.5eb27417-cd60-4c5e-a37b-d2eece9341e0 "HTTP/2 200 OK"
+2024-09-09 14:28:08,094 - root - INFO - Attempting to save message: {'keyword_analysis_id': 'd3f3fb70-da57-4d4b-845a-3a79b1e0ecc3', 'role': 'user', 'content': 'who is gonna win the  2024 US elections?'}
+2024-09-09 14:28:08,239 - httpx - INFO - HTTP Request: POST https://ihmwyribamieeumszjjv.supabase.co/rest/v1/analysis_messages "HTTP/2 201 Created"
+2024-09-09 14:28:08,241 - root - INFO - Message saved successfully: {'id': '636b180b-d372-4178-a477-866cc0439e33', 'keyword_analysis_id': 'd3f3fb70-da57-4d4b-845a-3a79b1e0ecc3', 'role': 'user', 'content': 'who is gonna win the  2024 US elections?', 'tool_name': None, 'tool_use_id': None, 'tool_input': None, 'tool_result': None, 'created_at': '2024-09-09T08:58:08.314088+00:00'}
+2024-09-09 14:28:08,540 - httpx - INFO - HTTP Request: GET https://ihmwyribamieeumszjjv.supabase.co/rest/v1/user_plan?select=%2A&user_id=eq.a01fe001-ddb1-423e-aea4-a376d7740303 "HTTP/2 200 OK"
+2024-09-09 14:28:08,541 - root - INFO - User plans fetched successfully: [{'id': 'ee8522d2-d935-4f21-9d0d-fd5127cc62fe', 'plan': 'freemium', 'user_id': 'a01fe001-ddb1-423e-aea4-a376d7740303', 'created_at': '2024-09-09T07:33:47.586069+00:00', 'updated_at': '2024-09-09T07:33:47.586069', 'keyword_limit': None}]
+2024-09-09 14:28:08,542 - root - INFO - User plan type: [{'id': 'ee8522d2-d935-4f21-9d0d-fd5127cc62fe', 'plan': 'freemium', 'user_id': 'a01fe001-ddb1-423e-aea4-a376d7740303', 'created_at': '2024-09-09T07:33:47.586069+00:00', 'updated_at': '2024-09-09T07:33:47.586069', 'keyword_limit': None}]
+2024-09-09 14:28:08,542 - root - INFO - API keys retrieved: Yes
+2024-09-09 14:28:09,233 - root - INFO - Tools loaded and returned 4 tools
+2024-09-09 14:28:09,234 - root - INFO - Number of tools loaded: 4
+2024-09-09 14:28:09,365 - httpx - INFO - HTTP Request: GET https://ihmwyribamieeumszjjv.supabase.co/rest/v1/analysis_messages?select=%2A&keyword_analysis_id=eq.d3f3fb70-da57-4d4b-845a-3a79b1e0ecc3&order=created_at "HTTP/2 200 OK"
+2024-09-09 14:28:09,367 - root - INFO - Retrieved messages for chat_id: d3f3fb70-da57-4d4b-845a-3a79b1e0ecc3
+2024-09-09 14:28:09,367 - root - INFO - Total tokens in conversation: 99
+2024-09-09 14:28:09,367 - root - INFO - Conversation context length: 1
+2024-09-09 14:28:09,367 - root - INFO - Sending request to Anthropic API
+2024-09-09 14:28:09,368 - root - INFO - Conversation context: [
+  {
+    "role": "user",
+    "content": [
+      {
+        "type": "text",
+        "text": "who is gonna win the  2024 US elections?"
+      }
+    ]
+  }
+]
+2024-09-09 14:28:09,368 - root - INFO - Number of messages in conversation: 1
+2024-09-09 14:28:17,549 - httpx - INFO - HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2024-09-09 14:28:17,569 - root - INFO - Response Received from ANTHROPIC API: Message(id='msg_01GJkGBhc9PskFWSjDYEV8UC', content=[TextBlock(text="To analyze the current situation regarding the 2024 US elections and provide a balanced summary, I'll need to gather information from various sources. Let's start by searching for recent news and predictions about the upcoming election.", type='text'), ToolUseBlock(id='toolu_01UNzGUriExQNb5wZh7K8JbG', input={'search_query': '2024 US presidential election predictions and polls'}, name='search_web', type='tool_use')], model='claude-3-5-sonnet-20240620', role='assistant', stop_reason='tool_use', stop_sequence=None, type='message', usage=Usage(input_tokens=1072, output_tokens=108))
+2024-09-09 14:28:17,570 - root - INFO - Attempting to save message: {'keyword_analysis_id': 'd3f3fb70-da57-4d4b-845a-3a79b1e0ecc3', 'role': 'assistant', 'content': "To analyze the current situation regarding the 2024 US elections and provide a balanced summary, I'll need to gather information from various sources. Let's start by searching for recent news and predictions about the upcoming election."}
+2024-09-09 14:28:17,755 - httpx - INFO - HTTP Request: POST https://ihmwyribamieeumszjjv.supabase.co/rest/v1/analysis_messages "HTTP/2 201 Created"
+2024-09-09 14:28:17,760 - root - INFO - Message saved successfully: {'id': '895871a5-5c8f-422a-bc2d-d9e4f9d811ac', 'keyword_analysis_id': 'd3f3fb70-da57-4d4b-845a-3a79b1e0ecc3', 'role': 'assistant', 'content': "To analyze the current situation regarding the 2024 US elections and provide a balanced summary, I'll need to gather information from various sources. Let's start by searching for recent news and predictions about the upcoming election.", 'tool_name': None, 'tool_use_id': None, 'tool_input': None, 'tool_result': None, 'created_at': '2024-09-09T08:58:17.844288+00:00'}
+2024-09-09 14:28:17,760 - root - INFO - Tool use detected: search_web
+2024-09-09 14:28:17,761 - root - INFO - Attempting to save message: {'keyword_analysis_id': 'd3f3fb70-da57-4d4b-845a-3a79b1e0ecc3', 'role': 'assistant', 'content': "To analyze the current situation regarding the 2024 US elections and provide a balanced summary, I'll need to gather information from various sources. Let's start by searching for recent news and predictions about the upcoming election.", 'tool_name': 'search_web', 'tool_use_id': 'toolu_01UNzGUriExQNb5wZh7K8JbG', 'tool_input': {'search_query': '2024 US presidential election predictions and polls'}}
+2024-09-09 14:28:17,872 - httpx - INFO - HTTP Request: POST https://ihmwyribamieeumszjjv.supabase.co/rest/v1/analysis_messages "HTTP/2 201 Created"
+2024-09-09 14:28:17,874 - root - INFO - Message saved successfully: {'id': '280b1158-6696-4012-a598-956395e378ec', 'keyword_analysis_id': 'd3f3fb70-da57-4d4b-845a-3a79b1e0ecc3', 'role': 'assistant', 'content': "To analyze the current situation regarding the 2024 US elections and provide a balanced summary, I'll need to gather information from various sources. Let's start by searching for recent news and predictions about the upcoming election.", 'tool_name': 'search_web', 'tool_use_id': 'toolu_01UNzGUriExQNb5wZh7K8JbG', 'tool_input': {'search_query': '2024 US presidential election predictions and polls'}, 'tool_result': None, 'created_at': '2024-09-09T08:58:17.95778+00:00'}
+2024-09-09 14:28:17,874 - root - INFO - Processing tool use: search_web for analysis d3f3fb70-da57-4d4b-845a-3a79b1e0ecc3
+2024-09-09 14:28:17,987 - httpx - INFO - HTTP Request: GET https://ihmwyribamieeumszjjv.supabase.co/rest/v1/user_api_token?select=tavily_api_key&user_id=eq.a01fe001-ddb1-423e-aea4-a376d7740303 "HTTP/2 200 OK"
+2024-09-09 14:28:17,988 - root - INFO - Tavily API key found: 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
+2024-09-09 14:28:19,093 - root - INFO - Tool search_web executed successfully
+2024-09-09 14:28:19,094 - root - INFO - Attempting to save message: {'keyword_analysis_id': 'd3f3fb70-da57-4d4b-845a-3a79b1e0ecc3', 'role': 'user', 'content': 'Tool result', 'tool_result': "{'error': 'Invalid request parameters. Please check your input.'}", 'tool_use_id': 'toolu_01UNzGUriExQNb5wZh7K8JbG'}
+2024-09-09 14:28:19,193 - httpx - INFO - HTTP Request: POST https://ihmwyribamieeumszjjv.supabase.co/rest/v1/analysis_messages "HTTP/2 201 Created"
+2024-09-09 14:28:19,194 - root - INFO - Message saved successfully: {'id': 'ff7c91fc-9179-436f-9418-47c68bc8d27d', 'keyword_analysis_id': 'd3f3fb70-da57-4d4b-845a-3a79b1e0ecc3', 'role': 'user', 'content': 'Tool result', 'tool_name': None, 'tool_use_id': 'toolu_01UNzGUriExQNb5wZh7K8JbG', 'tool_input': None, 'tool_result': "{'error': 'Invalid request parameters. Please check your input.'}", 'created_at': '2024-09-09T08:58:19.277589+00:00'}
+2024-09-09 14:28:19,407 - httpx - INFO - HTTP Request: GET https://ihmwyribamieeumszjjv.supabase.co/rest/v1/user_plan?select=%2A&user_id=eq.a01fe001-ddb1-423e-aea4-a376d7740303 "HTTP/2 200 OK"
+2024-09-09 14:28:19,408 - root - INFO - User plans fetched successfully: [{'id': 'ee8522d2-d935-4f21-9d0d-fd5127cc62fe', 'plan': 'freemium', 'user_id': 'a01fe001-ddb1-423e-aea4-a376d7740303', 'created_at': '2024-09-09T07:33:47.586069+00:00', 'updated_at': '2024-09-09T07:33:47.586069', 'keyword_limit': None}]
+2024-09-09 14:28:19,408 - root - INFO - User plan type: [{'id': 'ee8522d2-d935-4f21-9d0d-fd5127cc62fe', 'plan': 'freemium', 'user_id': 'a01fe001-ddb1-423e-aea4-a376d7740303', 'created_at': '2024-09-09T07:33:47.586069+00:00', 'updated_at': '2024-09-09T07:33:47.586069', 'keyword_limit': None}]
+2024-09-09 14:28:19,408 - root - INFO - API keys retrieved: Yes
+2024-09-09 14:28:19,761 - root - INFO - Tools loaded and returned 4 tools
+2024-09-09 14:28:19,761 - root - INFO - Number of tools loaded: 4
+2024-09-09 14:28:19,876 - httpx - INFO - HTTP Request: GET https://ihmwyribamieeumszjjv.supabase.co/rest/v1/analysis_messages?select=%2A&keyword_analysis_id=eq.d3f3fb70-da57-4d4b-845a-3a79b1e0ecc3&order=created_at "HTTP/2 200 OK"
+2024-09-09 14:28:19,878 - root - INFO - Retrieved messages for chat_id: d3f3fb70-da57-4d4b-845a-3a79b1e0ecc3
+2024-09-09 14:28:19,878 - root - INFO - Total tokens in conversation: 623
+2024-09-09 14:28:19,878 - root - INFO - Conversation context length: 3
+2024-09-09 14:28:19,879 - root - INFO - Sending request to Anthropic API
+2024-09-09 14:28:19,879 - root - INFO - Conversation context: [
+  {
+    "role": "user",
+    "content": [
+      {
+        "type": "text",
+        "text": "who is gonna win the  2024 US elections?"
+      }
+    ]
+  },
+  {
+    "role": "assistant",
+    "content": [
+      {
+        "type": "text",
+        "text": "To analyze the current situation regarding the 2024 US elections and provide a balanced summary, I'll need to gather information from various sources. Let's start by searching for recent news and predictions about the upcoming election."
+      }
+    ]
+  },
+  {
+    "role": "user",
+    "content": [
+      {
+        "type": "text",
+        "text": "Tool result"
+      }
+    ]
+  }
+]
+2024-09-09 14:28:19,879 - root - INFO - Number of messages in conversation: 3
+2024-09-09 14:28:24,679 - httpx - INFO - HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2024-09-09 14:28:24,681 - root - INFO - Response Received from ANTHROPIC API: Message(id='msg_016KvAi42EndEd1zEdPAtBZJ', content=[TextBlock(text="I apologize for the confusion. You're right, I should proceed with using the available tools to gather information about the 2024 US elections. Let's start by searching for recent news and predictions.", type='text'), ToolUseBlock(id='toolu_01WoH2Ry8Lp8L6gufS6tUD34', input={'search_query': '2024 US elections predictions and current polls'}, name='search_web', type='tool_use')], model='claude-3-5-sonnet-20240620', role='assistant', stop_reason='tool_use', stop_sequence=None, type='message', usage=Usage(input_tokens=1124, output_tokens=106))
+2024-09-09 14:28:24,682 - root - INFO - Attempting to save message: {'keyword_analysis_id': 'd3f3fb70-da57-4d4b-845a-3a79b1e0ecc3', 'role': 'assistant', 'content': "I apologize for the confusion. You're right, I should proceed with using the available tools to gather information about the 2024 US elections. Let's start by searching for recent news and predictions."}
+2024-09-09 14:28:24,777 - httpx - INFO - HTTP Request: POST https://ihmwyribamieeumszjjv.supabase.co/rest/v1/analysis_messages "HTTP/2 201 Created"
+2024-09-09 14:28:24,779 - root - INFO - Message saved successfully: {'id': '31638bc5-095f-4f2d-b5a7-2f7d9e219d36', 'keyword_analysis_id': 'd3f3fb70-da57-4d4b-845a-3a79b1e0ecc3', 'role': 'assistant', 'content': "I apologize for the confusion. You're right, I should proceed with using the available tools to gather information about the 2024 US elections. Let's start by searching for recent news and predictions.", 'tool_name': None, 'tool_use_id': None, 'tool_input': None, 'tool_result': None, 'created_at': '2024-09-09T08:58:24.87055+00:00'}
+2024-09-09 14:28:24,780 - root - INFO - Tool use detected: search_web
+2024-09-09 14:28:24,780 - root - INFO - Attempting to save message: {'keyword_analysis_id': 'd3f3fb70-da57-4d4b-845a-3a79b1e0ecc3', 'role': 'assistant', 'content': "I apologize for the confusion. You're right, I should proceed with using the available tools to gather information about the 2024 US elections. Let's start by searching for recent news and predictions.", 'tool_name': 'search_web', 'tool_use_id': 'toolu_01WoH2Ry8Lp8L6gufS6tUD34', 'tool_input': {'search_query': '2024 US elections predictions and current polls'}}
+2024-09-09 14:28:24,885 - httpx - INFO - HTTP Request: POST https://ihmwyribamieeumszjjv.supabase.co/rest/v1/analysis_messages "HTTP/2 201 Created"
+2024-09-09 14:28:24,886 - root - INFO - Message saved successfully: {'id': '2519924e-3adb-41c9-bbfb-9efb48a3f941', 'keyword_analysis_id': 'd3f3fb70-da57-4d4b-845a-3a79b1e0ecc3', 'role': 'assistant', 'content': "I apologize for the confusion. You're right, I should proceed with using the available tools to gather information about the 2024 US elections. Let's start by searching for recent news and predictions.", 'tool_name': 'search_web', 'tool_use_id': 'toolu_01WoH2Ry8Lp8L6gufS6tUD34', 'tool_input': {'search_query': '2024 US elections predictions and current polls'}, 'tool_result': None, 'created_at': '2024-09-09T08:58:24.975986+00:00'}
+2024-09-09 14:28:24,886 - root - INFO - Processing tool use: search_web for analysis d3f3fb70-da57-4d4b-845a-3a79b1e0ecc3
+2024-09-09 14:28:24,984 - httpx - INFO - HTTP Request: GET https://ihmwyribamieeumszjjv.supabase.co/rest/v1/user_api_token?select=tavily_api_key&user_id=eq.a01fe001-ddb1-423e-aea4-a376d7740303 "HTTP/2 200 OK"
+2024-09-09 14:28:24,986 - root - INFO - Tavily API key found: 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
+2024-09-09 14:28:26,016 - root - INFO - Tool search_web executed successfully
+2024-09-09 14:28:26,016 - root - INFO - Attempting to save message: {'keyword_analysis_id': 'd3f3fb70-da57-4d4b-845a-3a79b1e0ecc3', 'role': 'user', 'content': 'Tool result', 'tool_result': "{'error': 'Invalid request parameters. Please check your input.'}", 'tool_use_id': 'toolu_01WoH2Ry8Lp8L6gufS6tUD34'}
+2024-09-09 14:28:26,130 - httpx - INFO - HTTP Request: POST https://ihmwyribamieeumszjjv.supabase.co/rest/v1/analysis_messages "HTTP/2 201 Created"
+2024-09-09 14:28:26,131 - root - INFO - Message saved successfully: {'id': '3cbdaf14-5b1e-4316-b7f0-5e63ba414807', 'keyword_analysis_id': 'd3f3fb70-da57-4d4b-845a-3a79b1e0ecc3', 'role': 'user', 'content': 'Tool result', 'tool_name': None, 'tool_use_id': 'toolu_01WoH2Ry8Lp8L6gufS6tUD34', 'tool_input': None, 'tool_result': "{'error': 'Invalid request parameters. Please check your input.'}", 'created_at': '2024-09-09T08:58:26.213335+00:00'}
+2024-09-09 14:28:26,251 - httpx - INFO - HTTP Request: GET https://ihmwyribamieeumszjjv.supabase.co/rest/v1/user_plan?select=%2A&user_id=eq.a01fe001-ddb1-423e-aea4-a376d7740303 "HTTP/2 200 OK"
+2024-09-09 14:28:26,252 - root - INFO - User plans fetched successfully: [{'id': 'ee8522d2-d935-4f21-9d0d-fd5127cc62fe', 'plan': 'freemium', 'user_id': 'a01fe001-ddb1-423e-aea4-a376d7740303', 'created_at': '2024-09-09T07:33:47.586069+00:00', 'updated_at': '2024-09-09T07:33:47.586069', 'keyword_limit': None}]
+2024-09-09 14:28:26,253 - root - INFO - User plan type: [{'id': 'ee8522d2-d935-4f21-9d0d-fd5127cc62fe', 'plan': 'freemium', 'user_id': 'a01fe001-ddb1-423e-aea4-a376d7740303', 'created_at': '2024-09-09T07:33:47.586069+00:00', 'updated_at': '2024-09-09T07:33:47.586069', 'keyword_limit': None}]
+2024-09-09 14:28:26,253 - root - INFO - API keys retrieved: Yes
+2024-09-09 14:28:26,614 - root - INFO - Tools loaded and returned 4 tools
+2024-09-09 14:28:26,614 - root - INFO - Number of tools loaded: 4
+2024-09-09 14:28:26,740 - httpx - INFO - HTTP Request: GET https://ihmwyribamieeumszjjv.supabase.co/rest/v1/analysis_messages?select=%2A&keyword_analysis_id=eq.d3f3fb70-da57-4d4b-845a-3a79b1e0ecc3&order=created_at "HTTP/2 200 OK"
+2024-09-09 14:28:26,742 - root - INFO - Retrieved messages for chat_id: d3f3fb70-da57-4d4b-845a-3a79b1e0ecc3
+2024-09-09 14:28:26,742 - root - INFO - Total tokens in conversation: 1112
+2024-09-09 14:28:26,742 - root - INFO - Conversation context length: 5
+2024-09-09 14:28:26,742 - root - INFO - Sending request to Anthropic API
+2024-09-09 14:28:26,743 - root - INFO - Conversation context: [
+  {
+    "role": "user",
+    "content": [
+      {
+        "type": "text",
+        "text": "who is gonna win the  2024 US elections?"
+      }
+    ]
+  },
+  {
+    "role": "assistant",
+    "content": [
+      {
+        "type": "text",
+        "text": "To analyze the current situation regarding the 2024 US elections and provide a balanced summary, I'll need to gather information from various sources. Let's start by searching for recent news and predictions about the upcoming election."
+      }
+    ]
+  },
+  {
+    "role": "user",
+    "content": [
+      {
+        "type": "text",
+        "text": "Tool result"
+      }
+    ]
+  },
+  {
+    "role": "assistant",
+    "content": [
+      {
+        "type": "text",
+        "text": "I apologize for the confusion. You're right, I should proceed with using the available tools to gather information about the 2024 US elections. Let's start by searching for recent news and predictions."
+      }
+    ]
+  },
+  {
+    "role": "user",
+    "content": [
+      {
+        "type": "text",
+        "text": "Tool result"
+      }
+    ]
+  }
+]
+2024-09-09 14:28:26,743 - root - INFO - Number of messages in conversation: 5
+2024-09-09 14:28:29,527 - httpx - INFO - HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2024-09-09 14:28:29,529 - root - INFO - Response Received from ANTHROPIC API: Message(id='msg_018akGPDDTEJVwBPELpGvXXf', content=[TextBlock(text="I apologize for the confusion earlier. You're absolutely right that I should be using the tools available to gather information about the 2024 US elections. Let me start by searching for recent news and predictions using the search_web tool.", type='text'), ToolUseBlock(id='toolu_011x5TSoCFLazkfMVXHDSDZf', input={'search_query': '2024 US elections predictions and current polls'}, name='search_web', type='tool_use')], model='claude-3-5-sonnet-20240620', role='assistant', stop_reason='tool_use', stop_sequence=None, type='message', usage=Usage(input_tokens=1174, output_tokens=113))
+2024-09-09 14:28:29,529 - root - INFO - Attempting to save message: {'keyword_analysis_id': 'd3f3fb70-da57-4d4b-845a-3a79b1e0ecc3', 'role': 'assistant', 'content': "I apologize for the confusion earlier. You're absolutely right that I should be using the tools available to gather information about the 2024 US elections. Let me start by searching for recent news and predictions using the search_web tool."}
+2024-09-09 14:28:29,636 - httpx - INFO - HTTP Request: POST https://ihmwyribamieeumszjjv.supabase.co/rest/v1/analysis_messages "HTTP/2 201 Created"
+2024-09-09 14:28:29,638 - root - INFO - Message saved successfully: {'id': 'c43a63b1-b606-4cd9-8b5c-4505b812b341', 'keyword_analysis_id': 'd3f3fb70-da57-4d4b-845a-3a79b1e0ecc3', 'role': 'assistant', 'content': "I apologize for the confusion earlier. You're absolutely right that I should be using the tools available to gather information about the 2024 US elections. Let me start by searching for recent news and predictions using the search_web tool.", 'tool_name': None, 'tool_use_id': None, 'tool_input': None, 'tool_result': None, 'created_at': '2024-09-09T08:58:29.721872+00:00'}
+2024-09-09 14:28:29,639 - root - INFO - Tool use detected: search_web
+2024-09-09 14:28:29,639 - root - INFO - Attempting to save message: {'keyword_analysis_id': 'd3f3fb70-da57-4d4b-845a-3a79b1e0ecc3', 'role': 'assistant', 'content': "I apologize for the confusion earlier. You're absolutely right that I should be using the tools available to gather information about the 2024 US elections. Let me start by searching for recent news and predictions using the search_web tool.", 'tool_name': 'search_web', 'tool_use_id': 'toolu_011x5TSoCFLazkfMVXHDSDZf', 'tool_input': {'search_query': '2024 US elections predictions and current polls'}}
+2024-09-09 14:28:29,749 - httpx - INFO - HTTP Request: POST https://ihmwyribamieeumszjjv.supabase.co/rest/v1/analysis_messages "HTTP/2 201 Created"
+2024-09-09 14:28:29,751 - root - INFO - Message saved successfully: {'id': '9a7f39e2-db76-4e34-8554-ad1846f7088b', 'keyword_analysis_id': 'd3f3fb70-da57-4d4b-845a-3a79b1e0ecc3', 'role': 'assistant', 'content': "I apologize for the confusion earlier. You're absolutely right that I should be using the tools available to gather information about the 2024 US elections. Let me start by searching for recent news and predictions using the search_web tool.", 'tool_name': 'search_web', 'tool_use_id': 'toolu_011x5TSoCFLazkfMVXHDSDZf', 'tool_input': {'search_query': '2024 US elections predictions and current polls'}, 'tool_result': None, 'created_at': '2024-09-09T08:58:29.837483+00:00'}
+2024-09-09 14:28:29,751 - root - INFO - Processing tool use: search_web for analysis d3f3fb70-da57-4d4b-845a-3a79b1e0ecc3
+2024-09-09 14:28:29,858 - httpx - INFO - HTTP Request: GET https://ihmwyribamieeumszjjv.supabase.co/rest/v1/user_api_token?select=tavily_api_key&user_id=eq.a01fe001-ddb1-423e-aea4-a376d7740303 "HTTP/2 200 OK"
+2024-09-09 14:28:29,859 - root - INFO - Tavily API key found: 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
+2024-09-09 14:28:30,963 - root - INFO - Tool search_web executed successfully
+2024-09-09 14:28:30,963 - root - INFO - Attempting to save message: {'keyword_analysis_id': 'd3f3fb70-da57-4d4b-845a-3a79b1e0ecc3', 'role': 'user', 'content': 'Tool result', 'tool_result': "{'error': 'Invalid request parameters. Please check your input.'}", 'tool_use_id': 'toolu_011x5TSoCFLazkfMVXHDSDZf'}
+2024-09-09 14:28:31,075 - httpx - INFO - HTTP Request: POST https://ihmwyribamieeumszjjv.supabase.co/rest/v1/analysis_messages "HTTP/2 201 Created"
+2024-09-09 14:28:31,076 - root - INFO - Message saved successfully: {'id': '49103202-ce53-464d-8dbd-6d8ef0b62a7d', 'keyword_analysis_id': 'd3f3fb70-da57-4d4b-845a-3a79b1e0ecc3', 'role': 'user', 'content': 'Tool result', 'tool_name': None, 'tool_use_id': 'toolu_011x5TSoCFLazkfMVXHDSDZf', 'tool_input': None, 'tool_result': "{'error': 'Invalid request parameters. Please check your input.'}", 'created_at': '2024-09-09T08:58:31.163823+00:00'}
+2024-09-09 14:28:31,270 - httpx - INFO - HTTP Request: GET https://ihmwyribamieeumszjjv.supabase.co/rest/v1/user_plan?select=%2A&user_id=eq.a01fe001-ddb1-423e-aea4-a376d7740303 "HTTP/2 200 OK"
+2024-09-09 14:28:31,271 - root - INFO - User plans fetched successfully: [{'id': 'ee8522d2-d935-4f21-9d0d-fd5127cc62fe', 'plan': 'freemium', 'user_id': 'a01fe001-ddb1-423e-aea4-a376d7740303', 'created_at': '2024-09-09T07:33:47.586069+00:00', 'updated_at': '2024-09-09T07:33:47.586069', 'keyword_limit': None}]
+2024-09-09 14:28:31,271 - root - INFO - User plan type: [{'id': 'ee8522d2-d935-4f21-9d0d-fd5127cc62fe', 'plan': 'freemium', 'user_id': 'a01fe001-ddb1-423e-aea4-a376d7740303', 'created_at': '2024-09-09T07:33:47.586069+00:00', 'updated_at': '2024-09-09T07:33:47.586069', 'keyword_limit': None}]
+2024-09-09 14:28:31,272 - root - INFO - API keys retrieved: Yes
+2024-09-09 14:28:31,747 - root - INFO - Tools loaded and returned 4 tools
+2024-09-09 14:28:31,748 - root - INFO - Number of tools loaded: 4
+2024-09-09 14:28:31,863 - httpx - INFO - HTTP Request: GET https://ihmwyribamieeumszjjv.supabase.co/rest/v1/analysis_messages?select=%2A&keyword_analysis_id=eq.d3f3fb70-da57-4d4b-845a-3a79b1e0ecc3&order=created_at "HTTP/2 200 OK"
+2024-09-09 14:28:31,864 - root - INFO - Retrieved messages for chat_id: d3f3fb70-da57-4d4b-845a-3a79b1e0ecc3
+2024-09-09 14:28:31,865 - root - INFO - Total tokens in conversation: 1242
+2024-09-09 14:28:31,865 - root - INFO - Conversation context length: 5
+2024-09-09 14:28:31,865 - root - INFO - Sending request to Anthropic API
+2024-09-09 14:28:31,866 - root - INFO - Conversation context: [
+  {
+    "role": "user",
+    "content": [
+      {
+        "type": "text",
+        "text": "Tool result"
+      }
+    ]
+  },
+  {
+    "role": "assistant",
+    "content": [
+      {
+        "type": "text",
+        "text": "I apologize for the confusion. You're right, I should proceed with using the available tools to gather information about the 2024 US elections. Let's start by searching for recent news and predictions."
+      }
+    ]
+  },
+  {
+    "role": "user",
+    "content": [
+      {
+        "type": "text",
+        "text": "Tool result"
+      }
+    ]
+  },
+  {
+    "role": "assistant",
+    "content": [
+      {
+        "type": "text",
+        "text": "I apologize for the confusion earlier. You're absolutely right that I should be using the tools available to gather information about the 2024 US elections. Let me start by searching for recent news and predictions using the search_web tool."
+      }
+    ]
+  },
+  {
+    "role": "user",
+    "content": [
+      {
+        "type": "text",
+        "text": "Tool result"
+      }
+    ]
+  }
+]
+2024-09-09 14:28:31,866 - root - INFO - Number of messages in conversation: 5
+2024-09-09 14:28:34,770 - httpx - INFO - HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2024-09-09 14:28:34,771 - root - INFO - Response Received from ANTHROPIC API: Message(id='msg_01F8BVRaXo8Fmtw3U4c71iAA', content=[TextBlock(text="I apologize for the confusion. You're right that I should be using the tools to analyze the 2024 US elections. Let me start by searching for recent information about this topic.", type='text'), ToolUseBlock(id='toolu_018shb29Cs45gU2vqcYc6NpV', input={'search_query': '2024 US elections latest news and predictions'}, name='search_web', type='tool_use')], model='claude-3-5-sonnet-20240620', role='assistant', stop_reason='tool_use', stop_sequence=None, type='message', usage=Usage(input_tokens=1169, output_tokens=103))
+2024-09-09 14:28:34,772 - root - INFO - Attempting to save message: {'keyword_analysis_id': 'd3f3fb70-da57-4d4b-845a-3a79b1e0ecc3', 'role': 'assistant', 'content': "I apologize for the confusion. You're right that I should be using the tools to analyze the 2024 US elections. Let me start by searching for recent information about this topic."}
+2024-09-09 14:28:34,910 - httpx - INFO - HTTP Request: POST https://ihmwyribamieeumszjjv.supabase.co/rest/v1/analysis_messages "HTTP/2 201 Created"
+2024-09-09 14:28:34,911 - root - INFO - Message saved successfully: {'id': '0d361aef-f18e-4563-a443-a88f02c8ed35', 'keyword_analysis_id': 'd3f3fb70-da57-4d4b-845a-3a79b1e0ecc3', 'role': 'assistant', 'content': "I apologize for the confusion. You're right that I should be using the tools to analyze the 2024 US elections. Let me start by searching for recent information about this topic.", 'tool_name': None, 'tool_use_id': None, 'tool_input': None, 'tool_result': None, 'created_at': '2024-09-09T08:58:34.999409+00:00'}
+2024-09-09 14:28:34,912 - root - INFO - Tool use detected: search_web
+2024-09-09 14:28:34,912 - root - INFO - Attempting to save message: {'keyword_analysis_id': 'd3f3fb70-da57-4d4b-845a-3a79b1e0ecc3', 'role': 'assistant', 'content': "I apologize for the confusion. You're right that I should be using the tools to analyze the 2024 US elections. Let me start by searching for recent information about this topic.", 'tool_name': 'search_web', 'tool_use_id': 'toolu_018shb29Cs45gU2vqcYc6NpV', 'tool_input': {'search_query': '2024 US elections latest news and predictions'}}
+2024-09-09 14:28:35,050 - httpx - INFO - HTTP Request: POST https://ihmwyribamieeumszjjv.supabase.co/rest/v1/analysis_messages "HTTP/2 201 Created"
+2024-09-09 14:28:35,051 - root - INFO - Message saved successfully: {'id': '40305462-205f-4be8-88db-bf9972dc777a', 'keyword_analysis_id': 'd3f3fb70-da57-4d4b-845a-3a79b1e0ecc3', 'role': 'assistant', 'content': "I apologize for the confusion. You're right that I should be using the tools to analyze the 2024 US elections. Let me start by searching for recent information about this topic.", 'tool_name': 'search_web', 'tool_use_id': 'toolu_018shb29Cs45gU2vqcYc6NpV', 'tool_input': {'search_query': '2024 US elections latest news and predictions'}, 'tool_result': None, 'created_at': '2024-09-09T08:58:35.135656+00:00'}
+2024-09-09 14:28:35,052 - root - INFO - Processing tool use: search_web for analysis d3f3fb70-da57-4d4b-845a-3a79b1e0ecc3
+2024-09-09 14:28:35,152 - httpx - INFO - HTTP Request: GET https://ihmwyribamieeumszjjv.supabase.co/rest/v1/user_api_token?select=tavily_api_key&user_id=eq.a01fe001-ddb1-423e-aea4-a376d7740303 "HTTP/2 200 OK"
+2024-09-09 14:28:35,153 - root - INFO - Tavily API key found: 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
+2024-09-09 14:28:36,193 - root - INFO - Tool search_web executed successfully
+2024-09-09 14:28:36,194 - root - INFO - Attempting to save message: {'keyword_analysis_id': 'd3f3fb70-da57-4d4b-845a-3a79b1e0ecc3', 'role': 'user', 'content': 'Tool result', 'tool_result': "{'error': 'Invalid request parameters. Please check your input.'}", 'tool_use_id': 'toolu_018shb29Cs45gU2vqcYc6NpV'}
+2024-09-09 14:28:36,306 - httpx - INFO - HTTP Request: POST https://ihmwyribamieeumszjjv.supabase.co/rest/v1/analysis_messages "HTTP/2 201 Created"
+2024-09-09 14:28:36,308 - root - INFO - Message saved successfully: {'id': '2681f950-9991-45a6-97c1-e3b334e8fef0', 'keyword_analysis_id': 'd3f3fb70-da57-4d4b-845a-3a79b1e0ecc3', 'role': 'user', 'content': 'Tool result', 'tool_name': None, 'tool_use_id': 'toolu_018shb29Cs45gU2vqcYc6NpV', 'tool_input': None, 'tool_result': "{'error': 'Invalid request parameters. Please check your input.'}", 'created_at': '2024-09-09T08:58:36.39352+00:00'}
+2024-09-09 14:28:36,407 - httpx - INFO - HTTP Request: GET https://ihmwyribamieeumszjjv.supabase.co/rest/v1/user_plan?select=%2A&user_id=eq.a01fe001-ddb1-423e-aea4-a376d7740303 "HTTP/2 200 OK"
+2024-09-09 14:28:36,408 - root - INFO - User plans fetched successfully: [{'id': 'ee8522d2-d935-4f21-9d0d-fd5127cc62fe', 'plan': 'freemium', 'user_id': 'a01fe001-ddb1-423e-aea4-a376d7740303', 'created_at': '2024-09-09T07:33:47.586069+00:00', 'updated_at': '2024-09-09T07:33:47.586069', 'keyword_limit': None}]
+2024-09-09 14:28:36,409 - root - INFO - User plan type: [{'id': 'ee8522d2-d935-4f21-9d0d-fd5127cc62fe', 'plan': 'freemium', 'user_id': 'a01fe001-ddb1-423e-aea4-a376d7740303', 'created_at': '2024-09-09T07:33:47.586069+00:00', 'updated_at': '2024-09-09T07:33:47.586069', 'keyword_limit': None}]
+2024-09-09 14:28:36,409 - root - INFO - API keys retrieved: Yes
+2024-09-09 14:28:36,871 - root - INFO - Tools loaded and returned 4 tools
+2024-09-09 14:28:36,871 - root - INFO - Number of tools loaded: 4
+2024-09-09 14:28:36,981 - httpx - INFO - HTTP Request: GET https://ihmwyribamieeumszjjv.supabase.co/rest/v1/analysis_messages?select=%2A&keyword_analysis_id=eq.d3f3fb70-da57-4d4b-845a-3a79b1e0ecc3&order=created_at "HTTP/2 200 OK"
+2024-09-09 14:28:36,983 - root - INFO - Retrieved messages for chat_id: d3f3fb70-da57-4d4b-845a-3a79b1e0ecc3
+2024-09-09 14:28:36,983 - root - INFO - Total tokens in conversation: 1218
+2024-09-09 14:28:36,983 - root - INFO - Conversation context length: 5
+2024-09-09 14:28:36,983 - root - INFO - Sending request to Anthropic API
+2024-09-09 14:28:36,983 - root - INFO - Conversation context: [
+  {
+    "role": "user",
+    "content": [
+      {
+        "type": "text",
+        "text": "Tool result"
+      }
+    ]
+  },
+  {
+    "role": "assistant",
+    "content": [
+      {
+        "type": "text",
+        "text": "I apologize for the confusion earlier. You're absolutely right that I should be using the tools available to gather information about the 2024 US elections. Let me start by searching for recent news and predictions using the search_web tool."
+      }
+    ]
+  },
+  {
+    "role": "user",
+    "content": [
+      {
+        "type": "text",
+        "text": "Tool result"
+      }
+    ]
+  },
+  {
+    "role": "assistant",
+    "content": [
+      {
+        "type": "text",
+        "text": "I apologize for the confusion. You're right that I should be using the tools to analyze the 2024 US elections. Let me start by searching for recent information about this topic."
+      }
+    ]
+  },
+  {
+    "role": "user",
+    "content": [
+      {
+        "type": "text",
+        "text": "Tool result"
+      }
+    ]
+  }
+]
+2024-09-09 14:28:36,983 - root - INFO - Number of messages in conversation: 5
+2024-09-09 14:28:44,191 - httpx - INFO - HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2024-09-09 14:28:44,193 - root - INFO - Response Received from ANTHROPIC API: Message(id='msg_01K7rQ3EELBAMChd1YsXxWDC', content=[TextBlock(text="I apologize for the confusion. You're absolutely correct that I should be using the available tools to gather and analyze information about the 2024 US elections. Let me begin by searching for recent news and predictions using the search_web tool.", type='text'), ToolUseBlock(id='toolu_01MF22GYGZbC4nSmBWQw8mKC', input={'search_query': '2024 US elections latest news and predictions'}, name='search_web', type='tool_use')], model='claude-3-5-sonnet-20240620', role='assistant', stop_reason='tool_use', stop_sequence=None, type='message', usage=Usage(input_tokens=1166, output_tokens=114))
+2024-09-09 14:28:44,194 - root - INFO - Attempting to save message: {'keyword_analysis_id': 'd3f3fb70-da57-4d4b-845a-3a79b1e0ecc3', 'role': 'assistant', 'content': "I apologize for the confusion. You're absolutely correct that I should be using the available tools to gather and analyze information about the 2024 US elections. Let me begin by searching for recent news and predictions using the search_web tool."}
+2024-09-09 14:28:44,372 - httpx - INFO - HTTP Request: POST https://ihmwyribamieeumszjjv.supabase.co/rest/v1/analysis_messages "HTTP/2 201 Created"
+2024-09-09 14:28:44,377 - root - INFO - Message saved successfully: {'id': 'ca420664-922f-4961-925e-e38e0681a778', 'keyword_analysis_id': 'd3f3fb70-da57-4d4b-845a-3a79b1e0ecc3', 'role': 'assistant', 'content': "I apologize for the confusion. You're absolutely correct that I should be using the available tools to gather and analyze information about the 2024 US elections. Let me begin by searching for recent news and predictions using the search_web tool.", 'tool_name': None, 'tool_use_id': None, 'tool_input': None, 'tool_result': None, 'created_at': '2024-09-09T08:58:44.465509+00:00'}
+2024-09-09 14:28:44,377 - root - INFO - Tool use detected: search_web
+2024-09-09 14:28:44,378 - root - INFO - Attempting to save message: {'keyword_analysis_id': 'd3f3fb70-da57-4d4b-845a-3a79b1e0ecc3', 'role': 'assistant', 'content': "I apologize for the confusion. You're absolutely correct that I should be using the available tools to gather and analyze information about the 2024 US elections. Let me begin by searching for recent news and predictions using the search_web tool.", 'tool_name': 'search_web', 'tool_use_id': 'toolu_01MF22GYGZbC4nSmBWQw8mKC', 'tool_input': {'search_query': '2024 US elections latest news and predictions'}}
+2024-09-09 14:28:44,494 - httpx - INFO - HTTP Request: POST https://ihmwyribamieeumszjjv.supabase.co/rest/v1/analysis_messages "HTTP/2 201 Created"
+2024-09-09 14:28:44,495 - root - INFO - Message saved successfully: {'id': '248a6bb3-02c3-4bd7-a9a7-8cd0d4433032', 'keyword_analysis_id': 'd3f3fb70-da57-4d4b-845a-3a79b1e0ecc3', 'role': 'assistant', 'content': "I apologize for the confusion. You're absolutely correct that I should be using the available tools to gather and analyze information about the 2024 US elections. Let me begin by searching for recent news and predictions using the search_web tool.", 'tool_name': 'search_web', 'tool_use_id': 'toolu_01MF22GYGZbC4nSmBWQw8mKC', 'tool_input': {'search_query': '2024 US elections latest news and predictions'}, 'tool_result': None, 'created_at': '2024-09-09T08:58:44.586878+00:00'}
+2024-09-09 14:28:44,495 - root - INFO - Processing tool use: search_web for analysis d3f3fb70-da57-4d4b-845a-3a79b1e0ecc3
+2024-09-09 14:28:44,599 - httpx - INFO - HTTP Request: GET https://ihmwyribamieeumszjjv.supabase.co/rest/v1/user_api_token?select=tavily_api_key&user_id=eq.a01fe001-ddb1-423e-aea4-a376d7740303 "HTTP/2 200 OK"
+2024-09-09 14:28:44,600 - root - INFO - Tavily API key found: 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
+2024-09-09 14:28:45,607 - root - INFO - Tool search_web executed successfully
+2024-09-09 14:28:45,608 - root - INFO - Attempting to save message: {'keyword_analysis_id': 'd3f3fb70-da57-4d4b-845a-3a79b1e0ecc3', 'role': 'user', 'content': 'Tool result', 'tool_result': "{'error': 'Invalid request parameters. Please check your input.'}", 'tool_use_id': 'toolu_01MF22GYGZbC4nSmBWQw8mKC'}
+2024-09-09 14:28:45,720 - httpx - INFO - HTTP Request: POST https://ihmwyribamieeumszjjv.supabase.co/rest/v1/analysis_messages "HTTP/2 201 Created"
+2024-09-09 14:28:45,720 - root - INFO - Message saved successfully: {'id': 'f0061181-edc8-4470-b5e8-9a5fdeed42aa', 'keyword_analysis_id': 'd3f3fb70-da57-4d4b-845a-3a79b1e0ecc3', 'role': 'user', 'content': 'Tool result', 'tool_name': None, 'tool_use_id': 'toolu_01MF22GYGZbC4nSmBWQw8mKC', 'tool_input': None, 'tool_result': "{'error': 'Invalid request parameters. Please check your input.'}", 'created_at': '2024-09-09T08:58:45.802487+00:00'}
+2024-09-09 14:28:45,819 - httpx - INFO - HTTP Request: GET https://ihmwyribamieeumszjjv.supabase.co/rest/v1/user_plan?select=%2A&user_id=eq.a01fe001-ddb1-423e-aea4-a376d7740303 "HTTP/2 200 OK"
+2024-09-09 14:28:45,820 - root - INFO - User plans fetched successfully: [{'id': 'ee8522d2-d935-4f21-9d0d-fd5127cc62fe', 'plan': 'freemium', 'user_id': 'a01fe001-ddb1-423e-aea4-a376d7740303', 'created_at': '2024-09-09T07:33:47.586069+00:00', 'updated_at': '2024-09-09T07:33:47.586069', 'keyword_limit': None}]
+2024-09-09 14:28:45,821 - root - INFO - User plan type: [{'id': 'ee8522d2-d935-4f21-9d0d-fd5127cc62fe', 'plan': 'freemium', 'user_id': 'a01fe001-ddb1-423e-aea4-a376d7740303', 'created_at': '2024-09-09T07:33:47.586069+00:00', 'updated_at': '2024-09-09T07:33:47.586069', 'keyword_limit': None}]
+2024-09-09 14:28:45,821 - root - INFO - API keys retrieved: Yes
+2024-09-09 14:28:46,281 - root - INFO - Tools loaded and returned 4 tools
+2024-09-09 14:28:46,281 - root - INFO - Number of tools loaded: 4
+2024-09-09 14:28:46,391 - httpx - INFO - HTTP Request: GET https://ihmwyribamieeumszjjv.supabase.co/rest/v1/analysis_messages?select=%2A&keyword_analysis_id=eq.d3f3fb70-da57-4d4b-845a-3a79b1e0ecc3&order=created_at "HTTP/2 200 OK"
+2024-09-09 14:28:46,396 - root - INFO - Retrieved messages for chat_id: d3f3fb70-da57-4d4b-845a-3a79b1e0ecc3
+2024-09-09 14:28:46,396 - root - INFO - Total tokens in conversation: 1224
+2024-09-09 14:28:46,396 - root - INFO - Conversation context length: 5
+2024-09-09 14:28:46,396 - root - INFO - Sending request to Anthropic API
+2024-09-09 14:28:46,396 - root - INFO - Conversation context: [
+  {
+    "role": "user",
+    "content": [
+      {
+        "type": "text",
+        "text": "Tool result"
+      }
+    ]
+  },
+  {
+    "role": "assistant",
+    "content": [
+      {
+        "type": "text",
+        "text": "I apologize for the confusion. You're right that I should be using the tools to analyze the 2024 US elections. Let me start by searching for recent information about this topic."
+      }
+    ]
+  },
+  {
+    "role": "user",
+    "content": [
+      {
+        "type": "text",
+        "text": "Tool result"
+      }
+    ]
+  },
+  {
+    "role": "assistant",
+    "content": [
+      {
+        "type": "text",
+        "text": "I apologize for the confusion. You're absolutely correct that I should be using the available tools to gather and analyze information about the 2024 US elections. Let me begin by searching for recent news and predictions using the search_web tool."
+      }
+    ]
+  },
+  {
+    "role": "user",
+    "content": [
+      {
+        "type": "text",
+        "text": "Tool result"
+      }
+    ]
+  }
+]
+2024-09-09 14:28:46,396 - root - INFO - Number of messages in conversation: 5
+2024-09-09 14:28:48,576 - httpx - INFO - HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2024-09-09 14:28:48,578 - root - INFO - Response Received from ANTHROPIC API: Message(id='msg_017tvoUTr7FxEBNJaTfmEVna', content=[TextBlock(text="I apologize for the confusion. You're right that I should be using the tools to analyze the 2024 US elections without waiting for additional input. Let me start by searching for recent information about this topic using the search_web tool.", type='text'), ToolUseBlock(id='toolu_01RdS6aJrYLw4wnhgKQrJLzG', input={'search_query': '2024 US elections latest news and predictions'}, name='search_web', type='tool_use')], model='claude-3-5-sonnet-20240620', role='assistant', stop_reason='tool_use', stop_sequence=None, type='message', usage=Usage(input_tokens=1167, output_tokens=114))
+2024-09-09 14:28:48,579 - root - INFO - Attempting to save message: {'keyword_analysis_id': 'd3f3fb70-da57-4d4b-845a-3a79b1e0ecc3', 'role': 'assistant', 'content': "I apologize for the confusion. You're right that I should be using the tools to analyze the 2024 US elections without waiting for additional input. Let me start by searching for recent information about this topic using the search_web tool."}
+2024-09-09 14:28:48,676 - httpx - INFO - HTTP Request: POST https://ihmwyribamieeumszjjv.supabase.co/rest/v1/analysis_messages "HTTP/2 201 Created"
+2024-09-09 14:28:48,678 - root - INFO - Message saved successfully: {'id': 'a72b6b79-6fdc-48cb-8adc-2322cbf8fdc5', 'keyword_analysis_id': 'd3f3fb70-da57-4d4b-845a-3a79b1e0ecc3', 'role': 'assistant', 'content': "I apologize for the confusion. You're right that I should be using the tools to analyze the 2024 US elections without waiting for additional input. Let me start by searching for recent information about this topic using the search_web tool.", 'tool_name': None, 'tool_use_id': None, 'tool_input': None, 'tool_result': None, 'created_at': '2024-09-09T08:58:48.766867+00:00'}
+2024-09-09 14:28:48,679 - root - INFO - Tool use detected: search_web
+2024-09-09 14:28:48,680 - root - INFO - Attempting to save message: {'keyword_analysis_id': 'd3f3fb70-da57-4d4b-845a-3a79b1e0ecc3', 'role': 'assistant', 'content': "I apologize for the confusion. You're right that I should be using the tools to analyze the 2024 US elections without waiting for additional input. Let me start by searching for recent information about this topic using the search_web tool.", 'tool_name': 'search_web', 'tool_use_id': 'toolu_01RdS6aJrYLw4wnhgKQrJLzG', 'tool_input': {'search_query': '2024 US elections latest news and predictions'}}
+2024-09-09 14:28:48,782 - httpx - INFO - HTTP Request: POST https://ihmwyribamieeumszjjv.supabase.co/rest/v1/analysis_messages "HTTP/2 201 Created"
+2024-09-09 14:28:48,783 - root - INFO - Message saved successfully: {'id': 'e91aa44a-6274-4083-b22e-d40c87d76348', 'keyword_analysis_id': 'd3f3fb70-da57-4d4b-845a-3a79b1e0ecc3', 'role': 'assistant', 'content': "I apologize for the confusion. You're right that I should be using the tools to analyze the 2024 US elections without waiting for additional input. Let me start by searching for recent information about this topic using the search_web tool.", 'tool_name': 'search_web', 'tool_use_id': 'toolu_01RdS6aJrYLw4wnhgKQrJLzG', 'tool_input': {'search_query': '2024 US elections latest news and predictions'}, 'tool_result': None, 'created_at': '2024-09-09T08:58:48.872181+00:00'}
+2024-09-09 14:28:48,783 - root - INFO - Processing tool use: search_web for analysis d3f3fb70-da57-4d4b-845a-3a79b1e0ecc3
+2024-09-09 14:28:48,983 - httpx - INFO - HTTP Request: GET https://ihmwyribamieeumszjjv.supabase.co/rest/v1/user_api_token?select=tavily_api_key&user_id=eq.a01fe001-ddb1-423e-aea4-a376d7740303 "HTTP/2 200 OK"
+2024-09-09 14:28:48,984 - root - INFO - Tavily API key found: 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
+2024-09-09 14:28:50,010 - root - INFO - Tool search_web executed successfully
+2024-09-09 14:28:50,011 - root - INFO - Attempting to save message: {'keyword_analysis_id': 'd3f3fb70-da57-4d4b-845a-3a79b1e0ecc3', 'role': 'user', 'content': 'Tool result', 'tool_result': "{'error': 'Invalid request parameters. Please check your input.'}", 'tool_use_id': 'toolu_01RdS6aJrYLw4wnhgKQrJLzG'}
+2024-09-09 14:28:50,210 - httpx - INFO - HTTP Request: POST https://ihmwyribamieeumszjjv.supabase.co/rest/v1/analysis_messages "HTTP/2 201 Created"
+2024-09-09 14:28:50,213 - root - INFO - Message saved successfully: {'id': '51f1655c-fbb7-47c1-ba3d-fc2ef5ad749d', 'keyword_analysis_id': 'd3f3fb70-da57-4d4b-845a-3a79b1e0ecc3', 'role': 'user', 'content': 'Tool result', 'tool_name': None, 'tool_use_id': 'toolu_01RdS6aJrYLw4wnhgKQrJLzG', 'tool_input': None, 'tool_result': "{'error': 'Invalid request parameters. Please check your input.'}", 'created_at': '2024-09-09T08:58:50.214508+00:00'}
+2024-09-09 14:28:50,343 - httpx - INFO - HTTP Request: GET https://ihmwyribamieeumszjjv.supabase.co/rest/v1/user_plan?select=%2A&user_id=eq.a01fe001-ddb1-423e-aea4-a376d7740303 "HTTP/2 200 OK"
+2024-09-09 14:28:50,345 - root - INFO - User plans fetched successfully: [{'id': 'ee8522d2-d935-4f21-9d0d-fd5127cc62fe', 'plan': 'freemium', 'user_id': 'a01fe001-ddb1-423e-aea4-a376d7740303', 'created_at': '2024-09-09T07:33:47.586069+00:00', 'updated_at': '2024-09-09T07:33:47.586069', 'keyword_limit': None}]
+2024-09-09 14:28:50,345 - root - INFO - User plan type: [{'id': 'ee8522d2-d935-4f21-9d0d-fd5127cc62fe', 'plan': 'freemium', 'user_id': 'a01fe001-ddb1-423e-aea4-a376d7740303', 'created_at': '2024-09-09T07:33:47.586069+00:00', 'updated_at': '2024-09-09T07:33:47.586069', 'keyword_limit': None}]
+2024-09-09 14:28:50,345 - root - INFO - API keys retrieved: Yes
+2024-09-09 14:28:50,851 - root - INFO - Tools loaded and returned 4 tools
+2024-09-09 14:28:50,851 - root - INFO - Number of tools loaded: 4
+2024-09-09 14:28:50,952 - httpx - INFO - HTTP Request: GET https://ihmwyribamieeumszjjv.supabase.co/rest/v1/analysis_messages?select=%2A&keyword_analysis_id=eq.d3f3fb70-da57-4d4b-845a-3a79b1e0ecc3&order=created_at "HTTP/2 200 OK"
+2024-09-09 14:28:50,953 - root - INFO - Retrieved messages for chat_id: d3f3fb70-da57-4d4b-845a-3a79b1e0ecc3
+2024-09-09 14:28:50,953 - root - INFO - Total tokens in conversation: 1287
+2024-09-09 14:28:50,953 - root - INFO - Conversation context length: 5
+2024-09-09 14:28:50,954 - root - INFO - Sending request to Anthropic API
+2024-09-09 14:28:50,954 - root - INFO - Conversation context: [
+  {
+    "role": "user",
+    "content": [
+      {
+        "type": "text",
+        "text": "Tool result"
+      }
+    ]
+  },
+  {
+    "role": "assistant",
+    "content": [
+      {
+        "type": "text",
+        "text": "I apologize for the confusion. You're absolutely correct that I should be using the available tools to gather and analyze information about the 2024 US elections. Let me begin by searching for recent news and predictions using the search_web tool."
+      }
+    ]
+  },
+  {
+    "role": "user",
+    "content": [
+      {
+        "type": "text",
+        "text": "Tool result"
+      }
+    ]
+  },
+  {
+    "role": "assistant",
+    "content": [
+      {
+        "type": "text",
+        "text": "I apologize for the confusion. You're right that I should be using the tools to analyze the 2024 US elections without waiting for additional input. Let me start by searching for recent information about this topic using the search_web tool."
+      }
+    ]
+  },
+  {
+    "role": "user",
+    "content": [
+      {
+        "type": "text",
+        "text": "Tool result"
+      }
+    ]
+  }
+]
+2024-09-09 14:28:50,954 - root - INFO - Number of messages in conversation: 5
+2024-09-09 14:28:51,560 - httpx - INFO - HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 429 Too Many Requests"
+2024-09-09 14:28:51,561 - anthropic._base_client - INFO - Retrying request to /v1/messages in 0.817066 seconds
+2024-09-09 14:28:53,693 - httpx - INFO - HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 429 Too Many Requests"
+2024-09-09 14:28:53,694 - anthropic._base_client - INFO - Retrying request to /v1/messages in 1.942196 seconds
+2024-09-09 14:28:56,008 - httpx - INFO - HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 429 Too Many Requests"
+2024-09-09 14:28:56,009 - root - ERROR - Error in process_conversation: Error code: 429 - {'type': 'error', 'error': {'type': 'rate_limit_error', 'message': 'Number of request tokens has exceeded your daily rate limit (https://docs.anthropic.com/en/api/rate-limits); see the response headers for current usage. Please reduce the prompt length or the maximum tokens requested, or try again later. You may also contact sales at https://www.anthropic.com/contact-sales to discuss your options for a rate limit increase.'}}
+2024-09-09 14:28:56,229 - httpx - INFO - HTTP Request: PATCH https://ihmwyribamieeumszjjv.supabase.co/rest/v1/keyword_analysis?id=eq.d3f3fb70-da57-4d4b-845a-3a79b1e0ecc3 "HTTP/2 200 OK"
+2024-09-09 14:28:56,233 - root - ERROR - Error processing tool use for search_web: Error code: 429 - {'type': 'error', 'error': {'type': 'rate_limit_error', 'message': 'Number of request tokens has exceeded your daily rate limit (https://docs.anthropic.com/en/api/rate-limits); see the response headers for current usage. Please reduce the prompt length or the maximum tokens requested, or try again later. You may also contact sales at https://www.anthropic.com/contact-sales to discuss your options for a rate limit increase.'}}
+2024-09-09 14:28:56,337 - httpx - INFO - HTTP Request: PATCH https://ihmwyribamieeumszjjv.supabase.co/rest/v1/keyword_analysis?id=eq.d3f3fb70-da57-4d4b-845a-3a79b1e0ecc3 "HTTP/2 200 OK"
+2024-09-09 14:28:56,339 - root - ERROR - Error in process_conversation: Error code: 429 - {'type': 'error', 'error': {'type': 'rate_limit_error', 'message': 'Number of request tokens has exceeded your daily rate limit (https://docs.anthropic.com/en/api/rate-limits); see the response headers for current usage. Please reduce the prompt length or the maximum tokens requested, or try again later. You may also contact sales at https://www.anthropic.com/contact-sales to discuss your options for a rate limit increase.'}}
+2024-09-09 14:28:56,560 - httpx - INFO - HTTP Request: PATCH https://ihmwyribamieeumszjjv.supabase.co/rest/v1/keyword_analysis?id=eq.d3f3fb70-da57-4d4b-845a-3a79b1e0ecc3 "HTTP/2 200 OK"
+2024-09-09 14:28:56,561 - root - ERROR - Error processing tool use for search_web: Error code: 429 - {'type': 'error', 'error': {'type': 'rate_limit_error', 'message': 'Number of request tokens has exceeded your daily rate limit (https://docs.anthropic.com/en/api/rate-limits); see the response headers for current usage. Please reduce the prompt length or the maximum tokens requested, or try again later. You may also contact sales at https://www.anthropic.com/contact-sales to discuss your options for a rate limit increase.'}}
+2024-09-09 14:28:56,660 - httpx - INFO - HTTP Request: PATCH https://ihmwyribamieeumszjjv.supabase.co/rest/v1/keyword_analysis?id=eq.d3f3fb70-da57-4d4b-845a-3a79b1e0ecc3 "HTTP/2 200 OK"
+2024-09-09 14:28:56,661 - root - ERROR - Error in process_conversation: Error code: 429 - {'type': 'error', 'error': {'type': 'rate_limit_error', 'message': 'Number of request tokens has exceeded your daily rate limit (https://docs.anthropic.com/en/api/rate-limits); see the response headers for current usage. Please reduce the prompt length or the maximum tokens requested, or try again later. You may also contact sales at https://www.anthropic.com/contact-sales to discuss your options for a rate limit increase.'}}
+2024-09-09 14:28:56,766 - httpx - INFO - HTTP Request: PATCH https://ihmwyribamieeumszjjv.supabase.co/rest/v1/keyword_analysis?id=eq.d3f3fb70-da57-4d4b-845a-3a79b1e0ecc3 "HTTP/2 200 OK"
+2024-09-09 14:28:56,769 - root - ERROR - Error processing tool use for search_web: Error code: 429 - {'type': 'error', 'error': {'type': 'rate_limit_error', 'message': 'Number of request tokens has exceeded your daily rate limit (https://docs.anthropic.com/en/api/rate-limits); see the response headers for current usage. Please reduce the prompt length or the maximum tokens requested, or try again later. You may also contact sales at https://www.anthropic.com/contact-sales to discuss your options for a rate limit increase.'}}
+2024-09-09 14:28:56,870 - httpx - INFO - HTTP Request: PATCH https://ihmwyribamieeumszjjv.supabase.co/rest/v1/keyword_analysis?id=eq.d3f3fb70-da57-4d4b-845a-3a79b1e0ecc3 "HTTP/2 200 OK"
+2024-09-09 14:28:56,872 - root - ERROR - Error in process_conversation: Error code: 429 - {'type': 'error', 'error': {'type': 'rate_limit_error', 'message': 'Number of request tokens has exceeded your daily rate limit (https://docs.anthropic.com/en/api/rate-limits); see the response headers for current usage. Please reduce the prompt length or the maximum tokens requested, or try again later. You may also contact sales at https://www.anthropic.com/contact-sales to discuss your options for a rate limit increase.'}}
+2024-09-09 14:28:57,073 - httpx - INFO - HTTP Request: PATCH https://ihmwyribamieeumszjjv.supabase.co/rest/v1/keyword_analysis?id=eq.d3f3fb70-da57-4d4b-845a-3a79b1e0ecc3 "HTTP/2 200 OK"
+2024-09-09 14:28:57,075 - root - ERROR - Error processing tool use for search_web: Error code: 429 - {'type': 'error', 'error': {'type': 'rate_limit_error', 'message': 'Number of request tokens has exceeded your daily rate limit (https://docs.anthropic.com/en/api/rate-limits); see the response headers for current usage. Please reduce the prompt length or the maximum tokens requested, or try again later. You may also contact sales at https://www.anthropic.com/contact-sales to discuss your options for a rate limit increase.'}}
+2024-09-09 14:28:57,178 - httpx - INFO - HTTP Request: PATCH https://ihmwyribamieeumszjjv.supabase.co/rest/v1/keyword_analysis?id=eq.d3f3fb70-da57-4d4b-845a-3a79b1e0ecc3 "HTTP/2 200 OK"
+2024-09-09 14:28:57,182 - root - ERROR - Error in process_conversation: Error code: 429 - {'type': 'error', 'error': {'type': 'rate_limit_error', 'message': 'Number of request tokens has exceeded your daily rate limit (https://docs.anthropic.com/en/api/rate-limits); see the response headers for current usage. Please reduce the prompt length or the maximum tokens requested, or try again later. You may also contact sales at https://www.anthropic.com/contact-sales to discuss your options for a rate limit increase.'}}
+2024-09-09 14:28:57,297 - httpx - INFO - HTTP Request: PATCH https://ihmwyribamieeumszjjv.supabase.co/rest/v1/keyword_analysis?id=eq.d3f3fb70-da57-4d4b-845a-3a79b1e0ecc3 "HTTP/2 200 OK"
+2024-09-09 14:28:57,299 - root - ERROR - Error processing tool use for search_web: Error code: 429 - {'type': 'error', 'error': {'type': 'rate_limit_error', 'message': 'Number of request tokens has exceeded your daily rate limit (https://docs.anthropic.com/en/api/rate-limits); see the response headers for current usage. Please reduce the prompt length or the maximum tokens requested, or try again later. You may also contact sales at https://www.anthropic.com/contact-sales to discuss your options for a rate limit increase.'}}
+2024-09-09 14:28:57,419 - httpx - INFO - HTTP Request: PATCH https://ihmwyribamieeumszjjv.supabase.co/rest/v1/keyword_analysis?id=eq.d3f3fb70-da57-4d4b-845a-3a79b1e0ecc3 "HTTP/2 200 OK"
+2024-09-09 14:28:57,421 - root - ERROR - Error in process_conversation: Error code: 429 - {'type': 'error', 'error': {'type': 'rate_limit_error', 'message': 'Number of request tokens has exceeded your daily rate limit (https://docs.anthropic.com/en/api/rate-limits); see the response headers for current usage. Please reduce the prompt length or the maximum tokens requested, or try again later. You may also contact sales at https://www.anthropic.com/contact-sales to discuss your options for a rate limit increase.'}}
+2024-09-09 14:28:57,554 - httpx - INFO - HTTP Request: PATCH https://ihmwyribamieeumszjjv.supabase.co/rest/v1/keyword_analysis?id=eq.d3f3fb70-da57-4d4b-845a-3a79b1e0ecc3 "HTTP/2 200 OK"
+2024-09-09 14:28:57,556 - root - ERROR - Error processing tool use for search_web: Error code: 429 - {'type': 'error', 'error': {'type': 'rate_limit_error', 'message': 'Number of request tokens has exceeded your daily rate limit (https://docs.anthropic.com/en/api/rate-limits); see the response headers for current usage. Please reduce the prompt length or the maximum tokens requested, or try again later. You may also contact sales at https://www.anthropic.com/contact-sales to discuss your options for a rate limit increase.'}}
+2024-09-09 14:28:57,676 - httpx - INFO - HTTP Request: PATCH https://ihmwyribamieeumszjjv.supabase.co/rest/v1/keyword_analysis?id=eq.d3f3fb70-da57-4d4b-845a-3a79b1e0ecc3 "HTTP/2 200 OK"
+2024-09-09 14:28:57,679 - root - ERROR - Error in process_conversation: Error code: 429 - {'type': 'error', 'error': {'type': 'rate_limit_error', 'message': 'Number of request tokens has exceeded your daily rate limit (https://docs.anthropic.com/en/api/rate-limits); see the response headers for current usage. Please reduce the prompt length or the maximum tokens requested, or try again later. You may also contact sales at https://www.anthropic.com/contact-sales to discuss your options for a rate limit increase.'}}
+2024-09-09 14:28:57,779 - httpx - INFO - HTTP Request: PATCH https://ihmwyribamieeumszjjv.supabase.co/rest/v1/keyword_analysis?id=eq.d3f3fb70-da57-4d4b-845a-3a79b1e0ecc3 "HTTP/2 200 OK"
+2024-09-09 14:28:57,780 - root - ERROR - Error in handle_chat: Error code: 429 - {'type': 'error', 'error': {'type': 'rate_limit_error', 'message': 'Number of request tokens has exceeded your daily rate limit (https://docs.anthropic.com/en/api/rate-limits); see the response headers for current usage. Please reduce the prompt length or the maximum tokens requested, or try again later. You may also contact sales at https://www.anthropic.com/contact-sales to discuss your options for a rate limit increase.'}}
+2024-09-09 14:28:57,891 - httpx - INFO - HTTP Request: PATCH https://ihmwyribamieeumszjjv.supabase.co/rest/v1/keyword_analysis?id=eq.d3f3fb70-da57-4d4b-845a-3a79b1e0ecc3 "HTTP/2 200 OK"
+2024-09-09 14:28:57,893 - werkzeug - INFO - 127.0.0.1 - - [09/Sep/2024 14:28:57] "POST /startanalysis/5eb27417-cd60-4c5e-a37b-d2eece9341e0 HTTP/1.1" 200 -
+2024-09-09 14:28:58,044 - httpx - INFO - HTTP Request: GET https://ihmwyribamieeumszjjv.supabase.co/auth/v1/user "HTTP/2 200 OK"
+2024-09-09 14:28:58,151 - httpx - INFO - HTTP Request: GET https://ihmwyribamieeumszjjv.supabase.co/rest/v1/keyword_analysis?select=%2A&keyword_id=eq.5eb27417-cd60-4c5e-a37b-d2eece9341e0&order=created_at.desc&limit=1 "HTTP/2 200 OK"
+2024-09-09 14:28:58,154 - werkzeug - INFO - 127.0.0.1 - - [09/Sep/2024 14:28:58] "GET /task_status/5eb27417-cd60-4c5e-a37b-d2eece9341e0 HTTP/1.1" 200 -

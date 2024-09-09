@@ -7,6 +7,7 @@ from .config import config
 from .extensions import init_extensions
 from .routes import auth, main
 from jinja2 import Undefined
+import logging
 
 # Load environment variables
 load_dotenv()
@@ -22,6 +23,11 @@ def to_datetime(value, format='%B %d, %Y'):
         return dt.strftime(format)
     except ValueError:
         return value
+
+logging.basicConfig(level=logging.INFO,
+                    format='%(asctime)s - %(levelname)s - %(message)s',
+                    filename='app.log',
+                    filemode='a')
 
 def create_app():
     app = Flask(__name__, static_folder='static', static_url_path='/static')
