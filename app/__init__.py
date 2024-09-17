@@ -1,7 +1,5 @@
 # backend/app/__init__.py
 from flask import Flask
-from redis import Redis
-from rq import Queue
 from datetime import datetime
 from dotenv import load_dotenv
 import os
@@ -9,6 +7,7 @@ from .config import config
 from .extensions import init_extensions
 from .routes import auth, main
 from jinja2 import Undefined
+import logging
 
 # Load environment variables
 load_dotenv()
@@ -25,13 +24,15 @@ def to_datetime(value, format='%B %d, %Y'):
     except ValueError:
         return value
 
+log_file_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'app.log')
+logging.basicConfig(level=logging.INFO,
+                    format='%(asctime)s - %(levelname)s - %(message)s',
+                    filename=log_file_path,
+                    filemode='a')
+
 def create_app():
     app = Flask(__name__, static_folder='static', static_url_path='/static')
     app.config.from_object(config)
-
-    # # Set up Redis connection
-    app.redis = Redis.from_url(app.config['REDIS_URL'])
-    app.task_queue = Queue(connection=app.redis)
     
     # Initialize extensions
     init_extensions(app)

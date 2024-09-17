@@ -1,4 +1,3 @@
-# app/services/agent.py
 import os
 import json
 import logging
@@ -9,72 +8,107 @@ from .context import ContextService
 from .tool import Tools
 from typing import List, Dict, Any
 from flask import current_app
-from ..utils.rabbitmq_task_manager import enqueue_task
+from collections import defaultdict
 
 today = datetime.now().strftime("%Y-%m-%d")
 
 class AnthropicChat:
     @staticmethod
     def process_conversation(keyword_analysis_id: str, user_id: str) -> Dict[str, Any]:
-        from .tool import ToolsHandler  # Move this import inside the method
+        from .tool import ToolsHandler
         with current_app.app_context():
             try:
-                # Get user plan and API key
+                keyword = DataService.get_keyword_for_analysis(keyword_analysis_id)
+                if not keyword:
+                    raise ValueError("No keyword found for this analysis")
+
+                print(f"Processing conversation for keyword: {keyword}")
+
                 user_plan_type = DataService.get_user_plans(user_id)
                 keys = DataService.get_user_anthropic_keys(user_id) if user_plan_type == "free" else os.getenv("ANTHROPIC_API_KEY")
                 
                 client = anthropic.Anthropic(api_key=keys)
                 tools = Tools.load_tools()
+                print(f"Loaded {len(tools)} tools")
                 
-                if not tools:
-                    raise ValueError("No tools were loaded. Check your tool JSON files.")
-                
-                conversation = ContextService.build_context(keyword_analysis_id)
-                logging.info(f"process_conversation started with {keyword_analysis_id}, context length: {len(conversation)}")
-                
-                response = client.messages.create(
-                    model="claude-3-5-sonnet-20240620",
-                    max_tokens=2000,
-                    temperature=0,
-                    system=f"""
-                    Today is {today}.
+                context = ContextService.build_context(keyword_analysis_id)
+                print(f"newnew Built context with {len(context)} messages")
+
+                # Ensure the first message is always about the keyword
+                if not context or 'Analyze the news for the keyword:' not in context[0]['content'][0]['text']:
+                    context.insert(0, {
+                        "role": "user", 
+                        "content": [{"type": "text", "text": f"Analyze the news for the keyword: {keyword}"}]
+                    })
+                    DataService.save_message(keyword_analysis_id, "user", content=f"Analyze the news for the keyword: {keyword}")
+
+                system = f"""
+                 Today is {today}.
                     Your task is to analyze the news and provide a summary of the news and the sentiment of the news.
                     You will be given one keyword or phrase, use all the tools at your disposal to retrieve the news, and then summarize and analyze the news.
                     The user will only provide the keyword; we are not supposed to ask the user anything else. Use the tools available for you and always aim to share an update_news_summary.
-                    """,
+                    """
+
+                # logging.info(f"Sending request to Anthropic API for keyword: {keyword}")
+                # logging.info(f"Request payload: model={client}, temperature={0}, system={system}, tools={tools}, messages={context}")
+
+                print(f"Full context structure: {json.dumps(context, indent=2)}")
+
+                response = client.messages.create(
+                    model="claude-3-5-sonnet-20240620",
+                    max_tokens=1000,
+                    temperature=0,
+                    system=system,
                     tools=tools,
-                    messages=conversation,
+                    messages=context,
                 )
-                
-                logging.info(f"Response Received from ANTHROPIC API: {response}")
-                
+
+                print(f"Responseeee content: {response}")
+
+                print(f"Received response from Anthropic API for keyword: {keyword}")
+                print(f"Response content: {response.content}")
+
                 assistant_message = next(block for block in response.content if block.type == "text")
                 DataService.save_message(keyword_analysis_id, "assistant", content=assistant_message.text)
 
-                if response.stop_reason != "tool_use":
-                    # No tool use, update status and return
-                    DataService.update_analysis_status(keyword_analysis_id, "need_user_input")
-                    return {"status": "need_user_input", "message": "Need further user input to continue the analysis"}
-
-                # Handle tool use
-                tool_use = next(block for block in response.content if block.type == "tool_use")
-                logging.info(f"Tool use detected: {tool_use.name}")
-                
-                DataService.save_message(
-                    keyword_analysis_id, 
-                    "assistant", 
-                    content=assistant_message.text,
-                    tool_use_id=tool_use.id,
-                    tool_use_input=tool_use.input,
-                    tool_name=tool_use.name
-                )
-
-                # Enqueue tool use processing as a background task
-                job = enqueue_task(ToolsHandler.process_tool_use, tool_use.name, tool_use.input, tool_use.id, keyword_analysis_id, user_id)
-                DataService.update_analysis_status(keyword_analysis_id, "processing_tool_call", job)
-
-
-                return {"status": "processing", "message": "Tool use processed and next job enqueued"}
+                tool_use = next((block for block in response.content if block.type == "tool_use"), None)
+                if tool_use:
+                    print(f"Tool use detected: {tool_use.name}")
+                    print(f"Tool input: {tool_use.input}")  # Add this line to print the tool input
+                    
+                    DataService.save_message(
+                        keyword_analysis_id, 
+                        "assistant", 
+                        content=assistant_message.text,
+                        tool_use_id=tool_use.id,
+                        tool_use_input=tool_use.input,
+                        tool_name=tool_use.name
+                    )
+                    print(f"Tool name: {tool_use.name}")
+                    print(f"Tool input: {tool_use.input}")
+                    print(f"Tool use id: {tool_use.id}")
+                    print(f"Keyword analysis id: {keyword_analysis_id}")
+                    print(f"User id: {user_id}")
+                    # Process tool use directly
+                    result = ToolsHandler.process_tool_use(
+                        tool_name=tool_use.name,  # Pass the tool name correctly
+                        tool_input=tool_use.input,  # Pass the tool input correctly
+                        tool_use_id=tool_use.id,
+                        keyword_analysis_id=keyword_analysis_id,
+                        user_id=user_id
+                    )
+                    print(f"Tool result: {result}")  # Add this line to print the tool result
+                    DataService.update_analysis_status(keyword_analysis_id, "processing")
+                    return AnthropicChat.process_conversation(keyword_analysis_id, user_id)
+                else:
+                    print("No tool use detected in the response")
+                    DataService.save_message(
+                        keyword_analysis_id, 
+                        "assistant", 
+                        content=assistant_message.text
+                    )
+                    DataService.update_analysis_status(keyword_analysis_id, "completed")
+                    return {"status": "completed", "message": "Analysis completed successfully"}
 
             except Exception as e:
                 logging.error(f"Error in process_conversation: {str(e)}")
@@ -82,19 +116,12 @@ class AnthropicChat:
                 raise
 
     @staticmethod
-    def handle_chat(user_id: str, keyword_id: str, analysis_id: str) -> Dict[str, Any]:
-        logging.info(f"Starting handle_chat for user_id: {user_id}, keyword_id: {keyword_id}, analysis_id: {analysis_id}")
+    def handle_chat(user_id: str, keyword_id: str, analysis_id: str, keyword: str) -> Dict[str, Any]:
+        print(f"Starting analysis for keyword: {keyword}")
         try:
-            keyword = DataService.get_keyword_by_id(keyword_id)
-            DataService.save_message(analysis_id, "user", content=keyword)
-            job = enqueue_task(AnthropicChat.process_conversation, args=(analysis_id, user_id))
-            DataService.update_analysis_status(analysis_id, "queued", job)
-            logging.info(f"Enqueued job for analysis {analysis_id}")
-            return {
-                "success": True, 
-                "status": "queued", 
-                "message": "Analysis task has been queued successfully."
-            }
+            DataService.save_message(analysis_id, "user", content=f"Analyze the news for the keyword: {keyword}")
+            result = AnthropicChat.process_conversation(analysis_id, user_id)
+            return result
         except Exception as e:
             logging.error(f"Error in handle_chat: {str(e)}")
             DataService.update_analysis_status(analysis_id, "failed", error_message=str(e))
