@@ -53,7 +53,6 @@ def manage_plan():
         success = DataService.delete_user_plan(plan_id)
         DataService.delete_user_api_tokens(user['id'])
         return jsonify(success=success), 200 if success else 400
-
 @bp.route('/keyword')
 @login_required
 def keyword():
@@ -86,7 +85,6 @@ def delete_keyword(keyword_id):
     else:
         logging.warning(f"Failed to delete keyword {keyword_id} for user {user['id']}")
         return jsonify(success=False, error="Failed to delete keyword or keyword not found"), 404
-
 @bp.route('/feed')
 @login_required
 def feed():
@@ -117,9 +115,13 @@ def start_analysis(keyword_id):
     logging.info(f"Entering start_analysis for keyword_id: {keyword_id}")
     user = get_user(session['jwt'])
     logging.info(f"User: {user['id']}")
-    keyword = DataService.get_keyword_by_id(keyword_id)
-    logging.info(f"Keyword: {keyword}")
+    keyword_data = DataService.get_keyword_by_id(str(keyword_id))
+    logging.info(f"Keyword data: {keyword_data}")
+    logging.info(f"Keyword data retrieved: {keyword_data}")
     
+    if not keyword_data or 'keyword' not in keyword_data or not keyword_data['keyword']:
+        return jsonify(success=False, message="No keyword provided for analysis"), 400
+
     try:
         # Check if there's an active analysis for this keyword
         active_analysis = DataService.get_active_analysis_for_keyword(str(keyword_id))
@@ -134,14 +136,13 @@ def start_analysis(keyword_id):
         if not analysis_id:
             raise Exception("Failed to create or retrieve analysis")
         
-        # Start the analysis
-        result = AnthropicChat.handle_chat(str(user['id']), keyword_id=str(keyword_id), analysis_id=analysis_id)
+        # Start the analysis with the keyword
+        result = AnthropicChat.handle_chat(str(user['id']), keyword_id=str(keyword_id), analysis_id=analysis_id, keyword=keyword_data['keyword'])
         
         return jsonify(success=True, analysis_id=analysis_id, status=result['status'], message=result['message']), 200
     except Exception as e:
         logging.error(f"Error starting analysis: {str(e)}")
         return jsonify(success=False, message=str(e)), 400
-
 @bp.route('/task_status/<uuid:keyword_id>', methods=['GET'])
 @login_required
 def task_status(keyword_id):

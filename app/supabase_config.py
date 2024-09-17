@@ -5,6 +5,7 @@ import os
 url = config.SUPABASE_URL
 key = config.SUPABASE_KEY
 
+
 print(f"SUPABASE_URL: {url}")
 print(f"SUPABASE_KEY: {key}")
 

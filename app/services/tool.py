@@ -1,18 +1,9 @@
 import os
 import logging
 import json
-import pika
-from ..utils.rabbitmq_task_manager import enqueue_task
 from ..models.data_service import DataService
 from .search import SearchService
 from .ai import AnthropicService
-
-
-# RabbitMQ configuration
-RABBITMQ_URL = os.getenv('RABBITMQ_URL', 'amqp://guest:guest@localhost:5672/%2F')
-
-def get_rabbitmq_connection():
-    return pika.BlockingConnection(pika.URLParameters(RABBITMQ_URL))
 
 class Tools:
     @staticmethod
@@ -28,28 +19,43 @@ class Tools:
                         tools.append(tool_data)
                 except json.JSONDecodeError as e:
                     logging.error(f"Error loading tool from {file_path}: {str(e)}")
-        logging.info(f"Tools loaded and returned {len(tools)} tools")
-        if not tools:
-            logging.warning("No tools were loaded. Check your tool JSON files.")
+        logging.info(f"Loaded {len(tools)} tools")
+        print(f"Tools: {tools}")
         return tools
 
 class ToolsHandler:
     @staticmethod
     def process_tool_use(tool_name, tool_input, tool_use_id, keyword_analysis_id, user_id):
-        from .agent import AnthropicChat  # Move this import inside the method
         logging.info(f"Processing tool use: {tool_name} for analysis {keyword_analysis_id}")
         
         try:
             result = None
+            
             if tool_name == "search_web":
                 key = DataService.get_user_tavily_keys(user_id)
-                result = SearchService.search(tool_input['search_query'], user_id, key)
-            elif tool_name == "positive_research":
-                result = AnthropicService.call_anthropic(tool_input['query'], "positive_research", user_id)
-            elif tool_name == "negative_research":
-                result = AnthropicService.call_anthropic(tool_input['query'], "negative_research", user_id)
-            elif tool_name == "update_news_summary":
-                result = DataService.update_keyword_summary(keyword_analysis_id, **tool_input)
+                result = SearchService.search(tool_input['search_query'], user_id, key=key)
+            elif tool_name == "negative_summary":
+                result = AnthropicService.call_anthropic("negative_summary", tool_input['data_to_analyse'], user_id)
+            elif tool_name == "positive_summary":
+                result = AnthropicService.call_anthropic("positive_summary", tool_input['data_to_analyse'], user_id)
+            elif tool_name == "update_summary":
+                print(f"Tool input of summary: {tool_input}")
+                # Fetch the keyword associated with this analysis
+                keyword_data = DataService.get_keyword_for_analysis(keyword_analysis_id)
+                if not keyword_data:
+                    raise ValueError(f"No keyword found for analysis {keyword_analysis_id}")
+                
+                print(f"Keyword data: {keyword_data}")  # Add this line to print the keyword data
+                
+                # Add the keyword to the tool_input
+                tool_input['keyword'] = keyword_data
+
+                
+                
+                print(f"Updated tool input: {tool_input}")  # Add this line to print the updated tool input
+                
+                # Call update_keyword_summary with the updated tool_input
+                result = DataService.update_keyword_summary(keyword_analysis_id, user_id, **tool_input)
             else:
                 raise ValueError(f"Unknown tool: {tool_name}")
 
@@ -58,15 +64,8 @@ class ToolsHandler:
 
             logging.info(f"Tool {tool_name} executed successfully")
 
-            # Save the tool result
-            DataService.save_message(keyword_analysis_id, "user", content=str(result), tool_use_id=tool_use_id, tool_result=str(result))
+            DataService.save_message(keyword_analysis_id, "user", content="Tool result", tool_use_id=tool_use_id, tool_result=str(result))
             
-            # Continue the conversation
-            next_job = enqueue_task(AnthropicChat.process_conversation, args=(keyword_analysis_id, user_id))
-            DataService.update_analysis_status(keyword_analysis_id, "processing", next_job)
-
-            logging.info(f"Enqueued next job for analysis {keyword_analysis_id}")
-
             return result
 
         except Exception as e:
