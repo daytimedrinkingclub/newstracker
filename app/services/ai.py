@@ -48,11 +48,10 @@ class AnthropicService:
         
         # Adjust max_tokens based on the input length
         input_length = len(user_message)
-        max_tokens = min(4000, max(1000, input_length * 2))  # Adjust this formula as needed
         
         response = client.messages.create(
             model="claude-3-5-sonnet-20240620",
-            max_tokens=max_tokens,
+            max_tokens=4000,
             system=prompt,
             temperature=0,
             messages=[
