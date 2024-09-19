@@ -130,17 +130,16 @@ class DataService:
             user_keywords = keyword_response.data
 
             for keyword in user_keywords:
-                keyword['refresh_button'] = True  # Add a refresh button for each keyword
-
-                # Fetch the latest keyword analysis for the current keyword
                 analysis_response = supabase.table('keyword_analysis').select('status, updated_at').eq('keyword_id', keyword['id']).order('created_at', desc=True).limit(1).execute()
+                print(analysis_response)
+                keyword['status'] = analysis_response.data[0]['status']
                 if analysis_response.data:
                     keyword['last_analysis'] = datetime.fromisoformat(analysis_response.data[0]['updated_at'])
                 else:
                     keyword['last_analysis'] = None
 
                 # Fetch the keyword summary for the current keyword
-                summary_response = supabase.table('keyword_summary').select('news_summary').eq('id', keyword['id']).execute()
+                summary_response = supabase.table('keyword_summary').select('news_summary').eq('keyword_id', keyword['id']).execute()
                 if summary_response.data:
                     keyword['news_summary'] = summary_response.data[0]['news_summary']
                 else:
