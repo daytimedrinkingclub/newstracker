@@ -19,7 +19,7 @@ function sendAnalysisRequest(keywordId, actionText) {
     if (statusTextElement) {
         statusTextElement.textContent = 'Starting...';
     } else {
-        window.location.reload()
+        // window.location.reload()
         console.warn(`Status text element not found for keyword ID: ${keywordId}`);
     }
 
