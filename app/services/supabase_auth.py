@@ -8,6 +8,12 @@ def sign_up(email: str, password: str) -> Dict[str, Any]:
             "email": email,
             "password": password,
         })
+        if response.user:
+            # Create a record in the users table
+            supabase.table('users').insert({
+                'id': response.user.id,
+                'email': email
+            }).execute()
         return response.dict()
     except Exception as e:
         print(f"Sign up error: {str(e)}")

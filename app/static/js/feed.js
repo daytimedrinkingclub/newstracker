@@ -8,8 +8,20 @@ window.refreshAnalysis = function(keywordId) {
 
 function sendAnalysisRequest(keywordId, actionText) {
     const button = document.querySelector(`[data-keyword-id="${keywordId}"]`);
+    if (!button) {
+        console.error(`Button not found for keyword ID: ${keywordId}`);
+        return;
+    }
+
     button.disabled = true;
-    button.querySelector('.status-text').textContent = 'Starting...';
+    
+    const statusTextElement = button.querySelector('.status-text');
+    if (statusTextElement) {
+        statusTextElement.textContent = 'Starting...';
+    } else {
+        window.location.reload()
+        console.warn(`Status text element not found for keyword ID: ${keywordId}`);
+    }
 
     fetch(`/startanalysis/${keywordId}`, {
         method: 'POST',
@@ -27,7 +39,9 @@ function sendAnalysisRequest(keywordId, actionText) {
     })
     .then(data => {
         if (data.success) {
-            button.querySelector('.status-text').textContent = 'Analyzing...';
+            if (statusTextElement) {
+                statusTextElement.textContent = 'Analyzing...';
+            }
             checkStatus(keywordId);
         } else {
             throw new Error(data.message || 'Failed to start analysis');
@@ -38,7 +52,9 @@ function sendAnalysisRequest(keywordId, actionText) {
         console.error('API Endpoint:', `/startanalysis/${keywordId}`);
         console.error('File: feed.js');
         button.disabled = false;
-        button.querySelector('.status-text').textContent = actionText;
+        if (statusTextElement) {
+            statusTextElement.textContent = actionText;
+        }
         alert(error.message || 'An error occurred. Please try again.');
     });
 }
@@ -53,9 +69,18 @@ function checkStatus(keywordId) {
         })
         .then(data => {
             const button = document.querySelector(`[data-keyword-id="${keywordId}"]`);
+            if (!button) {
+                console.error(`Button not found for keyword ID: ${keywordId}`);
+                return;
+            }
+
+            const statusTextElement = button.querySelector('.status-text');
+
             if (data.status === 'completed') {
                 button.disabled = false;
-                button.querySelector('.status-text').textContent = 'Refresh';
+                if (statusTextElement) {
+                    statusTextElement.textContent = 'Refresh';
+                }
                 button.onclick = () => window.refreshAnalysis(keywordId);
                 location.reload();
             } else if (data.status === 'failed') {
@@ -67,9 +92,14 @@ function checkStatus(keywordId) {
         .catch(error => {
             console.error('Error:', error);
             const button = document.querySelector(`[data-keyword-id="${keywordId}"]`);
-            button.disabled = false;
-            button.querySelector('.status-text').textContent = 'Start Analysis';
-            button.onclick = () => window.startAnalysis(keywordId);
+            if (button) {
+                button.disabled = false;
+                const statusTextElement = button.querySelector('.status-text');
+                if (statusTextElement) {
+                    statusTextElement.textContent = 'Start Analysis';
+                }
+                button.onclick = () => window.startAnalysis(keywordId);
+            }
             alert(error.message || 'An error occurred while checking status. Please try refreshing the page.');
         });
 }
