@@ -64,7 +64,7 @@
                 {% endif %}
                 <p class="text-gray-600 mb-6">Only the important features</p>
                 <ul class="space-y-2 text-gray-600 mb-6">
-                    <li class="flex items-center"><svg class="w-4 h-4 mr-2 text-blue-500" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>$12 for month only</li>
+                    <li class="flex items-center"><svg class="w-4 h-4 mr-2 text-blue-500" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>Rs 800 for month only</li>
                     <li class="flex items-center"><svg class="w-4 h-4 mr-2 text-blue-500" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>10 keywords</li>
                     <li class="flex items-center"><svg class="w-4 h-4 mr-2 text-blue-500" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>10 analysis per day</li>
                     <li class="flex items-center"><svg class="w-4 h-4 mr-2 text-blue-500" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>Bragging rights</li>
@@ -74,7 +74,8 @@
             </div>
             <div class="px-6 pb-8 mt-auto">
                 {% if current_plan != 'premium' %}
-                    <div id="paypal-button-container" class="space-y-2"></div>
+                    <!-- <div id="paypal-button-container" class="space-y-2"></div> -->
+                    <form><script src="https://checkout.razorpay.com/v1/payment-button.js" data-payment_button_id="pl_OzR0Gi4vfdf7hP" async> </script> </form>
                 {% else %}
                     <button disabled class="w-full bg-blue-500 text-white rounded-md py-3 cursor-not-allowed text-lg font-semibold">Current Plan</button>
                 {% endif %}
@@ -95,7 +96,7 @@
 </div>
 {% endblock %}
 {% block scripts %}
-<script src="https://www.paypal.com/sdk/js?client-id=AXkijMhO3DF_llgTfC8tOv15KsDC9irMsD3HgTMzBN-1jDl7k44vLItN7MasNanqwS73VrEx_FtaHXRA&currency=USD"></script>
+<!-- <script src="https://www.paypal.com/sdk/js?client-id=AXkijMhO3DF_llgTfC8tOv15KsDC9irMsD3HgTMzBN-1jDl7k44vLItN7MasNanqwS73VrEx_FtaHXRA&currency=USD"></script> -->
 <script src="{{ url_for('static', filename='js/plans.js') }}"></script>
 <script>
     document.body.dataset.currentPlan = "{{ current_plan }}";
