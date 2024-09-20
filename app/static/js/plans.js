@@ -16,7 +16,7 @@ function submitFreemiumPlan() {
     .then(response => response.json())
     .then(data => {
         alert('Free plan activated successfully!');
-        // window.location.href = '/keyword'
+        window.location.href = '/keyword';
     })
     .catch((error) => {
         console.error('Error:', error);
