@@ -467,9 +467,14 @@ class DataService:
     @staticmethod
     def get_user_tavily_keys(user_id):
         user_plan = DataService.get_user_plans(user_id)
-        if user_plan == "premium":
+        if user_plan and user_plan[0]['plan'] == "premium":
+            print("premium")
+
+            tavily_api_key = os.getenv("TAVILY_API_KEY")
+            logging.info(f"Using Tavily API key from environment: {tavily_api_key[:5]}...")  # Log first 5 characters for security
             return os.getenv("TAVILY_API_KEY")
         else:
+            print("not premium")
             supabase = get_supabase_client()
             response = supabase.table('user_api_token').select('tavily_api_key').eq('user_id', user_id).execute()
             if response.data and response.data[0]['tavily_api_key']:
