@@ -20,6 +20,12 @@ class DataService:
         return response.data[0] if response.data else None
 
     @staticmethod
+    def get_user_by_email(email):
+        supabase = get_supabase_client()
+        response = supabase.table('users').select('id').eq('email', email).execute()
+        return response.data[0]['id'] if response.data else None
+    
+    @staticmethod
     def get_user_keyword_count(user_id):
         supabase = get_supabase_client()
         response = supabase.table('user_keyword').select('id', count='exact').eq('user_id', user_id).execute()
@@ -155,10 +161,14 @@ class DataService:
     def add_user_plan(user_id, plan):
         supabase = get_supabase_client()
         try:
-            response = supabase.table('user_plan').insert({
+            insert_data = {
                 'user_id': user_id,
                 'plan': plan
-            }).execute()
+            }
+            if plan.lower() == 'premium':
+                insert_data['keyword_limit'] = 10
+            
+            response = supabase.table('user_plan').insert(insert_data).execute()
             return response.data[0] if response.data else None
         except APIError as e:
             logging.error(f"Error adding user plan: {str(e)}")
@@ -456,13 +466,16 @@ class DataService:
 
     @staticmethod
     def get_user_tavily_keys(user_id):
-        supabase = get_supabase_client()
-        response = supabase.table('user_api_token').select('tavily_api_key').eq('user_id', user_id).execute()
-        if response.data and response.data[0]['tavily_api_key']:
-            # logging.info(f"Tavily API key found: {response.data[0]['tavily_api_key']}")
-            return response.data[0]['tavily_api_key']
+        user_plan = DataService.get_user_plans(user_id)
+        if user_plan == "premium":
+            return os.getenv("TAVILY_API_KEY")
         else:
-            raise ValueError("Tavily API key not found or empty for the user")
+            supabase = get_supabase_client()
+            response = supabase.table('user_api_token').select('tavily_api_key').eq('user_id', user_id).execute()
+            if response.data and response.data[0]['tavily_api_key']:
+                return response.data[0]['tavily_api_key']
+            else:
+                raise ValueError("Tavily API key not found or empty for the user")
         
     @staticmethod
     def create_keyword_analysis(user_id, keyword_id):
@@ -504,3 +517,27 @@ class DataService:
         if response.data and response.data[0]['user_keyword']:
             return response.data[0]['user_keyword']['keyword']
         return None   
+    
+    @staticmethod
+    def add_payment_data(user_id, transaction_id, status, provider, payload, email, phone):
+        supabase = get_supabase_client()
+        try:
+            response = supabase.table('payments').insert({
+                'user_id': user_id,
+                'transaction_id': transaction_id,
+                'status': status,
+                'provider': provider,
+                'payload': payload,
+                'email': email,
+                'phone': phone
+            }).execute()
+            if response.data:
+                logging.info(f"Payment data added successfully: {response.data[0]}")
+                return response.data[0]
+            else:
+                logging.error("No data returned from insert operation")
+                return None
+        except Exception as e:
+            logging.error(f"Error adding payment data: {str(e)}")
+            return None
+    

@@ -1,5 +1,6 @@
 from flask import Blueprint, render_template, jsonify, request, redirect, url_for, session, flash
 import logging
+import json
 from ..models.data_service import DataService
 from ..services.supabase_auth import is_authenticated, get_user
 from ..services.agent import AnthropicChat
@@ -14,7 +15,6 @@ def login_required(f):
             return redirect(url_for('auth.login'))
         return f(*args, **kwargs)
     return decorated_function
-
 
 
 @bp.route('/plans')
@@ -53,6 +53,7 @@ def manage_plan():
         success = DataService.delete_user_plan(plan_id)
         DataService.delete_user_api_tokens(user['id'])
         return jsonify(success=success), 200 if success else 400
+    
 @bp.route('/keyword')
 @login_required
 def keyword():
@@ -85,6 +86,7 @@ def delete_keyword(keyword_id):
     else:
         logging.warning(f"Failed to delete keyword {keyword_id} for user {user['id']}")
         return jsonify(success=False, error="Failed to delete keyword or keyword not found"), 404
+    
 @bp.route('/feed')
 @login_required
 def feed():
@@ -143,6 +145,7 @@ def start_analysis(keyword_id):
     except Exception as e:
         logging.error(f"Error starting analysis: {str(e)}")
         return jsonify(success=False, message=str(e)), 400
+    
 @bp.route('/task_status/<uuid:keyword_id>', methods=['GET'])
 @login_required
 def task_status(keyword_id):
@@ -164,3 +167,57 @@ def task_status(keyword_id):
         return jsonify(response)
     
     return jsonify(status='not_found'), 404
+
+@bp.route("/payment-webhook", methods=["POST"])
+def payment_webhook():
+    data = request.json
+    logging.info(f"Received payment webhook data: {data}")
+    
+    # Extract required information
+    order_id = data['payload']['order']['entity']['id']
+    email = data['payload']['payment']['entity']['email']
+    phone = data['payload']['payment']['entity']['contact']
+    
+    # Prepare data for storage
+    transaction_id = order_id
+    status = data['payload']['order']['entity']['status']
+    provider = 'razorpay'
+    payload = json.dumps(data)
+    user_id = DataService.get_user_by_email(email)
+    
+    logging.info(f"Prepared payment data: user_id={user_id}, transaction_id={transaction_id}, status={status}, email={email}, phone={phone}")
+    
+    try:
+        # Add payment data to Supabase
+        payment_result = DataService.add_payment_data(
+            user_id=user_id,
+            transaction_id=transaction_id,
+            status=status,
+            provider=provider,
+            payload=payload,
+            email=email,
+            phone=phone
+        )
+        
+        if payment_result:
+            logging.info(f"Payment data stored successfully: {payment_result}")
+        else:
+            logging.error("Failed to store payment data")
+        
+        # Find the user by email
+        if user_id:
+            # Add user plan
+            plan_result = DataService.add_user_plan(user_id, 'premium')
+            if plan_result:
+                logging.info(f"User plan updated successfully: {plan_result}")
+                return jsonify(success=True, message="Payment data stored and user plan updated successfully"), 200
+            else:
+                logging.error("Failed to update user plan")
+                return jsonify(success=False, message="Payment data stored but failed to update user plan"), 500
+        else:
+            logging.error(f"User not found for email: {email}")
+            return jsonify(success=False, message="Payment data stored but user not found"), 404
+
+    except Exception as e:
+        logging.error(f"Error processing payment webhook: {str(e)}")
+        return jsonify(success=False, message="Internal server error"), 500

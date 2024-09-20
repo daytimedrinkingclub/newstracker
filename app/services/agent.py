@@ -25,7 +25,7 @@ class AnthropicChat:
                 print(f"Processing conversation for keyword: {keyword}")
 
                 user_plan_type = DataService.get_user_plans(user_id)
-                keys = DataService.get_user_anthropic_keys(user_id) if user_plan_type == "free" else os.getenv("ANTHROPIC_API_KEY")
+                keys = DataService.get_user_anthropic_keys(user_id) if user_plan_type == "freemium" else os.getenv("ANTHROPIC_API_KEY")
                 
                 client = anthropic.Anthropic(api_key=keys)
                 tools = Tools.load_tools()

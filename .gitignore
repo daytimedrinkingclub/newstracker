@@ -16,3 +16,9 @@ app/venv/
 app/__pycache__
 venv
 app/app.log
+app/__pycache__
+app/routes/__pycache__
+app/models/__pycache__
+app/routes/main.pyc
+app/services/__pycache__
+**/__pycache__/
