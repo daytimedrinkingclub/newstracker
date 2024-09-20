@@ -45,7 +45,7 @@ def login():
         user_plans = DataService.get_user_plans(user['id'])
         
         if user_plans:
-            return redirect(url_for('main.keyword'))
+            return redirect(url_for('main.feed'))
         else:
             return redirect(url_for('main.plans'))
     
