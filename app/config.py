@@ -22,5 +22,6 @@ class Config(object):
     PAYPAL_CLIENT_SECRET = os.getenv('PAYPAL_CLIENT_SECRET')
     FLASK_ENV = os.getenv('FLASK_ENV')
     DEBUG = os.getenv('FLASK_DEBUG', '0') == '1'
+    SENTRY_DSN = os.getenv('SENTRY_DSN')
 
 config = Config()

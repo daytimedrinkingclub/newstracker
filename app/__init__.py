@@ -8,6 +8,8 @@ from .extensions import init_extensions
 from .routes import auth, main
 from jinja2 import Undefined
 import logging
+import sentry_sdk
+from sentry_sdk.integrations.flask import FlaskIntegration
 
 # Load environment variables
 load_dotenv()
@@ -33,6 +35,13 @@ logging.basicConfig(level=logging.INFO,
 def create_app():
     app = Flask(__name__, static_folder='static', static_url_path='/static')
     app.config.from_object(config)
+    
+    # Initialize Sentry
+    sentry_sdk.init(
+        dsn=app.config['SENTRY_DSN'],
+        integrations=[FlaskIntegration()],
+        traces_sample_rate=1.0
+    )
     
     # Initialize extensions
     init_extensions(app)
