@@ -44,7 +44,7 @@
                 <div class="flex justify-between items-center">
                     {% if keyword.status == 'pending' %}
                         <button onclick="window.startAnalysis('{{ keyword.id }}')" class="start-analysis-button inline-flex items-center px-3 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-black hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-black transition-colors duration-200" data-keyword-id="{{ keyword.id }}">
-                            Start Analysis
+                            <span class="status-text">Start Analysis</span>
                         </button>
                     {% elif keyword.status == 'processing' %}
                         <button class="refresh-button inline-flex items-center px-3 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-gray-400 cursor-not-allowed opacity-50" disabled>

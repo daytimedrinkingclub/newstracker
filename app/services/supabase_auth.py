@@ -1,5 +1,7 @@
 from app.supabase_config import get_supabase_client
 from typing import Dict, Any, Optional
+from datetime import datetime, timedelta
+import jwt
 
 def sign_up(email: str, password: str) -> Dict[str, Any]:
     supabase = get_supabase_client()
@@ -36,10 +38,21 @@ def anonymous_sign_in() -> Dict[str, Any]:
     response = supabase.auth.sign_in_with_password({})
     return response.dict()
 
-def get_user(jwt: str) -> Optional[Dict[str, Any]]:
+def get_user(jwt_token: str) -> Optional[Dict[str, Any]]:
     supabase = get_supabase_client()
-    response = supabase.auth.get_user(jwt)
-    return response.user.dict() if response.user else None
+    try:
+        # Decode the JWT token to check its expiration
+        decoded_token = jwt.decode(jwt_token, options={"verify_signature": False})
+        exp = datetime.fromtimestamp(decoded_token['exp'])
+        if exp < datetime.utcnow():
+            raise ValueError("Token is expired")
+
+        response = supabase.auth.get_user(jwt_token)
+        return response.user.dict() if response.user else None
+    except jwt.ExpiredSignatureError:
+        raise ValueError("Token is expired")
+    except Exception as e:
+        raise e
 
 def is_authenticated(jwt: str) -> bool:
     user = get_user(jwt)

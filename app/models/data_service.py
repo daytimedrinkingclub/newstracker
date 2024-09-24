@@ -8,6 +8,7 @@ from ..supabase_config import get_supabase_client
 from postgrest.exceptions import APIError
 import json
 from uuid import uuid4
+from dateutil.parser import isoparse
 
 supabase: Client = get_supabase_client()
 
@@ -140,7 +141,7 @@ class DataService:
                 print(analysis_response)
                 keyword['status'] = analysis_response.data[0]['status']
                 if analysis_response.data:
-                    keyword['last_analysis'] = datetime.fromisoformat(analysis_response.data[0]['updated_at'])
+                    keyword['last_analysis'] = isoparse(analysis_response.data[0]['updated_at'])
                 else:
                     keyword['last_analysis'] = None
 
