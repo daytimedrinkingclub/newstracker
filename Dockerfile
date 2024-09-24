@@ -27,4 +27,4 @@ ENV FLASK_RUN_HOST=0.0.0.0
 EXPOSE 5000
 
 # Run the application using gunicorn
-CMD ["gunicorn", "run:app", "-b", "0.0.0.0:5000", "--timeout", "120"]
+CMD ["gunicorn", "-b", "0.0.0.0:5000", "run:app"]
